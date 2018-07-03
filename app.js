@@ -12,8 +12,9 @@ var session = require('express-session');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-var url = "mongodb://bigballer:password123@ds125821.mlab.com:25821/squadup"; // mLab link
-mongoose.connect(url);
+//var url = "mongodb://bigballer:password123@ds125821.mlab.com:25821/squadup"; // mLab link
+var configDB = require('./config/database.js');
+mongoose.connect(configDB.url);
 var db = mongoose.connection;
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
