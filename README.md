@@ -17,3 +17,9 @@ A social platform where people can play sports together.
 1. Classes/Methods - camel case - i.e. isMethod(){}, myClass(){}, etc.
 2. File naming - all lower case - i.e. my_file_name.js, index.html
 3. Variable names - all lower case - i.e. var numeric_example = 10; , var my_favorite_number = 7; , var domain = "www.google.com";
+4. Brackets - Please use this style for brackets - 
+
+myClass(){
+	...
+}
+
