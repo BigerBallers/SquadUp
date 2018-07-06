@@ -14,12 +14,24 @@
     "body-parser": "*",
     "connect-flash": "*",
     "cookie-parser": "^1.4.1",
+    "cors": "^2.8.4",
+    "debug": "^3.1.0",
     "express": "*",
     "express-handlebars": "*",
+    "express-jwt": "^5.3.1",
     "express-messages": "*",
+    "express-server-utils": "^1.1.0",
     "express-session": "*",
     "express-validator": "*",
+    "jsonwebtoken": "^8.3.0",
     "mongodb": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "passport": "^0.4.0",
+    "passport-google-plus-token": "^2.1.0",
+    "passport-google-token": "^0.1.2",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "request": "^2.87.0",
+    "serve-favicon": "^2.5.0"
   }
 }

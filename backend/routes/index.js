@@ -7,6 +7,4 @@ router.get('/', function(req, res) {
 	res.send('Squad Up');
 });
 
-// comment
-
 module.exports = router;
