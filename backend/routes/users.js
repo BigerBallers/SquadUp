@@ -6,6 +6,7 @@ var { generateToken, sendToken } = require('../utils/token.utils');
 var auth = require('../config/auth');
 var request = require('request');
 var passport = require('passport');
+require('../config/passport')();
 
 var googleToken = passport.authenticate('google-token', {session: false});
 

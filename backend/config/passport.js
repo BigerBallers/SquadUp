@@ -10,18 +10,22 @@ const User = require('../models/user');
 const GoogleTokenStrategy = require('passport-google-token').Strategy;
 
 
-passport.use(
-  new GoogleTokenStrategy({
-    clientID: auth.googleAuth.clientID,
-    clientSecret: auth.googleAuth.clientSecret
-  },  
-  function (accessToken, refreshToken, profile, done) {
-    User.upsertGoogleUser(accessToken, refreshToken, profile, function(err, user) {
-      return done(err, user);
-    });
-  })
-);
-
+/* want to change this bc I dont like exporting functions like that.
+   want to make it sumilar to how I export ../model/user.js
+ */
+module.exports = function () {
+  passport.use(
+    new GoogleTokenStrategy({
+      clientID: auth.googleAuth.clientID,
+      clientSecret: auth.googleAuth.clientSecret
+    },  
+    function (accessToken, refreshToken, profile, done) {
+      User.upsertGoogleUser(accessToken, refreshToken, profile, function(err, user) {
+        return done(err, user);
+      });
+    })
+  );
+};
 
 /*
 // LOCAL STRATEGY if we decide to allow users to create an account
