@@ -16,7 +16,12 @@ var UserSchema = new Schema({
     },
     select: false
   }
-  /* add fields if neccessary */
+  /* add fields if neccessary:
+    followedparks: [park_id]
+    endorsment (not sure what system to use)
+    chats:[chat_id]
+   */
+
 });
 
 UserSchema.set('toJSON', {getters: true, virtuals: true});
