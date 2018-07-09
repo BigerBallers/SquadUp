@@ -35,16 +35,22 @@ var ParkSchema = new Schema({
 
 
 // create separate colections
-const ParkQueue = mongoose.model('parkqueue', ParkSchema); 
-const Park = mongoose.model('park', ParkSchema);
+var ParkQueue = module.exports = mongoose.model('parkqueue', ParkSchema); 
+var Park = module.exports = mongoose.model('park', ParkSchema);
+
 
 
 module.exports.getParkByAddress = function(address, callback) {
 
 }
 
+// tyler: todo
 module.exports.addParkToQueue = function(newPark, callback) {
-	
+	console.log('addpark: ', newPark);
+
+	// need to add the park to the db and check for errors
+	// look at mongoose documents for example on inserting and error handeling
+
 }
 
 module.exports.getParkById = function(id, callback) {
