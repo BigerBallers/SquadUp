@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
+var ParkQueue = require('../models/parkQueue');
 var Park = require('../models/park');
 
 
 // Get Homepage
 router.post('/addPark', function(req, res) {
-	console.log('req.body: ', req.body);
 
 
 	var name = req.body.name;
@@ -14,14 +14,14 @@ router.post('/addPark', function(req, res) {
 	var description = req.body.description;
 	var sports = ['soccer', 'basketball', 'tenis'];
 	var rating = [];
-	var geo = [111, 130];
+	var geo = [0, 0];
 
 	// validate the params. should be checked on the front end
 	// backend validation stuff
 
 	// if no error create new park
 
-	var newPark = new Park({
+	var newPark = new ParkQueue({
 		name: name,
 		address: address,
 		description: description,
@@ -32,9 +32,9 @@ router.post('/addPark', function(req, res) {
 
 	var park;
 
-  Park.addParkToQueue(newPark, function(err, newPark){
+  ParkQueue.addParkToQueue(newPark, function(err, newPark){
    	if (err) throw err;
-   		console.log(park);
+   		console.log('park has been inserted', newPark);
    		park = newPark;
   });
 
