@@ -6,6 +6,7 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-google-login": "^3.2.1",
+    "react-google-maps": "^9.4.5",
     "react-scripts": "1.1.4"
   },
   "scripts": {

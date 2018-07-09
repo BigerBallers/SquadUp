@@ -3,9 +3,21 @@
 import React, { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import config from './config.json';
+import ReactDOM from 'react-dom';
+
+
+import { compose, withProps } from "recompose";
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Marker
+} from "react-google-maps";
 
 import logo from './logo.svg';
 import './App.css';
+
+
 
 class App extends Component {
 
@@ -43,13 +55,14 @@ class App extends Component {
   };
 
   render() {
+
     let content = !!this.state.isAuthenticated ?
       (
         <div>
           <p>Authenticated</p>
           <div>
             {this.state.user.email}
-        </div>
+          </div>
           <div>
             <button onClick={this.logout} className="button">
               Log out
