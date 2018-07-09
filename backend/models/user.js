@@ -15,13 +15,15 @@ var UserSchema = new Schema({
       token: String
     },
     select: false
-  }
-  /* add fields if neccessary:
-    followedparks: [park_id]
-    endorsment (not sure what system to use)
-    chats:[chat_id]
-   */
-
+  },
+  followedParks: [{
+    parkID: Number
+  }],
+  endorsment: [{
+    userID: Number,
+    stars: { type: Number, minimum: 1, maximum: 5 , exclusiveMaximum: false },
+  }],
+  /* add fields if neccessary */
 });
 
 UserSchema.set('toJSON', {getters: true, virtuals: true});
