@@ -1,3 +1,5 @@
+/* IDK why this is here but it should not */
+
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 

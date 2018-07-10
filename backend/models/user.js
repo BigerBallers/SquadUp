@@ -60,8 +60,20 @@ UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profil
 };
 
 
-// Create a model
-const User = mongoose.model('user', UserSchema);
+var User = module.exports = mongoose.model('user', UserSchema);
 
-// Export the model
-module.exports = User;
+
+module.exports.getParkByAddress = function(address, callback) {
+
+}
+
+
+module.exports.getUserById = function(id, callback) {
+  User.findById(id, callback);
+}
+
+
+module.exports.setSession = function (user, req, callback) {
+    req.session.user = user;
+    callback(true);
+}
