@@ -3,11 +3,13 @@
 import React, { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import config from './config.json';
+import Link from "gatsby-link";
 
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+
 
   constructor() {
     super();
@@ -43,6 +45,9 @@ class App extends Component {
   };
 
   render() {
+
+
+
     let content = !!this.state.isAuthenticated ?
       (
         <div>
@@ -70,10 +75,12 @@ class App extends Component {
 
     return (
       <div className="App">
-        {content}
+        {content} {<Link to="/">Go back to the homepage</Link>}
       </div>
+
     );
   }
 }
 
-export default App;
+export default App
+
