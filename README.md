@@ -21,6 +21,11 @@ A social platform where people can play sports together.
 5. add file from slack to config folder
 6. To run the app type 'npm start' or 'node app.js'
 
+### If using Gatsby:
+1. Open CMD, and go to gatsby-site folder in front end
+2. npm install to get any dependancies needed.
+3. To run the server you must run the command: gatsby develop
+4. Then go to localhost:8000 on a web browser. 
 
 
 ### Style chart for coding

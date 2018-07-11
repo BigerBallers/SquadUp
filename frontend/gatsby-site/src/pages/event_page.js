@@ -7,6 +7,8 @@ const eventPage = () => (
     <p>Welcome to the Event Page</p>
     <Link to="/">Go back to the homepage</Link>
   </div>
+
+
 )
 
 export default eventPage
