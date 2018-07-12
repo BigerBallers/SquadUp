@@ -24,6 +24,29 @@ class App extends Component {
     console.log(error);
     alert(error);
   }
+  
+  //part of fetching
+  componentDidMount(){
+    this.fetchData();
+  }
+ 
+
+ //fetches park data
+  fetchData(){
+    fetch('http://localhost:8080/parks', {
+      method: 'get',
+      dataType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => console.log('parsing failed', error))
+  }
 
   // calls backend and sends google response ie email and account number
   googleResponse = (response) => {
