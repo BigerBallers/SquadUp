@@ -7,6 +7,12 @@ var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var session = require('express-session');
 
+// new stuff for google login
+var path = require('path');
+var favicon = require('serve-favicon');
+var cors = require('cors');
+
+
 
 // database stuff
 var mongo = require('mongodb');
@@ -25,6 +31,8 @@ db.once('open', function(){
 
 // routes
 var routes = require('./routes/index');
+var users  = require('./routes/users');
+
 
 // Init App
 var app = express();
@@ -36,6 +44,8 @@ app.engine('handlebars', exphbs({defaultLayout: 'layout'}));
 app.set('view engine', 'handlebars');
 
 // Middleware
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -72,6 +82,16 @@ app.use(expressValidator({
 }));
 
 
+// connect CORS
+var corsOption = {
+  origin: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  exposedHeaders: ['x-auth-token']
+};
+app.use(cors(corsOption));
+
+
 
 // connect flash
 app.use(flash());
@@ -79,6 +99,7 @@ app.use(flash());
 
 
 app.use('/', routes);
+app.use('/users', users);
 
 
 // Set Port
