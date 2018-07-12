@@ -33,8 +33,15 @@ var ParkSchema = new Schema({
 });
 
 
-var ParkQueue = module.exports = mongoose.model('parkqueues', ParkSchema);
 
-module.exports.addParkToQueue = function(newPark, callback) {
-   newPark.save(callback);
+// create separate colections
+var Park = module.exports = mongoose.model('parks', ParkSchema);
+
+module.exports.getParkByAddress = function(address, callback) {
+
+}
+
+
+module.exports.getParkById = function(id, callback) {
+
 }
