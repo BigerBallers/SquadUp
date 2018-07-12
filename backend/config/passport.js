@@ -9,7 +9,6 @@ const auth = require('./auth');
 const User = require('../models/user');
 const GoogleTokenStrategy = require('passport-google-token').Strategy;
 
-
 /* want to change this bc I dont like exporting functions like that.
    want to make it sumilar to how I export ../model/user.js
  */
@@ -18,7 +17,7 @@ module.exports = function () {
     new GoogleTokenStrategy({
       clientID: auth.googleAuth.clientID,
       clientSecret: auth.googleAuth.clientSecret
-    },  
+    },
     function (accessToken, refreshToken, profile, done) {
       User.upsertGoogleUser(accessToken, refreshToken, profile, function(err, user) {
         return done(err, user);
@@ -35,20 +34,20 @@ passport.use(new LocalStrategy({
   try {
     // Find the user given the email
     const user = await User.findOne({ "local.email": email });
-    
+
     // If not, handle it
     if (!user) {
       return done(null, false);
     }
-  
+
     // Check if the password is correct
     const isMatch = await user.isValidPassword(password);
-  
+
     // If not, handle it
     if (!isMatch) {
       return done(null, false);
     }
-  
+
     // Otherwise, return the user
     done(null, user);
   } catch(error) {

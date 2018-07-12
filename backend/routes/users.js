@@ -6,10 +6,10 @@ var { generateToken, sendToken } = require('../utils/token.utils');
 var auth = require('../config/auth');
 var request = require('request');
 var passport = require('passport');
+
 require('../config/passport')();
 
 var googleToken = passport.authenticate('google-token', {session: false});
-
 
 router.post('/auth/google', googleToken, function(req, res, next) {
   if (!req.user) {
@@ -49,7 +49,7 @@ router.post('/test', function(req, res) {
 	res.send('nothing');
 });
 
-router.get('/test', checkAuthentication, function(req, res) {
+router.get('/test', passport.authenticate('google-token'), function(req, res) {
 	res.send({ express: 'Hello From Express' });
 });
 

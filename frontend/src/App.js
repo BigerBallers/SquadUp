@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import config from './config.json';
-
+import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
 
@@ -16,6 +16,9 @@ class App extends Component {
 
   logout = () => {
     this.setState({isAuthenticated: false, token: '', user: null})
+    axios.get('http://localhost:8080/users/test').then(r=> {
+      console.log(r.data);
+    })
   };
 
   onFailure = (error) => {
