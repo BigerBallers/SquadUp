@@ -30,16 +30,14 @@ router.post('/addPark', function(req, res) {
 		geo: geo
 	});
 
-	var park;
 
   ParkQueue.addParkToQueue(newPark, function(err, newPark){
    	if (err) throw err;
-   		console.log('park has been inserted', newPark);
-   		park = newPark;
+   	console.log('park has been inserted', newPark);
   });
 
   var result = {
-  	'park' : park
+  	message : 'park has been added to queue'
   };
 
 	res.send(result);
