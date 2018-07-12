@@ -9,6 +9,8 @@ const Layout = ({ children, data }) => (
   <div>
     <Helmet
       title={data.site.siteMetadata.title}
+	  user={data.site.siteMetadata.user}
+	  logOut={data.site.siteMetadata.logOut}
       meta={[
         { name: 'description', content: 'Sample' },
         { name: 'keywords', content: 'sample, something' },
