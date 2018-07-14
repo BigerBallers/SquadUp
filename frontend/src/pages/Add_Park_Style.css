@@ -1,0 +1,100 @@
+*{
+  box-sizing: border-box;
+}
+body {
+  background-image: url("eventBG.jpg");
+  background-position: 50% 50%;
+  font-family:"Verdana";
+}
+.MyHeader{
+  height: 170px;
+  padding: 100px;
+}
+
+h2{
+  font-family: "Helvetica", "Verdana";
+  font-size: 100px;
+  font-weight: 900;
+  position: absolute;
+  right: 40px;
+  opacity: .90;
+  top: 30px;
+  margin-top: 20px;
+  color: #a0e9ef;
+}
+.btn{
+  font-family: "Helvetica", "Verdana";
+  font-size: 50px;
+  font-weight: 'bold';
+  position: absolute;
+  left: 40px;
+  top: 30px;
+  margin-top: 30px
+}
+
+.ParkName{
+  text-align: center;
+  font-size: 90px;
+  float: left;
+  width: 20%;
+  height: 250px; 
+  background: #b3b3b3;
+
+}
+.name_field{
+  float: left;
+  font-size: 110px;
+  width: 80%;
+  height: 250px;
+}
+.LocationName{
+  text-align: center;
+  font-size:90px;
+  float: right;
+  width: 30%;
+  height: 250px; 
+  background: #b3b3b3;
+}
+.location_field{
+  float: right;
+  font-size: 120px;
+  width: 70%;
+  height: 250px;
+}
+.picker{
+  font-size:50px;
+  border-top: 1px solid #ddd;
+  bottom: -2px;
+  height: 120px;
+  left: 0;
+  width: 100%;
+}
+.picker select{
+  border: 0;
+  border-radius: 0;
+  height: 58px;
+  outline: 0;
+  padding: 10px;
+  text-align: center;
+  text-align-last: center;
+  text-transform: uppercase;
+}
+.submit-button{
+  font-size: 50px;
+  float: right;
+  width:50%;
+  height: 120px;
+}
+
+.submit-button button{
+  background-color: #66ccff;
+  width: 100%;
+  height: 100%;
+}
+.forms{
+  opacity: 0.9;
+
+}
+
+
+
