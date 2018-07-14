@@ -10,11 +10,8 @@ var UserSchema = new Schema({
     match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
   },
   googleProvider: {
-    type: {
       id: String,
       token: String
-    },
-    select: false
   },
   followedParks: [{
     parkID: Number
@@ -42,7 +39,7 @@ UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profil
           email: profile.emails[0].value,
           googleProvider: {
             id: profile.id,
-            token: accessToken
+            token: accessToken // change to access token 
           }
         });
 
@@ -53,6 +50,7 @@ UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profil
           return cb(error, savedUser);
         });
       } else {
+          console.log(user);
           return cb(err, user);
         }
     }

@@ -6,7 +6,7 @@ var createToken = function(auth) {
     id: auth.id
   }, 'my-secret', 
   {
-    expiresIn: 60 * 120
+    expiresIn: 5
   });
 };
 
@@ -18,5 +18,18 @@ module.exports = {
   sendToken: function(req, res) {
     res.setHeader('x-auth-token', req.token);
     return res.status(200).send(JSON.stringify(req.user));
+  },
+  verifyToken: function(req, res, next) {
+    // verify token
+    console.log('verifying token');
+    jwt.verify(req.token,'my-secret', {MaxAge: "5s"}, function(err, decoded) {      
+      if (err) {
+        return res.status(200).send({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;    
+        next();
+      }
+    });
   }
 };

@@ -13,18 +13,30 @@ const GoogleTokenStrategy = require('passport-google-token').Strategy;
    want to make it sumilar to how I export ../model/user.js
  */
 module.exports = function () {
+
   passport.use(
     new GoogleTokenStrategy({
       clientID: auth.googleAuth.clientID,
-      clientSecret: auth.googleAuth.clientSecret
+      clientSecret: auth.googleAuth.clientSecret,
     },
     function (accessToken, refreshToken, profile, done) {
+      var data = {profile: profile, accessToken: accessToken};
       User.upsertGoogleUser(accessToken, refreshToken, profile, function(err, user) {
         return done(err, user);
       });
     })
   );
 };
+
+  passport.serializeUser((user, done) => {
+      done(null, user.id);
+  });
+
+  passport.deserializeUser((id, done) => {
+      User.findById(id).then((user) => {
+          done(null, user);
+      });
+  });
 
 /*
 // LOCAL STRATEGY if we decide to allow users to create an account

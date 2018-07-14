@@ -6,6 +6,12 @@ var exphbs = require('express-handlebars');
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var session = require('express-session');
+var passport = require('passport');
+var cookieSession = require('cookie-session');
+var MongoStore = require('connect-mongo')(session);
+
+
+
 
 // new stuff for google login
 var path = require('path');
@@ -38,6 +44,16 @@ var parks  = require('./routes/parks');
 // Init App
 var app = express();
 
+
+/*
+// set up session cookies
+app.use(cookieSession({
+    maxAge: 24 * 60 * 60 * 1000, // cookie expires in 1 day
+    keys: ['secret']
+}));
+*/
+
+
 /* might want to change this because we are planning on using react*/
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -49,7 +65,7 @@ app.set('view engine', 'handlebars');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('secret'));
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -59,9 +75,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
 	secret: 'secret', // probably should change
 	saveUninitialized: true,
-	resave: true
+	resave: true,
+	store: new MongoStore({ mongooseConnection: mongoose.connection })
+
 }));
 
+
+
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Express Validador
 app.use(expressValidator({
