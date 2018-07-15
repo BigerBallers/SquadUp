@@ -14,10 +14,15 @@ class App extends Component {
   constructor() {
     super();
     this.state = { isAuthenticated: false, user: null, token: ''};
+    sessionStorage.setItem('token', null);
+    sessionStorage.setItem('account', null);
+
   }
 
   logout = () => {
-    this.setState({isAuthenticated: false, token: '', user: null})
+    this.setState({isAuthenticated: false, token: '', user: null});
+    sessionStorage.setItem('token', null);
+    sessionStorage.setItem('account', null);
   };
 
   onFailure = (error) => {
@@ -27,18 +32,21 @@ class App extends Component {
   
   //part of fetching
   componentDidMount(){
-    this.fetchData();
+    //this.fetchData();
   }
  
 
  //fetches park data
+ // when fetching for data, want to use header: Authentication with token 
   fetchData(){
-    fetch('http://localhost:8080/parks', {
+    fetch('http://localhost:8080/users/test', {
       method: 'get',
       dataType: 'json',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': this.state.token,
+        'x-access-token': this.state.token
       }
     })
     .then(response => response.json())
@@ -46,6 +54,8 @@ class App extends Component {
       console.log(response);
     })
     .catch(error => console.log('parsing failed', error))
+
+    this.fetchData();
   }
 
   // calls backend and sends google response ie email and account number

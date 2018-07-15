@@ -8,7 +8,9 @@
     "gatsby-link": "^1.6.40",
     "gatsby-plugin-react-helmet": "^2.0.10",
     "react-google-login": "^3.2.1",
-    "react-helmet": "^5.2.0"
+    "react-google-maps": "^9.4.5",
+    "react-helmet": "^5.2.0",
+    "recompose": "^0.27.1"
   },
   "keywords": [
     "gatsby"

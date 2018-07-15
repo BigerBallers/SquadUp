@@ -27,6 +27,18 @@ module.exports = function () {
   );
 };
 
+ /* doesnt do anything at the moment */
+  passport.serializeUser((user, done) => {
+      done(null, user.id);
+  });
+
+  passport.deserializeUser((id, done) => {
+      User.findById(id).then((user) => {
+          done(null, user);
+      });
+  });
+
+
 /*
 // LOCAL STRATEGY if we decide to allow users to create an account
 passport.use(new LocalStrategy({

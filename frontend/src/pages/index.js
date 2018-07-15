@@ -14,10 +14,14 @@ class IndexPage extends Component {
   constructor() {
     super();
     this.state = { isAuthenticated: false, user: null, token: ''};
+    sessionStorage.setItem('token', null);
+    sessionStorage.setItem('account', null);
   }
 
   logout = () => {
-    this.setState({isAuthenticated: false, token: '', user: null})
+    this.setState({isAuthenticated: false, token: '', user: null});
+    sessionStorage.setItem('token', null);
+    sessionStorage.setItem('account', null);
   };
 
   onFailure = (error) => {
@@ -31,14 +35,16 @@ class IndexPage extends Component {
   }
  
 
- //fetches park data from db.
+ //fetches park data from db. should not work at first because no access token
   fetchData(){
-    fetch('http://localhost:8080/parks', {
+    fetch('http://localhost:8080/parks/allParks', {
       method: 'get',
       dataType: 'json',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
+        /*'Authorization': this.state.token, 
+*/
       }
     })
     .then(response => response.json())
@@ -62,7 +68,10 @@ class IndexPage extends Component {
       const token = r.headers.get('x-auth-token');
       r.json().then(user => {
         if (token) {
-          this.setState({isAuthenticated: true, user, token})
+          // should globally save the users access token and account info
+          this.setState({isAuthenticated: true, user, token});
+          sessionStorage.setItem('token', token);
+          sessionStorage.setItem('account', user);
         }
       });
     })
