@@ -26,6 +26,11 @@ const Header = ({ siteTitle }) => (
           {siteTitle}
         </Link>
       </h1>
+        <div style={{width: 'auto',height: 'auto', fontSize: 'xx-small', border: 'solid 1px'}}>
+            {sessionStorage.getItem("loggedIn") === 'true' ? (
+                <h1>{sessionStorage.getItem('token')}</h1>
+            ):(null)}
+        </div>
     </div>
   </div>
 )
