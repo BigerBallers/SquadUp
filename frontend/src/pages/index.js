@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import config from './config.json';
 import Link from "gatsby-link";
+import { Redirect } from 'react-router-dom';
+
 
 import logo from './logo.svg';
 import './App.css';
@@ -28,12 +30,12 @@ class IndexPage extends Component {
     console.log(error);
     alert(error);
   }
-  
+
   //part of fetching
   componentDidMount(){
     this.fetchData();
   }
- 
+
 
  //fetches park data from db. should not work at first because no access token
   fetchData(){
@@ -42,9 +44,8 @@ class IndexPage extends Component {
       dataType: 'json',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
-        /*'Authorization': this.state.token, 
-*/
+        'Content-Type': 'application/json',
+        'Authorization': sessionStorage.getItem('token')
       }
     })
     .then(response => response.json())
@@ -54,7 +55,7 @@ class IndexPage extends Component {
     .catch(error => console.log('parsing failed', error))
   }
 
-  
+
   // calls backend and sends google response ie email and account number
   googleResponse = (response) => {
     const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
@@ -77,7 +78,7 @@ class IndexPage extends Component {
     })
   };
 
-  
+
   render() {
 
     let content = !!this.state.isAuthenticated ?
@@ -88,6 +89,7 @@ class IndexPage extends Component {
             {this.state.user.email}
         </div>
           <div>
+          <Redirect to="/page-2/"></Redirect>
             <Link to="/page-2/"><button onClick={this.logout} className="button">Continue</button></Link>
           </div>
         </div>
