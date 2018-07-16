@@ -43,7 +43,7 @@ class IndexPage extends Component {
 
  //fetches park data from db. should not work at first because no access token
   fetchData(){
-    fetch('http://localhost:8080/parks/test', {
+    fetch('http://localhost:8080/parks', {
       method: 'get',
       dataType: 'json',
       headers: {
