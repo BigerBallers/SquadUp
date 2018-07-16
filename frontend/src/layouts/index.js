@@ -5,6 +5,8 @@ import Helmet from 'react-helmet'
 //this header here imports the blue SquadUp bar feature
 import Header from '../components/header'
 
+import IndexPage from '../pages/index.js'
+
 import './index.css'
 
 //The Header tag inside Layout puts that bar feature to every page
@@ -15,7 +17,7 @@ import './index.css'
 //Comment by Philip, July 14
 const Layout = ({ children, data }) => (
   <div>
-    <Helmet
+  <Helmet
       title={data.site.siteMetadata.title}
 	  user={data.site.siteMetadata.user}
 	  logOut={data.site.siteMetadata.logOut}
@@ -24,8 +26,6 @@ const Layout = ({ children, data }) => (
         { name: 'keywords', content: 'sample, something' },
       ]}
     />
-
-    <Header siteTitle={data.site.siteMetadata.title} />
     <div
       style={{
         margin: '0 auto',
@@ -34,7 +34,7 @@ const Layout = ({ children, data }) => (
         paddingTop: 0,
       }}
     >
-      {children()}
+    {children()}
     </div>
   </div>
 )

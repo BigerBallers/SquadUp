@@ -1,5 +1,8 @@
 /* copied code from internet that made a basic button and calls the backend to verify/save user data*/
 
+
+// NOT BEING USED =============
+
 import React, { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import config from './config.json';
@@ -24,12 +27,12 @@ class App extends Component {
     console.log(error);
     alert(error);
   }
-  
+
   //part of fetching
   componentDidMount(){
     this.fetchData();
   }
- 
+
 
  //fetches park data
   fetchData(){
@@ -67,9 +70,7 @@ class App extends Component {
     })
   };
 
-  render() {
-
-
+  render() {  
 
     let content = !!this.state.isAuthenticated ?
       (
@@ -106,4 +107,3 @@ class App extends Component {
 }
 
 export default App
-

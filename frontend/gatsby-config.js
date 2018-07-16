@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Squad Up',
+  title: 'Squad Up',
 	user: 'Hello User!',
 	logoutButton: 'Log out',
   },

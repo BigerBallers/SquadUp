@@ -4,12 +4,16 @@ import React, { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import config from './config.json';
 import Link from "gatsby-link";
+import { Redirect } from 'react-router-dom';
 
 import logo from './logo.svg';
 import './App.css';
 
-class IndexPage extends Component {
+import Header from '../components/header'
 
+
+
+class IndexPage extends Component {
 
   constructor() {
     super();
@@ -20,16 +24,24 @@ class IndexPage extends Component {
     this.setState({isAuthenticated: false, token: '', user: null})
   };
 
+  isAuth = () => {
+    this.state.isAuthenticated;
+  };
+
   onFailure = (error) => {
     console.log(error);
     alert(error);
   }
-  
+
   //part of fetching
   componentDidMount(){
     this.fetchData();
   }
- 
+
+  myCallback = (dataFromComponent_C) => {
+    this.setState({ dataFromComponent_C: dataFromComponent_C});
+  }
+
 
  //fetches park data from db.
   fetchData(){
@@ -48,7 +60,7 @@ class IndexPage extends Component {
     .catch(error => console.log('parsing failed', error))
   }
 
-  
+
   // calls backend and sends google response ie email and account number
   googleResponse = (response) => {
     const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
@@ -68,8 +80,17 @@ class IndexPage extends Component {
     })
   };
 
-  
+
   render() {
+
+  /*  const loginButton = (<div>
+      <GoogleLogin
+        clientId={config.GOOGLE_CLIENT_ID}
+        buttonText="Login"
+        onSuccess={this.googleResponse}
+        onFailure={this.onFailure}
+      />
+    </div>);*/
 
     let content = !!this.state.isAuthenticated ?
       (
@@ -79,12 +100,15 @@ class IndexPage extends Component {
             {this.state.user.email}
         </div>
           <div>
+            <Redirect to='/home'></Redirect>
             <Link to="/page-2/"><button onClick={this.logout} className="button">Continue</button></Link>
           </div>
         </div>
       ) :
       (
         <div>
+        <Header isAuth={false} />
+
           <GoogleLogin
             clientId={config.GOOGLE_CLIENT_ID}
             buttonText="Login"
