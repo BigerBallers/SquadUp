@@ -24,15 +24,16 @@ class App extends Component {
     console.log(error);
     alert(error);
   }
-  
+
   //part of fetching
   componentDidMount(){
-    this.fetchData();
+    this.fetchParkData();
+    this.fetchEventData();
   }
- 
+
 
  //fetches park data
-  fetchData(){
+  fetchParkData(){
     fetch('http://localhost:8080/parks', {
       method: 'get',
       dataType: 'json',
@@ -46,7 +47,23 @@ class App extends Component {
       console.log(response);
     })
     .catch(error => console.log('parsing failed', error))
-  }
+  };
+
+  fetchEventData(){
+    fetch('http://localhost:8080/events', {
+      method: 'get',
+      dataType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => console.log('parsing failed', error))
+  };
 
   // calls backend and sends google response ie email and account number
   googleResponse = (response) => {
@@ -106,4 +123,3 @@ class App extends Component {
 }
 
 export default App
-

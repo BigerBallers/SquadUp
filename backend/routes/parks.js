@@ -7,7 +7,7 @@ var Park = require('../models/park');
 
 // Get Homepage
 router.post('/addPark', function(req, res) {
-
+		console.log(req.body);
 
 	var name = req.body.name;
 	var address = req.body.address;
@@ -42,5 +42,20 @@ router.post('/addPark', function(req, res) {
 
 	res.send(result);
 });
+
+
+//get park page
+router.get('/', function(req, res) {
+	console.log('Get request for all parks');
+	ParkQueue.find({})
+	.exec(function(err, ParkQueue){
+		if(err){
+			console.log("Error retrieving parks");
+		} else {
+			res.json(ParkQueue);
+		}
+	});
+});
+
 
 module.exports = router;

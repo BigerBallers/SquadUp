@@ -6,16 +6,16 @@ var EventSchema = new Schema({
 		type: String,
 		required: true
 	},
-	address: {
+	park_id: {
 		type: String,
 		required:true
 	},
 	start: {
-		type: number,
+		type: String,
 		required: true
 	},
 	end: {
-		type: number,
+		type: String,
 		required: true
 	},
 	sport: {
@@ -25,7 +25,14 @@ var EventSchema = new Schema({
 	description: {
 		type: String,
 		required: true
-	}
+	},
+	max_people: {
+		type: Number,
+		required: true
+	},
+	attending: [{
+		type: String
+	}]
 });
 
 

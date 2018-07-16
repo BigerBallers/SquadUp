@@ -32,6 +32,8 @@ db.once('open', function(){
 // routes
 var routes = require('./routes/index');
 var users  = require('./routes/users');
+var parks = require('./routes/parks');
+var events = require('./routes/events');
 
 
 // Init App
@@ -100,6 +102,8 @@ app.use(flash());
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/parks', parks);
+app.use('/events', events);
 
 
 // Set Port
