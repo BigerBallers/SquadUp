@@ -7,14 +7,14 @@ var Park = require('../models/park');
 
 // Get Homepage
 router.post('/addPark', function(req, res) {
-		console.log(req.body);
+		console.log("body: ", req.body);
 
 	var name = req.body.name;
 	var address = req.body.address;
 	var description = req.body.description;
-	var sports = ['soccer', 'basketball', 'tenis'];
+	var sports = req.body.sports;
 	var rating = [];
-	var geo = [0, 0];
+	var geo = req.body.geo;
 
 	// validate the params. should be checked on the front end
 	// backend validation stuff
