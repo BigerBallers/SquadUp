@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import Link from 'gatsby-link';
 import image from '../images/pin.png';
+import Header from '../components/header'
+
 
 
 
@@ -26,6 +28,8 @@ class SimpleMap extends Component {
     return (
       // Important! Always set the container height explicitly
       <div style={{ height: '100vh', width: '100%' }}>
+      <Header isAuth={true}/>
+
         <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyBgne_-KxLx1Sbd2CHtT7EklGSPAyjXH5I' }}
           defaultCenter={this.props.center}
