@@ -57,6 +57,15 @@ router.get('/', function(req, res) {
 	});
 });
 
+//get park by id page
+router.get('/:id', function(req, res) {
+	ParkQueue.getParkById(req.params.id, function(err, park){
+		if(err)
+			throw err;
+		res.send(park);
+	})
+});
+
 
 router.post('/test', function(req, res) {
 	res.send({ express: 'Hello From Express' });
@@ -64,10 +73,10 @@ router.post('/test', function(req, res) {
 
 function checkAuthentication(req,res,next){
  	var token = req.body.token || req.query.token || req.headers['x-access-token'];
- 	// if no token return 
+ 	// if no token return
 	if (!token) {
-		return res.status(400).send({ 
-	    	success: false, 
+		return res.status(400).send({
+	    	success: false,
 	    	message: 'No token provided.',
     	});
   	}

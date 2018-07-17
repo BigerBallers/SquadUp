@@ -29,14 +29,13 @@ router.post('/test', function(req, res) {
 	res.send({ express: 'Hello From Express' });
 });
 
-
-router.get('/user', function(req, res) {
-	var userId = "5b48d25ca9129d5be80d109c";
-	User.getUserById(userId, function(err, user){
-   	if (err) throw err;
-   	console.log('user: ', user);
-   	res.send(user);
-  });
+//get user by id page
+router.get('/:id', function(req, res) {
+	User.getUserById(req.params.id, function(err, user){
+		if(err)
+			throw err;
+		res.send(user);
+	})
 });
 
 /* should get all the events he is attending */
@@ -50,8 +49,28 @@ router.get('suggestedEvents', function(req, res) {
 
 });
 
-router.post('', function(req, res) {
+router.post('/addEvent', function(req, res) {
+  User.addEvent(req.body.userId, req.body.eventId, function(err, response){
+    if(err)
+      throw err;
+    console.log(response);
+    var result = {
+      ok: response.ok
+    };
+    res.send(result);
+  })
+});
 
+router.post('/followPark', function(req, res) {
+  User.followPark(req.body.userId, req.body.parkId, function(err, response){
+    if(err)
+      throw err;
+    console.log(response);
+    var result = {
+      ok: response.ok
+    };
+    res.send(result);
+  })
 });
 
 router.get('', function(req, res) {
@@ -60,10 +79,10 @@ router.get('', function(req, res) {
 
 function checkAuthentication(req,res,next){
  	var token = req.body.token || req.query.token || req.headers['x-access-token'];
- 	// if no token return 
+ 	// if no token return
 	if (!token) {
-		return res.status(403).send({ 
-	    	success: false, 
+		return res.status(403).send({
+	    	success: false,
 	    	message: 'No token provided.',
     	});
   	}

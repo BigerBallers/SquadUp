@@ -17,13 +17,18 @@ var UserSchema = new Schema({
     },
     select: false
   },
-  followedParks: [{
-    parkID: String
-  }],
-  endorsment: [{
-    userID: String,
-    stars: { type: Number, minimum: 1, maximum: 5 , exclusiveMaximum: false },
-  }],
+  followedParks: {
+    type : Array,
+    "default" : []
+  },
+  events: {
+    type : Array,
+    "default" : []
+  },
+  endorsment: {
+    type : Array,
+    "default" : []
+  }
   /* add fields if neccessary */
 });
 
@@ -34,7 +39,7 @@ UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profil
   var that = this;
   return this.findOne({
     'googleProvider.id': profile.id
-    }, 
+    },
     function(err, user) {
     // no user was found, lets create a new one
       if (!user) {
@@ -63,16 +68,43 @@ UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profil
 
 var User = module.exports = mongoose.model('user', UserSchema);
 
-
-module.exports.getParkByAddress = function(address, callback) {
-
-}
-
-
 module.exports.getUserById = function(id, callback) {
-  User.findById(id, callback);
+  console.log('searching db for user');
+	User.findById(id)
+	.exec(function(err, user){
+		if(err){
+			console.log("Error retrieving user");
+			callback(err, null);
+		} else {
+			console.log(user);
+			callback(null, user);
+		}
+	})
 }
 
+
+
+module.exports.addEvent = function (userId, eventId, callback) {
+  var tempEvent = {
+    eventID: eventId
+  };
+  User.update(
+    { _id: userId },
+    { $push:  {events : tempEvent }},
+    callback
+  );
+}
+
+module.exports.followPark = function (userId, parkId, callback) {
+  var tempPark = {
+    parkID: parkId
+  };
+  User.update(
+    { _id: userId },
+    { $push:  {followedParks : tempPark }},
+    callback
+  );
+}
 
 module.exports.setSession = function (user, req, callback) {
     req.session.user = user;

@@ -16,13 +16,14 @@ var ParkSchema = new Schema({
 		type: String,
 		required: true
 	},
-	sports: [{
-		type: String
-	}],
-	rating: [{
-		userID: Number,
-    	stars: { type: Number, minimum: 1, maximum: 5 , exclusiveMaximum: false },
-	}],
+	sports: {
+		type : Array,
+		"default" : []
+	},
+	rating: {
+		type : Array,
+		"default" : []
+	},
 	geo: {
 		type: [Number],
 		index: '2dsphere',
@@ -43,9 +44,5 @@ module.exports.getParkByAddress = function(address, callback) {
 }
 
 module.exports.getParkInRadius = function( coord, callback) {
-
-}
-
-module.exports.getParkById = function(id, callback) {
 
 }

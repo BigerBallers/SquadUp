@@ -41,3 +41,17 @@ var Event = module.exports = mongoose.model('events', EventSchema);
 module.exports.addEvent = function(event, callback) {
 	event.save(callback);
 }
+
+module.exports.getEventById = function(id, callback) {
+  console.log('searching db for event');
+	Event.findById(id)
+	.exec(function(err, event){
+		if(err){
+			console.log("Error retrieving event");
+			callback(err, null);
+		} else {
+			console.log(event);
+			callback(null, event);
+		}
+	})
+}
