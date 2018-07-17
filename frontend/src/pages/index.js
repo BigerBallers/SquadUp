@@ -14,16 +14,20 @@ class IndexPage extends Component {
 
 
   constructor() {
-    super();
-    this.state = { isAuthenticated: false, user: null, token: ''};
-    sessionStorage.setItem('token', null);
-    sessionStorage.setItem('account', null);
+      console.log("in constructer for index");
+      console.log("Logged In? " + sessionStorage.getItem('loggedIn'));
+      super();
+      this.state = {isAuthenticated: false, user: null, token: ''};
+      sessionStorage.setItem('token', null);
+      sessionStorage.setItem('account', null);
+      sessionStorage.setItem('loggedIn', 'false');
   }
 
   logout = () => {
     this.setState({isAuthenticated: false, token: '', user: null});
     sessionStorage.setItem('token', null);
     sessionStorage.setItem('account', null);
+    sessionStorage.setItem('loggedIn', 'false');
   };
 
   onFailure = (error) => {
@@ -39,7 +43,7 @@ class IndexPage extends Component {
 
  //fetches park data from db. should not work at first because no access token
   fetchData(){
-    fetch('http://localhost:8080/parks/test', {
+    fetch('http://localhost:8080/parks', {
       method: 'get',
       dataType: 'json',
       headers: {
@@ -73,6 +77,7 @@ class IndexPage extends Component {
           this.setState({isAuthenticated: true, user, token});
           sessionStorage.setItem('token', token);
           sessionStorage.setItem('account', user);
+          sessionStorage.setItem('loggedIn', 'true');
         }
       });
     })
@@ -107,7 +112,7 @@ class IndexPage extends Component {
 
     return (
       <div className="App">
-        {content} {}
+        {content} {console.log(sessionStorage.getItem("token"))}
       </div>
 
     );

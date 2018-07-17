@@ -2,19 +2,37 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var EventSchema = new Schema({
-	/*Fields:
-		user_id 
-		title
-		park_id
-		date & time (how do we handle overlapping events? cant create events at the same time?)
-		Description
-		Sport
-		Array of attending users
-		Max users
-		
-
-		*/
-  	/* add fields if neccessary */
+	name: {
+		type: String,
+		required: true
+	},
+	park_id: {
+		type: String,
+		required:true
+	},
+	start: {
+		type: String,
+		required: true
+	},
+	end: {
+		type: String,
+		required: true
+	},
+	sport: {
+		type: String,
+		required: true
+	},
+	description: {
+		type: String,
+		required: true
+	},
+	max_people: {
+		type: Number,
+		required: true
+	},
+	attending: [{
+		type: String
+	}]
 });
 
 

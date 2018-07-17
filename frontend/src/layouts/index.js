@@ -17,8 +17,8 @@ const Layout = ({ children, data }) => (
   <div>
     <Helmet
       title={data.site.siteMetadata.title}
-	  user={data.site.siteMetadata.user}
-	  logOut={data.site.siteMetadata.logOut}
+	  user={sessionStorage.getItem("token")}
+	  logoutButton={data.site.siteMetadata.logoutButton}
       meta={[
         { name: 'description', content: 'Sample' },
         { name: 'keywords', content: 'sample, something' },
@@ -49,7 +49,9 @@ export const query = graphql`
   query SiteTitleQuery {
     site {
       siteMetadata {
-        title
+        title,
+        user,
+        logoutButton,
       }
     }
   }

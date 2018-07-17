@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'gatsby-link'
 
 const SecondPage = () => (
+
   <div>
     <h1>Hi from the second page</h1>
     <p>Welcome to page 2</p>
@@ -10,5 +11,7 @@ const SecondPage = () => (
     <Link to="/map">Go to map</Link>
   </div>
 )
+
+console.log(sessionStorage.getItem("token"));
 
 export default SecondPage
