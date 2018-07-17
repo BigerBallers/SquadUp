@@ -16,7 +16,25 @@ class Add_Park extends Component {
 
   }
 
-  //functions/methods that receive inputs
+  
+  sendParkData(data){
+    fetch('http://localhost:8080/parks/addPark', {
+      method: 'POST',
+      dataType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': sessionStorage.getItem('token')
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => console.log('parsing failed', error))
+  }
+
 
   handleParknameChange(event){
     this.setState({
@@ -33,20 +51,44 @@ class Add_Park extends Component {
       selector: event.target.value
     })
   }
+
+
   handleSubmit(event){
     const {park_name, park_location, selector}=this.state
-    alert("Park Name: "+this.state.park_name
-      +"\nPark Location: "+this.state.park_location
-      +"\nSports: "+this.state.selector+
-      "\nYou are all set!\n ");
-    //here an alert window is popped up
-    this.setState({
-      park_name: '',
-      park_location: '',
-      selector: ''
-    })
-    
+    this.convertGeo(this.state.park_location);    
+  }
 
+
+  convertGeo(input){
+    var geo;
+    Geocode.fromAddress(input).then(
+      response => {
+
+        const { lat, lng } = response.results[0].geometry.location;
+        geo = [lng, lat];
+
+        var data = {
+        name: this.state.park_name,
+        address: this.state.park_location,
+        description:"awesome",
+        sports:[this.state.selector],
+        geo: geo
+      };
+      
+      // after we get lnt lat we add park to database
+      this.sendParkData(data);
+
+      // alert after park is added
+      alert("Park Name: "+this.state.park_name
+           +"\nPark Location: "+this.state.park_location
+           +"\nSports: "+this.state.selector+
+           "\nYou are all set!\n ");
+      },
+      error => {
+        console.error(error);
+        alert("Not Valid Address!");
+      }
+    );
   }
 
   render(){
