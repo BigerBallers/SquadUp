@@ -15,6 +15,7 @@ const Header = ({ siteTitle }) => (
         padding: '1.45rem 1.0875rem',
       }}
     >
+    <div>
       <h1 style={{ margin: 0 }}>
         <Link
           to="/"
@@ -26,13 +27,14 @@ const Header = ({ siteTitle }) => (
           {siteTitle}
         </Link>
       </h1>
-        <div style={{width: 'auto',height: 'auto', fontSize: 'xx-small', border: 'solid 1px'}}>
+      </div>
+        <div style={{margin: '-35px', float: 'right'}}>
             {sessionStorage.getItem("loggedIn") === 'true' ? (
-                <h1>{sessionStorage.getItem('token')}</h1>
+                <div><Link to="/">Logout</Link></div>
             ):(null)}
         </div>
     </div>
-  </div>
+    </div>
 )
 
 
