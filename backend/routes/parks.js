@@ -7,8 +7,9 @@ var Park = require('../models/park');
 var { verifyToken } = require('../utils/token.utils');
 
 
-// Get Homepage
-router.post('/addPark', checkAuthentication, function(req, res) {
+router.post('/addPark', function(req, res) {
+
+	console.log("body: ", req.body);
 
 	var name = req.body.name;
 	var address = req.body.address;
@@ -57,7 +58,7 @@ router.get('/allParks', checkAuthentication, function(req, res) {
 	});
 });
 
-router.get('/test', checkAuthentication, function(req, res) {
+router.post('/test', function(req, res) {
 	res.send({ express: 'Hello From Express' });
 });
 

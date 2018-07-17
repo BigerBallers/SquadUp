@@ -8,6 +8,8 @@ var request = require('request');
 var passport = require('passport');
 require('../config/passport')();
 
+var User = require('../models/user');
+
 var googleToken = passport.authenticate('google-token', {session: false});
 
 
@@ -23,10 +25,38 @@ router.post('/auth/google', googleToken, function(req, res, next) {
 }, generateToken, sendToken);
 
 
-router.get('/test', checkAuthentication, function(req, res) {
+router.post('/test', function(req, res) {
 	res.send({ express: 'Hello From Express' });
 });
 
+
+router.get('/user', function(req, res) {
+	var userId = "5b48d25ca9129d5be80d109c";
+	User.getUserById(userId, function(err, user){
+   	if (err) throw err;
+   	console.log('user: ', user);
+   	res.send(user);
+  });
+});
+
+/* should get all the events he is attending */
+router.get('attendingEvents', function(req, res) {
+
+});
+
+
+/* should get all the events at the parks that he follows */
+router.get('suggestedEvents', function(req, res) {
+
+});
+
+router.post('', function(req, res) {
+
+});
+
+router.get('', function(req, res) {
+
+});
 
 function checkAuthentication(req,res,next){
  	var token = req.body.token || req.query.token || req.headers['x-access-token'];

@@ -13,14 +13,15 @@ var UserSchema = new Schema({
     type: {
       id: String,
       token: String
+      /* add google profile info if needed (ie. profilePic)*/
     },
     select: false
   },
   followedParks: [{
-    parkID: Number
+    parkID: String
   }],
   endorsment: [{
-    userID: Number,
+    userID: String,
     stars: { type: Number, minimum: 1, maximum: 5 , exclusiveMaximum: false },
   }],
   /* add fields if neccessary */

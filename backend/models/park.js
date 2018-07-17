@@ -30,6 +30,7 @@ var ParkSchema = new Schema({
 
 	}
   /* add fields if neccessary */
+  /**/
 });
 
 
@@ -41,6 +42,9 @@ module.exports.getParkByAddress = function(address, callback) {
 
 }
 
+module.exports.getParkInRadius = function( coord, callback) {
+
+}
 
 module.exports.getParkById = function(id, callback) {
 
