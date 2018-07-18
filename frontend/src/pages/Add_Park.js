@@ -5,13 +5,13 @@ import Link from "gatsby-link";
 class Add_Park extends Component {
   constructor(props) { //constructor of props and states
     super(props);
-    
+
     this.state = { //three fields for add parK: name, locaiton and sport
       park_name: '',
       park_location: '',
       selector: '',
     }
-    this.handleSubmit= this.handleSubmit.bind(this); 
+    this.handleSubmit= this.handleSubmit.bind(this);
     this.handleSports=this.handleSports.bind(this);
 
   }
@@ -45,25 +45,25 @@ class Add_Park extends Component {
       park_location: '',
       selector: ''
     })
-    
+
 
   }
 
   render(){
     const {park_name, park_location, selector}=this.state
-    const enabled= 
+    const enabled=
       park_name.length > 0 &&
-      park_location.length>0 && 
+      park_location.length>0 &&
       selector.length>0; //unable the sumbit button when no input
 
     return (
       <body>
         <div className="MyHeader">
           <h2>Add Park</h2>
-            <div className="back-button"> 
+            <div className="back-button">
              <Link to="/">
               <button class="btn btn-info btn-lg" role="button">Back</button>
-             </Link> 
+             </Link>
              //Need to refresh after clicking, don't know why
             </div>
         </div>
@@ -73,9 +73,9 @@ class Add_Park extends Component {
             Park Name
           </div>
             <div className="name_field">
-              <input value={this.state.park_name} 
-              onChange={this.handleParknameChange.bind(this)} 
-              placeholder="e.g. Rucker Park?" 
+              <input value={this.state.park_name}
+              onChange={this.handleParknameChange.bind(this)}
+              placeholder="e.g. Rucker Park?"
               style={{width: "100%", height:"100%"}}
               required />
             </div>
@@ -105,7 +105,7 @@ class Add_Park extends Component {
             <button onClick={this.handleSubmit} disabled={!enabled}>Submit</button>
           </div>
         </div>
-        
+
       </body>
       );
   }

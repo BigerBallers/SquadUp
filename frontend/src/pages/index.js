@@ -100,7 +100,7 @@ class IndexPage extends Component {
         </div>
       ) :
       (
-        <div>
+        <div style={{margin:'207px'}}>
           <GoogleLogin
             clientId={config.GOOGLE_CLIENT_ID}
             buttonText="Login"

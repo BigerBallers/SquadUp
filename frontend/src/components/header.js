@@ -1,10 +1,14 @@
 import React from 'react'
 import Link from 'gatsby-link'
+import image from '../images/logo.png';
+
+import '../layouts/index.css';
+
 
 const Header = ({ siteTitle }) => (
   <div
     style={{
-      background: 'blue',
+      background: '#60737B',
       marginBottom: '1.45rem',
     }}
   >
@@ -12,28 +16,24 @@ const Header = ({ siteTitle }) => (
       style={{
         margin: '0 auto',
         maxWidth: 960,
+        height: '100px',
         padding: '1.45rem 1.0875rem',
+
       }}
     >
     <div>
-      <h1 style={{ margin: 0 }}>
         <Link
-          to="/"
-          style={{
-            color: 'white',
-            textDecoration: 'none',
-          }}
-        >
-          {siteTitle}
+          to="/page-2">
+          <img src={image} style={{float:'left', width:'200px', margin: '-20px'}}></img>
         </Link>
-      </h1>
+
       </div>
-        <div style={{margin: '-35px', float: 'right'}}>
+        <div style={{float: 'right'}}>
             {sessionStorage.getItem("loggedIn") === 'true' ? (
-                <div><Link to="/">Logout</Link></div>
+                <div style={{fonts:'Nunito'}}><Link to="/">Logout</Link></div>
             ):(null)}
         </div>
-    </div>
+      </div>
     </div>
 )
 
