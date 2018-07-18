@@ -31,7 +31,7 @@ router.post('/test', function(req, res) {
 
 //get user by id page
 router.get('/getUserById', function(req, res) {
-	User.getUserById(req.query.userId, function(err, user){
+	User.getUserById(req.query.id, function(err, user){
 		if(err)
 			throw err;
 		res.send(user);
@@ -40,7 +40,7 @@ router.get('/getUserById', function(req, res) {
 
 /* should get all the events he is attending */
 router.get('/getEventsId', function(req, res) {
-  User.getUserById(req.query.userId, function(err, user){
+  User.getUserById(req.query.id, function(err, user){
     if(err)
       throw err;
     res.send(user.events);
