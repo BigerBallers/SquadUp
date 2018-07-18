@@ -57,12 +57,31 @@ router.get('/', function(req, res) {
 	});
 });
 
+
 //get park by id page
-router.get('/:id', function(req, res) {
-	ParkQueue.getParkById(req.params.id, function(err, park){
+router.get('/getParkById', function(req, res) {
+	ParkQueue.getParkById(req.query.id, function(err, park){
 		if(err)
 			throw err;
 		res.send(park);
+	})
+});
+
+
+//get park by id page
+router.get('/getParksInRadius/', function(req, res) {
+
+	var lng = Number(req.query.lng);
+	var lat = Number(req.query.lat);
+	var radius = Number(req.query.radius);
+
+	var coord = [lng, lat];
+	var radius = radius;
+	
+	ParkQueue.getParkInRadius(coord, radius, function(err, parks){
+		if(err)
+			throw err;
+		res.send(parks);
 	})
 });
 

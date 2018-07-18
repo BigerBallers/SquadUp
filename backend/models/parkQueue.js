@@ -42,7 +42,7 @@ module.exports.addParkToQueue = function(newPark, callback) {
 
 
 module.exports.getParkById = function(id, callback) {
-	console.log('searching db');
+	console.log('searching by ID');
 	ParkQueue.findById(id)
 	.exec(function(err, parkQueue){
 		if(err){
@@ -57,6 +57,7 @@ module.exports.getParkById = function(id, callback) {
 
 // needs to be tested
 module.exports.getParkInRadius = function( coord, radiusMiles, callback) {
+	console.log("reaching for parks in radius: ", radiusMiles);
 	var mileToKilometer = 1.60934; // conversion from miles to km
 	var kilometerToMeter = 1000;
 	var maxDist = mileToKilometer * radiusMiles;
@@ -68,7 +69,7 @@ module.exports.getParkInRadius = function( coord, radiusMiles, callback) {
 			$nearSphere: {
       	$geometry: {
           type: "Point",
-          coordinates: coords
+          coordinates: coord
         },
         $maxDistance: maxDist // in meters
 			}
