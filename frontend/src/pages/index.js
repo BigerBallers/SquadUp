@@ -1,4 +1,4 @@
-  /* copied code from internet that made a basic button and calls the backend to verify/save user data*/
+/* copied code from internet that made a basic button and calls the backend to verify/save user data*/
 
 import React, { Component } from 'react';
 import { GoogleLogin } from 'react-google-login';
@@ -9,6 +9,22 @@ import { Redirect } from 'react-router-dom';
 
 import logo from './logo.svg';
 import './App.css';
+
+
+//Current page = current url
+var currentPage = window.location.href;
+
+//Listen for changes
+setInterval(function(){
+    if (currentPage != window.location.href){
+
+        //Page has changed, set new page as 'current'
+        currentPage = window.location.href;
+
+        //Reload page
+        window.location.reload();
+    }
+}, 500);
 
 class IndexPage extends Component {
 
@@ -95,7 +111,6 @@ class IndexPage extends Component {
         </div>
           <div>
           <Redirect to="/page-2/"></Redirect>
-            <Link to="/page-2/"><button onClick={this.logout} className="button">Continue</button></Link>
           </div>
         </div>
       ) :

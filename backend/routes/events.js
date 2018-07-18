@@ -50,4 +50,13 @@ router.get('/', function(req, res) {
 	});
 });
 
+//get event by id page
+router.get('/:id', function(req, res) {
+	Event.getEventById(req.params.id, function(err, event){
+		if(err)
+			throw err;
+		res.send(event);
+	})
+});
+
 module.exports = router;
