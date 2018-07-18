@@ -39,10 +39,22 @@ var ParkSchema = new Schema({
 // create separate colections
 var Park = module.exports = mongoose.model('parks', ParkSchema);
 
-module.exports.getParkByAddress = function(address, callback) {
+
+module.exports.addPark = function(park, callback) {
 
 }
 
+
+module.exports.getParkById = function(parkId, callback) {
+
+}
+
+
 module.exports.getParkInRadius = function( coord, callback) {
+
+}
+
+
+module.exports.getUserFollowedParks = function(parkIds, callback) {
 
 }

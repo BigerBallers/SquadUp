@@ -42,6 +42,24 @@ module.exports.addEvent = function(event, callback) {
 	event.save(callback);
 }
 
+/* get events user is attending
+	 eventIds is an array of ids 
+ */
+module.exports.getUserAttendingEvents = function(eventIds, callback) {
+
+}
+
+
+/* get all events at a park under a category
+   should return all events at a park with a category being a ristriction 
+   if category is empty, return all events
+   Note: Probably wont need this function
+ */
+module.exports.getEventsAtPark = function (parkId, callback) {
+
+}
+
+
 module.exports.getEventById = function(id, callback) {
   console.log('searching db for event');
 	Event.findById(id)

@@ -4,6 +4,8 @@ var router = express.Router();
 var ParkQueue = require('../models/parkQueue');
 var Park = require('../models/park');
 
+var { verifyToken } = require('../utils/token.utils');
+
 
 
 router.post('/addPark', function(req, res) {
@@ -19,8 +21,6 @@ router.post('/addPark', function(req, res) {
 	// validate the params. should be checked on the front end
 	// backend validation stuff
 
-	// if no error create new park
-
 	var newPark = new ParkQueue({
 		name: name,
 		address: address,
@@ -32,28 +32,13 @@ router.post('/addPark', function(req, res) {
 
 
   ParkQueue.addParkToQueue(newPark, function(err, newPark){
-   	if (err) throw err;
-   	console.log('park has been inserted', newPark);
-  });
-
-  var result = {
-  	message : 'park has been added to queue'
-  };
-
-	res.send(result);
-});
-
-
-//get park page
-router.get('/', function(req, res) {
-	console.log('Get request for all parks');
-	ParkQueue.find({})
-	.exec(function(err, ParkQueue){
-		if(err){
-			console.log("Error retrieving parks");
-		} else {
-			res.json(ParkQueue);
-		}
+		if (err) throw err;
+	 	console.log('park has been inserted', newPark);
+		var result = {
+		message : 'park has been added to queue',
+		park: newPark
+	};
+		res.send(result);
 	});
 });
 
@@ -68,7 +53,7 @@ router.get('/getParkById', function(req, res) {
 });
 
 
-//get park by id page
+//get parks in a given radius 
 router.get('/getParksInRadius/', function(req, res) {
 
 	var lng = Number(req.query.lng);
@@ -86,9 +71,42 @@ router.get('/getParksInRadius/', function(req, res) {
 });
 
 
-router.post('/test', function(req, res) {
-	res.send({ express: 'Hello From Express' });
+router.get('/getUserFollowedParks', function(req, res) {
+	res.send("not yet implemented");
 });
+
+
+router.get('/getParkByCategory', function(req, res) {
+	res.send("not yet implemneted");
+});
+
+
+/*needs to be implemented and tested*/
+router.get('/ratePark', function(req, res) {
+	res.send('not yet implemented');
+	/* create a json:
+		rating : {  currRating: Number,  
+								UserRate: [{user, score}] 
+							}
+	*/
+});
+
+
+/* dont need then function
+//get park page
+router.get('/', function(req, res) {
+	console.log('Get request for all parks');
+	ParkQueue.find({})
+	.exec(function(err, ParkQueue){
+		if(err){
+			console.log("Error retrieving parks");
+		} else {
+			res.json(ParkQueue);
+		}
+	});
+});
+*/
+
 
 function checkAuthentication(req,res,next){
  	var token = req.body.token || req.query.token || req.headers['x-access-token'];

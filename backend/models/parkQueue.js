@@ -35,10 +35,13 @@ var ParkSchema = new Schema({
 
 var ParkQueue = module.exports = mongoose.model('parkqueues', ParkSchema);
 
+
+/* might want to check if the park alread exists in our Park collection.
+	 If not, add it to the queue
+ */
 module.exports.addParkToQueue = function(newPark, callback) {
    newPark.save(callback);
 }
-
 
 
 module.exports.getParkById = function(id, callback) {
@@ -55,15 +58,14 @@ module.exports.getParkById = function(id, callback) {
 	})
 }
 
-// needs to be tested
-module.exports.getParkInRadius = function( coord, radiusMiles, callback) {
-	console.log("reaching for parks in radius: ", radiusMiles);
-	var mileToKilometer = 1.60934; // conversion from miles to km
+
+module.exports.getParkInRadius = function(coord, radiusMiles, callback) {
+	// converting miles to meters
+	var mileToKilometer = 1.60934;
 	var kilometerToMeter = 1000;
 	var maxDist = mileToKilometer * radiusMiles;
-
-	// we need to convert the distance to radians
 	maxDist *= kilometerToMeter;
+
 	var query = ParkQueue.find( {
 		geo: {
 			$nearSphere: {
@@ -78,3 +80,15 @@ module.exports.getParkInRadius = function( coord, radiusMiles, callback) {
 
 	query.exec(callback);
 }
+
+
+module.exports.getUserFollowedParks = function(parkIds, callback) {
+
+}
+
+
+module.exports.getParkByCategory = function(category, callback) {
+	
+}
+
+// write a module to check if the park exists

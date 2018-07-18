@@ -3,6 +3,9 @@ var router = express.Router();
 
 var Event = require('../models/event');
 
+var { verifyToken } = require('../utils/token.utils');
+
+
 router.post('/addEvent',function(req, res) {
 
   var name = req.body.name;
@@ -37,26 +40,66 @@ router.post('/addEvent',function(req, res) {
   res.send(result);
 });
 
-//get event page
-router.get('/', function(req, res) {
-	console.log('Get request for events');
-	Event.find({})
-	.exec(function(err, Event){
-		if(err){
-			console.log("Error retrieving events");
-		} else {
-			res.json(Event);
-		}
-	});
-});
 
 //get event by id page
-router.get('/:id', function(req, res) {
-	Event.getEventById(req.params.id, function(err, event){
+router.get('/getEventById', function(req, res) {
+	Event.getEventById(req.query.eventId, function(err, event){
 		if(err)
 			throw err;
 		res.send(event);
 	})
 });
+
+
+
+/* gets the user followed parks in one search query
+    given an array of event Id's
+*/
+router.get('/getUserAttendingEvents', function(req, res) {
+
+  res.send("not implemented yet");
+});
+
+
+/* gets all the events at park
+   given a park id
+ */
+router.get('/getEventsAtPark', function(req, res) {
+  res.send("not implemented yet");
+});
+
+
+/*
+//get event page dont actually need this function
+router.get('/', function(req, res) {
+  console.log('Get request for events');
+  Event.find({})
+  .exec(function(err, Event){
+    if(err){
+      console.log("Error retrieving events");
+    } else {
+      res.json(Event);
+    }
+  });
+});
+*/
+
+
+function checkAuthentication(req,res,next){
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  // if no token return
+  if (!token) {
+    return res.status(403).send({
+        success: false,
+        message: 'No token provided.',
+      });
+    }
+
+    var result = verifyToken(token);
+    // if expired/failed
+    if (!result.success)
+      return res.status(401).send(result);
+    next();
+}
 
 module.exports = router;

@@ -82,6 +82,8 @@ UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profil
 
 var User = module.exports = mongoose.model('user', UserSchema);
 
+
+
 module.exports.getUserById = function(id, callback) {
   console.log('searching db for user');
 	User.findById(id)
@@ -97,7 +99,6 @@ module.exports.getUserById = function(id, callback) {
 }
 
 
-
 module.exports.addEvent = function (userId, eventId, callback) {
   var tempEvent = {
     eventID: eventId
@@ -108,6 +109,7 @@ module.exports.addEvent = function (userId, eventId, callback) {
     callback
   );
 }
+
 
 module.exports.followPark = function (userId, parkId, callback) {
   var tempPark = {
@@ -120,6 +122,17 @@ module.exports.followPark = function (userId, parkId, callback) {
   );
 }
 
+
+module.exports.getEvents = function (userId, callback) {
+  //User.find();
+}
+
+
+modile.exports.getParks = function (userId, callback) {
+  // User.find()
+}
+
+/* does nothing */
 module.exports.setSession = function (user, req, callback) {
     req.session.user = user;
     callback(true);

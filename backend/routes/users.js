@@ -13,6 +13,7 @@ var User = require('../models/user');
 var googleToken = passport.authenticate('google-token', {session: false});
 
 
+/* create account or login in if account is found*/
 router.post('/auth/google', googleToken, function(req, res, next) {
   if (!req.user) {
     return res.send(401, 'User Not Authenticated');
@@ -20,7 +21,6 @@ router.post('/auth/google', googleToken, function(req, res, next) {
   req.auth = {
     id: req.user.id
   };
-  console.log('req.user: ', req.user);
   next();
 }, generateToken, sendToken);
 
@@ -30,8 +30,8 @@ router.post('/test', function(req, res) {
 });
 
 //get user by id page
-router.get('/:id', function(req, res) {
-	User.getUserById(req.params.id, function(err, user){
+router.get('/getUserById', function(req, res) {
+	User.getUserById(req.query.userId, function(err, user){
 		if(err)
 			throw err;
 		res.send(user);
@@ -39,17 +39,32 @@ router.get('/:id', function(req, res) {
 });
 
 /* should get all the events he is attending */
-router.get('attendingEvents', function(req, res) {
-
+router.get('/getEventsId', function(req, res) {
+  res.send("not implemented yet");
+  /*
+  User.getEvents(req.query.UserId, function (err, events) {
+    if (err)
+      throw err;
+    res.send(events);
+  });
+  */
 });
 
 
-/* should get all the events at the parks that he follows */
-router.get('suggestedEvents', function(req, res) {
-
+/* get ll parks the user is attending */
+router.get('/getParksById', function (req, res) {
+  res.send("not implemented yet");
+  /*
+  User.getParks(req.query.userId, function (err, parks) {
+    if (err)
+      throw err;
+    res.send(parks);
+  });
+  */
 });
 
-router.post('/addEvent', function(req, res) {
+
+router.post('/addEventById', function(req, res) {
   User.addEvent(req.body.userId, req.body.eventId, function(err, response){
     if(err)
       throw err;
@@ -61,7 +76,7 @@ router.post('/addEvent', function(req, res) {
   })
 });
 
-router.post('/followPark', function(req, res) {
+router.post('/followParkById', function(req, res) {
   User.followPark(req.body.userId, req.body.parkId, function(err, response){
     if(err)
       throw err;
@@ -73,9 +88,28 @@ router.post('/followPark', function(req, res) {
   })
 });
 
-router.get('', function(req, res) {
+
+
+
+/************************ Did not have time to implement these ****************************/
+/* should get all the events at the parks that he follows */
+router.get('suggestedEvents', function(req, res) {
 
 });
+
+
+/*needs to be implemented and tested*/
+router.get('/endorseUser', function(req, res) {
+
+  /* create a json:
+    endorsment : {  currRating: Number,  
+                UserRate: [{user, score}] 
+              }
+  */
+});
+
+/************************************** End ********************************************/
+
 
 function checkAuthentication(req,res,next){
  	var token = req.body.token || req.query.token || req.headers['x-access-token'];
