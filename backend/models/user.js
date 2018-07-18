@@ -4,18 +4,29 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-  email: {
-    type: String, required: true,
-    trim: true, unique: true,
-    match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-  },
+
   googleProvider: {
-    type: {
-      id: String,
-      token: String
-      /* add google profile info if needed (ie. profilePic)*/
+    id: {
+      type: String,
+      unique: true
     },
-    select: false
+    email: {
+      type: String, required: true,
+      trim: true, unique: true,
+      match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    },
+    profilePic: {
+      type: String
+    },
+    name: {
+      type: String
+    },
+    given_name: {
+      type: String
+    },
+    family_name: {
+      type: String
+    }
   },
   followedParks: {
     type : Array,
@@ -37,6 +48,7 @@ UserSchema.set('toJSON', {getters: true, virtuals: true});
 
 UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profile, cb) {
   var that = this;
+
   return this.findOne({
     'googleProvider.id': profile.id
     },
@@ -44,11 +56,13 @@ UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profil
     // no user was found, lets create a new one
       if (!user) {
         var newUser = new that({ // might be problem idk what 'that' is
-          fullName: profile.displayName,
-          email: profile.emails[0].value,
           googleProvider: {
-            id: profile.id,
-            token: accessToken
+            id: profile._json.id,
+            profilePic: profile._json.picture,
+            name: profile._json.name,
+            given_name: profile._json.given_name,
+            family_name: profile._json.family_name,
+            email: profile._json.email,
           }
         });
 
