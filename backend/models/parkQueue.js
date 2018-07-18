@@ -16,13 +16,14 @@ var ParkSchema = new Schema({
 		type: String,
 		required: true
 	},
-	sports: [{
-		type: String
-	}],
-	rating: [{
-		userID: Number,
-    	stars: { type: Number, minimum: 1, maximum: 5 , exclusiveMaximum: false },
-	}],
+	sports: {
+		type : Array,
+		"default" : []
+	},
+	rating: {
+		type : Array,
+		"default" : []
+	},
 	geo: {
 		type: [Number],
 		index: '2dsphere',
@@ -30,6 +31,7 @@ var ParkSchema = new Schema({
 
 	}
   /* add fields if neccessary */
+  /**/
 });
 
 
@@ -88,7 +90,17 @@ module.exports.getUserFollowedParks = function(parkIds, callback) {
 
 
 module.exports.getParkByCategory = function(category, callback) {
-	
+	console.log('getting parks by category', category);
+	ParkQueue.find({ sports: category })
+	.exec(function(err, parkData){
+		if(err){
+			console.log("error retrieving park");
+			callback(err, null);
+		} else {
+			console.log(parkData);
+			callback(null, parkData);
+		}
+	})
 }
 
 // write a module to check if the park exists

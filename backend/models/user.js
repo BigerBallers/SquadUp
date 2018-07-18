@@ -122,13 +122,18 @@ module.exports.followPark = function (userId, parkId, callback) {
   );
 }
 
+//get attending events
+/*module.exports.getEvents = function (userId, callback) {
+  console.log('getting events by user', userId);
+  User.getUserById(userId, function(err, userId){
+    if(err)
+     throw err;
+    res
+  })
+}*/
 
-module.exports.getEvents = function (userId, callback) {
-  //User.find();
-}
 
-
-modile.exports.getParks = function (userId, callback) {
+module.exports.getParks = function (userId, callback) {
   // User.find()
 }
 

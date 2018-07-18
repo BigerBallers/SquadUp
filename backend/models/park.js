@@ -34,8 +34,6 @@ var ParkSchema = new Schema({
   /**/
 });
 
-
-
 // create separate colections
 var Park = module.exports = mongoose.model('parks', ParkSchema);
 

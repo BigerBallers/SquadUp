@@ -40,14 +40,11 @@ router.get('/getUserById', function(req, res) {
 
 /* should get all the events he is attending */
 router.get('/getEventsId', function(req, res) {
-  res.send("not implemented yet");
-  /*
-  User.getEvents(req.query.UserId, function (err, events) {
-    if (err)
+  User.getUserById(req.query.userId, function(err, user){
+    if(err)
       throw err;
-    res.send(events);
-  });
-  */
+    res.send(user.events);
+  })
 });
 
 
@@ -102,8 +99,8 @@ router.get('suggestedEvents', function(req, res) {
 router.get('/endorseUser', function(req, res) {
 
   /* create a json:
-    endorsment : {  currRating: Number,  
-                UserRate: [{user, score}] 
+    endorsment : {  currRating: Number,
+                UserRate: [{user, score}]
               }
   */
 });
