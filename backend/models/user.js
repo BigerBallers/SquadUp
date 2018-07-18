@@ -5,10 +5,21 @@ const Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
 
+  followedParks: {
+    type : Array,
+    "default" : []
+  },
+  events: {
+    type : Array,
+    "default" : []
+  },
+  endorsment: {
+    type : Array,
+    "default" : []
+  },
   googleProvider: {
     id: {
       type: String,
-      unique: true
     },
     email: {
       type: String, required: true,
@@ -27,18 +38,6 @@ var UserSchema = new Schema({
     family_name: {
       type: String
     }
-  },
-  followedParks: {
-    type : Array,
-    "default" : []
-  },
-  events: {
-    type : Array,
-    "default" : []
-  },
-  endorsment: {
-    type : Array,
-    "default" : []
   }
   /* add fields if neccessary */
 });
@@ -48,7 +47,7 @@ UserSchema.set('toJSON', {getters: true, virtuals: true});
 
 UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profile, cb) {
   var that = this;
-
+  console.log("profile: ", profile);
   return this.findOne({
     'googleProvider.id': profile.id
     },
@@ -65,6 +64,8 @@ UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profil
             email: profile._json.email,
           }
         });
+
+        console.log("new user: ", newUser);
 
         newUser.save(function(error, savedUser) {
           if (error) {
