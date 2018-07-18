@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import './Add_Park_Style.css';
 import Link from "gatsby-link";
 
+Geocode.setApiKey("AIzaSyDAqgkDUgbqZuBZbDXkiaXubQWvdV3gYZg");
+Geocode.enableDebug();
+
+
 class Add_Park extends Component {
   constructor(props) { //constructor of props and states
     super(props);
