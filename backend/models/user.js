@@ -128,7 +128,7 @@ module.exports.getEvents = function (userId, callback) {
 }
 
 
-modile.exports.getParks = function (userId, callback) {
+module.exports.getParks = function (userId, callback) {
   // User.find()
 }
 
