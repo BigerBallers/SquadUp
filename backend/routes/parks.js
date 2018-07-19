@@ -81,8 +81,7 @@ router.get('/getParkByCategory', function(req, res) {
 });
 
 router.get('/test', function( req, res) {
-	console.log('query: ', req.query);
-	res.json("not yet implemneted");
+	res.json("test get route and variables");
 });
 
 
@@ -100,8 +99,6 @@ router.get('/ratePark', function(req, res) {
 // dont need then function
 //get park page
 router.get('/', function(req, res) {
-	console.log('Get request for all parks');
-	console.log('params: ', req.query);
 	ParkQueue.find({})
 	.exec(function(err, ParkQueue){
 		if(err){
