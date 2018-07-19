@@ -40,7 +40,26 @@ var ParkQueue = module.exports = mongoose.model('parkqueues', ParkSchema);
 	 If not, add it to the queue
  */
 module.exports.addParkToQueue = function(newPark, callback) {
-   newPark.save(callback);
+	ParkQueue.findOne({
+		address : newPark.address
+	},
+	function(err, park) {
+		if (err)
+			throw err;
+
+		if (!park) {
+			var msg = "new park added";
+			newPark.save();
+			callback(null, msg, newPark);
+		}
+		else if (err) {
+			throw err;
+		}
+		else {
+			var msg = "park already exists";
+			callback(null, msg, park);
+		}
+	});
 }
 
 
