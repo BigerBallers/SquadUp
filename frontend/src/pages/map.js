@@ -39,25 +39,61 @@ class SimpleMap extends Component {
 
   }
 
- //part of fetching
+  //part of fetching
   componentDidMount(){
     this.getLocation();
   }
 
-getLocation(){
-  var msg; 
-  /** 
-  first, test for feature support
-  **/
-  if('geolocation' in navigator){
-    // geolocation is supported :)
-    this.requestLocation();
-  }else{
-    // no geolocation :(
-    msg = "Sorry, looks like your browser doesn't support geolocation";
-    console.log(msg); // output error message
+
+  handleSeach() {
+    // only can be clicked if radius is given
+    // as of know the radius is default 
+    this.searchParkInRadius(this.state.center, 10);
   }
-} // end getLocation()
+
+
+  // for now the variables are constants. 
+  // Want to let the user decide radius 
+  // and let google get the current location of user
+  // also want to seach by gategory
+  searchParkInRadius(center, radius){
+    consolelog('searching parks in radius: ', radius);
+    var lng = center.lng;
+    var lat = center.lat;
+    var url = new URL('http://localhost:8080/parks/getParksInRadius');
+    var params = {lat: lat, lng: lng, radius: radius}; // or:
+    url.search = new URLSearchParams(params)
+    fetch(url, {
+      method: 'get',
+      dataType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': sessionStorage.getItem('token'),
+      },
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => console.log('parsing failed', error))
+  }
+
+
+  getLocation(){
+    var msg; 
+    /** 
+    first, test for feature support
+    **/
+    if('geolocation' in navigator){
+      // geolocation is supported :)
+      this.requestLocation();
+    }else{
+      // no geolocation :(
+      msg = "Sorry, looks like your browser doesn't support geolocation";
+      console.log(msg); // output error message
+    }
+  } // end getLocation()
 
 /*** 
   requestLocation() returns a message, either the users coordinates, or an error message
