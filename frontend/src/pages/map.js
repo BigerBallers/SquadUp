@@ -97,7 +97,7 @@ getLocation(){
       console.log('center: ', center);
       console.log('state center: ', this.state.center);
 
-      this.setState({ center: this.center});
+      this.setState({ center: center});
     }
 
     // upon error, do this
@@ -106,6 +106,12 @@ getLocation(){
       console.log("Some Error: ", err);
     } 
 
+  _onChange = ({center, zoom}) => {
+    this.setState({
+      center: center,
+      zoom: zoom,      
+    });
+  }
 
 
   render() {
@@ -113,6 +119,7 @@ getLocation(){
       // Important! Always set the container height explicitly
       <div style={{ height: '100vh', width: '100%' }}>
         <GoogleMapReact
+          onChange={this._onChange}
           bootstrapURLKeys={{ key: 'AIzaSyBgne_-KxLx1Sbd2CHtT7EklGSPAyjXH5I' }}
           center={this.state.center}
           defaultZoom={this.state.zoom}
