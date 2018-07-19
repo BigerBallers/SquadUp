@@ -160,6 +160,7 @@ class Add_Park extends Component {
           </div>
           <div className="description">
             <textarea 
+            rows="6"
             cols="50"
             value={this.state.park_description}
             onChange={this.handleDescription.bind(this)}
