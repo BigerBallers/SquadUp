@@ -30,6 +30,7 @@ var ParkSchema = new Schema({
 
 	}
   /* add fields if neccessary */
+  /* probably have an Array that stores all the event id's at that park*/
 });
 
 
