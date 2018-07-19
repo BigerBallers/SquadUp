@@ -30,7 +30,7 @@ class SimpleMap extends Component {
       lat: 37.061093,
       lng: -97.038053
       },
-      zoom: 13
+      zoom: 4
     }
 
     this.getLocation=this.getLocation.bind(this);
@@ -46,7 +46,6 @@ class SimpleMap extends Component {
 
 getLocation(){
   var msg; 
-  console.log('state: ', this.state)
   /** 
   first, test for feature support
   **/
@@ -94,18 +93,20 @@ getLocation(){
         lng: lng
       };
       // and presto, we have the device's location!
-      console.log('center: ', center);
-      console.log('state center: ', this.state.center);
+      console.log('your coord: ', center);
 
       this.setState({ center: center});
+      this.setState({ zoom: 13});
+
     }
 
     // upon error, do this
     error(err){
       // return the error message
-      console.log("Some Error: ", err);
+      console.log("Error: ", err);
     } 
 
+/* if there is a change in coord, the map will update */
   _onChange = ({center, zoom}) => {
     this.setState({
       center: center,
@@ -122,7 +123,7 @@ getLocation(){
           onChange={this._onChange}
           bootstrapURLKeys={{ key: 'AIzaSyBgne_-KxLx1Sbd2CHtT7EklGSPAyjXH5I' }}
           center={this.state.center}
-          defaultZoom={this.state.zoom}
+          zoom={this.state.zoom}
         >
         <AnyReactComponent
           lat={36.97}
