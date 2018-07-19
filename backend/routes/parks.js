@@ -31,12 +31,11 @@ router.post('/addPark', function(req, res) {
 	});
 
 
-  ParkQueue.addParkToQueue(newPark, function(err, newPark){
+  ParkQueue.addParkToQueue(newPark, function(err, msg, park){
 		if (err) throw err;
-	 	console.log('park has been inserted', newPark);
 		var result = {
-		message : 'park has been added to queue',
-		park: newPark
+		msg : msg,
+		park: park
 	};
 		res.json(result);
 	});

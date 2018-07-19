@@ -67,10 +67,11 @@ class Add_Park extends Component {
   handleSubmit(event){
 
     const {park_name, park_location, selector, park_description}=this.state
-    alert("Park Name: "+this.state.park_name
-      +"\nPark Location: "+this.state.park_location
-      +"\nSports: "+this.state.selector+
-      "\nYou are all set!\n ");
+
+    // alert("Park Name: "+this.state.park_name
+    //   +"\nPark Location: "+this.state.park_location
+    //   +"\nSports: "+this.state.selector+
+    //   "\nYou are all set!\n ");
     //here an alert window is popped up
 
     this.convertGeo(this.state.park_location);   
@@ -159,7 +160,6 @@ class Add_Park extends Component {
           </div>
           <div className="description">
             <textarea 
-            rows="10"
             cols="50"
             value={this.state.park_description}
             onChange={this.handleDescription.bind(this)}
