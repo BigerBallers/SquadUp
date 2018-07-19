@@ -3,7 +3,7 @@ var router = express.Router();
 
 // Get Homepage
 router.get('/', function(req, res) {
-	res.send('Squad Up');
+	res.json('Squad Up');
 });
 
 

@@ -9,13 +9,13 @@ var { verifyToken } = require('../utils/token.utils');
 router.post('/addEvent',function(req, res) {
 
   var name = req.body.name;
-  var park_id = 'test';
+  var park_id = req.body.parkId;
   var start = req.body.start;
   var end = req.body.end;
   var sport = req.body.sport;
   var description = req.body.description;
   var max_people = req.body.max_people;
-  var attending = [1234];
+  var attending = [req.body.userId];
 
   var newEvent = new Event({
     name: name,
@@ -31,13 +31,8 @@ router.post('/addEvent',function(req, res) {
   Event.addEvent(newEvent, function(err, newEvent){
     if(err) throw err;
     console.log('event has been added', newEvent);
+    res.json(newEvent);
   });
-
-  var result = {
-    message : 'event has been added to db'
-  };
-
-  res.send(result);
 });
 
 
@@ -46,8 +41,15 @@ router.get('/getEventById', function(req, res) {
 	Event.getEventById(req.query.eventId, function(err, event){
 		if(err)
 			throw err;
-		res.send(event);
+		res.json(event);
 	})
+});
+
+
+/* given a user Id, he can join the event
+   if he is already attending, he shlouldnt be able to join*/
+router.post('/joinEvent', function(req, res) {
+  res.json("not implemented yet");
 });
 
 
@@ -57,7 +59,7 @@ router.get('/getEventById', function(req, res) {
 */
 router.get('/getUserAttendingEvents', function(req, res) {
 
-  res.send("not implemented yet");
+  res.json("not implemented yet");
 });
 
 
@@ -65,7 +67,7 @@ router.get('/getUserAttendingEvents', function(req, res) {
    given a park id
  */
 router.get('/getEventsAtPark', function(req, res) {
-  res.send("not implemented yet");
+  res.json("not implemented yet");
 });
 
 
