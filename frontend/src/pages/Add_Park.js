@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './Add_Park_Style.css';
 import Link from "gatsby-link";
 import Geocode from "react-geocode";
-import Select from 'react-select';
 
 Geocode.setApiKey("AIzaSyDAqgkDUgbqZuBZbDXkiaXubQWvdV3gYZg");  
 Geocode.enableDebug();
@@ -117,24 +116,23 @@ class Add_Park extends Component {
 
     return (
       <body>
+
+      <div className="total">
+        
         <div className="MyHeader">
           <h2>Add Park</h2>
-            <div className="back-button"> 
-             <Link to="/">
-              <button class="btn btn-info btn-lg" role="button">Back</button>
-             </Link> 
-             //Need to refresh after clicking, don't know why
-            </div>
+            
         </div>
 
         <div className="forms">
           <div className="ParkName">
             Park Name
           </div>
+          <div className="decoration"></div>
             <div className="name_field">
               <input value={this.state.park_name} 
               onChange={this.handleParknameChange.bind(this)} 
-              placeholder="e.g. Rucker Park?" 
+              placeholder="e.g. Rucker Park" 
               style={{width: "100%", height:"100%"}}
               required />
             </div>
@@ -150,8 +148,8 @@ class Add_Park extends Component {
               style={{width: "100%", height:"100%"}} required />
             </div>
           <div className="picker">
-            <select multiple={true} value={this.state.selector} onChange={this.handleSports} style={{width: "50%", height:"100%"}}>
-              <option value="" disabled selected>Which Sport?</option>
+            <select value={this.state.selector} onChange={this.handleSports} style={{width: "50%", height:"100%"}}> 
+              <option value="" disabled selected>Sport?</option>
               <option value="Basketball">Basketball</option>
               <option value="Soccer">Soccer</option>
               <option value="Frisbee">Frisbee</option>
@@ -160,15 +158,19 @@ class Add_Park extends Component {
             </select>
           </div>
           <div className="description">
-            <textarea value={this.state.park_description}
+            <textarea 
+            rows="10"
+            cols="50"
+            value={this.state.park_description}
             onChange={this.handleDescription.bind(this)}
-            placeholder="Tell us something!" required />
+            placeholder="Tell us something about the park!" 
+            required />
           </div>
           <div className="submit-button">
             <button onClick={this.handleSubmit} disabled={!enabled}>Submit</button>
           </div>
         </div>
-        
+      </div>
       </body>
       );
   }
