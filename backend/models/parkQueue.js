@@ -23,6 +23,9 @@ var ParkSchema = new Schema({
 		userID: Number,
     	stars: { type: Number, minimum: 1, maximum: 5 , exclusiveMaximum: false },
 	}],
+	event_id: [{
+		type: String
+	}],
 	geo: {
 		type: [Number],
 		index: '2dsphere',
@@ -100,14 +103,48 @@ module.exports.getParkInRadius = function(coord, radiusMiles, callback) {
 	query.exec(callback);
 }
 
-
-module.exports.getUserFollowedParks = function(parkIds, callback) {
-
+//input for now is a string of the following format:
+// "park_id","park_id", "park_id"
+module.exports.getMultipleParksbyId = function(parkIds, callback) {
+	console.log('getting multiple parks by ids');
+	var ids = parkIds.split(",");
+	for(i =0; i< ids.length; i++ ){
+		ids[i] = ids[i].replace(/^"(.*)"$/, '$1');
+		console.log("i is" , i,"id is", ids[i]);
+	}
+	ParkQueue.find({ "_id": { "$in": ids } })
+	.exec(function(err, parks){
+		if(err){
+			console.log("Error retrieving list of parks");
+			callback(err, null);
+		} else {
+			console.log("events are ", parks);
+			callback(null, parks);
+		}
+	})
 }
 
 
 module.exports.getParkByCategory = function(category, callback) {
-	
+	console.log('getting parks by category', category);
+	ParkQueue.find({ sports: category })
+	.exec(function(err, parkData){
+		if(err){
+			console.log("error retrieving park");
+			callback(err, null);
+		} else {
+			console.log(parkData);
+			callback(null, parkData);
+		}
+	})
+}
+
+module.exports.addEventPark = function(parkId, eventId, callback){
+  ParkQueue.update(
+    { _id: parkId },
+    { $push:  {event_id : eventId }},
+    callback
+  );
 }
 
 // write a module to check if the park exists

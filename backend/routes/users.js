@@ -12,6 +12,16 @@ var User = require('../models/user');
 
 var googleToken = passport.authenticate('google-token', {session: false});
 
+router.get('/', function(req, res) {
+	User.find({})
+	.exec(function(err, user){
+		if(err){
+			console.log("Error retrieving users");
+		} else {
+			res.json(user);
+		}
+	});
+});
 
 /* create account or login in if account is found*/
 router.post('/auth/google', googleToken, function(req, res, next) {
@@ -40,35 +50,29 @@ router.get('/getUserById', function(req, res) {
 
 /* should get all the events he is attending */
 router.get('/getEventsId', function(req, res) {
-  res.json("not implemented yet");
-  /*
-  User.getEvents(req.query.UserId, function (err, events) {
-    if (err)
-      throw err;
-    res.send(events);
-  });
-  */
+  User.getUserById(req.query.userId, function(err, user){
+		if(err)
+			throw err;
+		res.json(user.events);
+	})
 });
 
 
 /* get ll parks the user is attending */
-router.get('/getParksById', function (req, res) {
-  res.json("not implemented yet");
-  /*
-  User.getParks(req.query.userId, function (err, parks) {
-    if (err)
-      throw err;
-    res.json(parks);
-  });
-  */
+router.get('/getFollowedParksId', function (req, res) {
+  User.getUserById(req.query.userId, function(err, user){
+		if(err)
+			throw err;
+		res.json(user.followedParks);
+	})
 });
 
 
 router.post('/addEventById', function(req, res) {
-  User.addEvent(req.body.userId, req.body.eventId, function(err, response){
+  User.addEvent(req.query.userId, req.query.eventId, function(err, response){
     if(err)
       throw err;
-    console.log(response);
+    //console.log(response);
     var result = {
       ok: response.ok
     };
@@ -103,8 +107,8 @@ router.get('suggestedEvents', function(req, res) {
 router.get('/endorseUser', function(req, res) {
 
   /* create a json:
-    endorsment : {  currRating: Number,  
-                UserRate: [{user, score}] 
+    endorsment : {  currRating: Number,
+                UserRate: [{user, score}]
               }
   */
 });
