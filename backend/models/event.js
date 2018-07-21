@@ -37,6 +37,10 @@ var EventSchema = new Schema({
 	attending: {
 		type: Array,
 		"default" : []
+	},
+	host: {
+		type: String,
+		required: true
 	}
 });
 

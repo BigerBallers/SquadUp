@@ -17,6 +17,7 @@ router.post('/addEvent',function(req, res) {
   var max_people = req.body.max_people;
   var attending = [req.body.userId];
   var date = req.body.date;
+  var host = req.body.userId;
 
   var newEvent = new Event({
     name: name,
@@ -27,7 +28,8 @@ router.post('/addEvent',function(req, res) {
     description: description,
     max_people: max_people,
     attending: attending,
-    date: date
+    date: date,
+    host: userId
   });
 
   Event.addEvent(newEvent, function(err, newEvent){
