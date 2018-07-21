@@ -9,15 +9,15 @@ class Add_Event extends Component {
     
     this.state = { 
       event_name: '',
-      start: new Date(),
-      end: '',
+      start: '2017-06-01T08:30',
+      end: '2017-06-01T08:30',
       sport: '',
       description: '',
     }
     this.handleSubmit= this.handleSubmit.bind(this); 
     this.handleSports=this.handleSports.bind(this);
     this.handleDescription=this.handleDescription.bind(this);
-    // this.handleStartTime=this.handleStartTime.bind(this);
+    this.handleStartTime=this.handleStartTime.bind(this);
     this.handleEndTime=this.handleEndTime.bind(this);
 
   }
@@ -47,12 +47,11 @@ class Add_Event extends Component {
     	event_name: event.target.value
     })
   }
-  // handleStartTime(event){
-  // 	this.setState({
-  // 		start: event.target.value
-  // 	})
-  // }
-  onchange =start =>this.setState({start})
+  handleStartTime(event){
+  	this.setState({
+  		start: event.target.value
+  	})
+  }
   handleEndTime(event){
   	this.setState({
   		end: event.target.value
@@ -93,6 +92,7 @@ class Add_Event extends Component {
       description.length; //unable the sumbit button when no input
 
     return (
+      <body>
 
       <div className="total">
         
@@ -114,12 +114,20 @@ class Add_Event extends Component {
             </div>
 
             <div className="start_time">
-              <DateTimePicker 
-              onChange={this.onChange}
-              value={this.state.start} />
+              <input id="event_start" 
+              type="datetime-local" 
+              name="startdate" 
+              value={this.state.start}
+              onChange={this.handleStartTime} />
             </div>
 
-           
+            <div className="end_time">
+            	 <input id="event_end" 
+              type="datetime-local" 
+              name="enddate" 
+              value={this.state.end}
+              onChange={this.handleEndTime} />
+            </div>
 
 
           <div className="picker">
@@ -146,6 +154,7 @@ class Add_Event extends Component {
           </div>
         </div>
       </div>
+      </body>
       );
   }
 }
