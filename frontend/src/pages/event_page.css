@@ -1,0 +1,66 @@
+.centered-container {
+  display: flex;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+  box-align: center;
+  margin-left: 20%;
+  margin-right: 20%;
+  color: white;
+}
+
+.title {
+    font-size: 2rem;
+    line-height: 3rem;
+    margin-bottom: 1.5rem; 
+    text-align: center;
+  }
+
+.category {
+  font-size: 1.22rem;
+  line-height: 1.2rem;
+  margin-bottom: 1.75rem;
+  font-weight: 300; 
+  text-align: center;
+}
+
+
+.host-card {
+	position: center;
+  display: flex;
+  box-align: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.host-card-pic img{
+		position: center;
+
+	width: 10rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.host-card-title {
+  font-size: 2rem;
+
+
+}
+
+.host-card-name {
+  font-size: 1.5rem;
+}
+
+
+.description {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+ul { 
+	display:table; 
+	margin:0 auto;
+}
