@@ -1,16 +1,20 @@
 .centered-container {
-  display: flex;
-  margin: auto;
+
+
+  border: 3px solid white;
   text-align: center;
   font-family: arial;
   box-align: center;
-  margin-left: 20%;
-  margin-right: 20%;
+  padding-left: 20%;
+  padding-right: 20%;
   color: white;
+
 }
 
 .title {
-    font-size: 2rem;
+  font-family: Helvetica;
+  font-weight: 900;
+    font-size: 3rem;
     line-height: 3rem;
     margin-bottom: 1.5rem; 
     text-align: center;
@@ -27,7 +31,6 @@
 
 .host-card {
 	position: center;
-  display: flex;
   box-align: center;
   align-items: center;
   margin-left: auto;
@@ -35,7 +38,6 @@
 }
 
 .host-card-pic img{
-		position: center;
 
 	width: 10rem;
     display: block;

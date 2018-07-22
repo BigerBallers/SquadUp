@@ -17,7 +17,7 @@ class View_Event extends Component {
         <div className="centered-container">
 
           <div className="title">
-            <h1>3v3 Tornament</h1>
+            3v3 Tournament
           </div>
 
           <div className="category">
@@ -29,7 +29,7 @@ class View_Event extends Component {
               <h3> Hosted by: </h3>
             </div>
             <div className="host-card-pic">
-              <img src="/Users/zahiryahya/Pictures/Funny/Faces/internet-troll.png"/>
+              <img src="test.jpg" alt="test"/>
             </div>
             <div className="host-card-name">
               <h4> Zahir Yahya </h4>
