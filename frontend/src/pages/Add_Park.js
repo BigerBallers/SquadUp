@@ -148,7 +148,7 @@ class Add_Park extends Component {
               style={{width: "100%", height:"100%"}} required />
             </div>
           <div className="picker">
-            <select value={this.state.selector} onChange={this.handleSports} style={{width: "50%", height:"100%"}}> 
+            <select value={this.state.selector} onChange={this.handleSports} style={{width: "100%", height:"100%"}}> 
               <option value="" disabled selected>Sport?</option>
               <option value="Basketball">Basketball</option>
               <option value="Soccer">Soccer</option>
@@ -160,7 +160,7 @@ class Add_Park extends Component {
           <div className="description">
             <textarea 
             rows="6"
-            cols="50"
+            cols="53"
             value={this.state.park_description}
             onChange={this.handleDescription.bind(this)}
             placeholder="Tell us something about the park!" 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import './Add_Park_Style.css';
+import './Add_Event_Style.css';
 import DateTimePicker from 'react-datetime-picker'
 import Link from "gatsby-link";
 
@@ -9,8 +9,8 @@ class Add_Event extends Component {
     
     this.state = { 
       event_name: '',
-      start: '2017-06-01T08:30',
-      end: '2017-06-01T08:30',
+      start: '2018-01-01T08:30',
+      end: '2018-01-01T08:30',
       sport: '',
       description: '',
     }
@@ -94,18 +94,18 @@ class Add_Event extends Component {
     return (
       <body>
 
-      <div className="total">
+      <div className="eventTotal">
         
         <div className="MyHeader">
           <h2>Add Event</h2>
             
         </div>
 
-        <div className="forms">
+        <div className="event_forms">
         	<div className="EventName">
-            	Park Name
+            	Event Name
           	</div>
-          	<div className="name_field">
+          	<div className="event_name_field">
              	<input value={this.state.park_name} 
              	onChange={this.handleEventNameChange.bind(this)} 
              	placeholder="e.g. 5v5 Basketball" 
@@ -114,6 +114,7 @@ class Add_Event extends Component {
             </div>
 
             <div className="start_time">
+              Start Time:
               <input id="event_start" 
               type="datetime-local" 
               name="startdate" 
@@ -122,6 +123,7 @@ class Add_Event extends Component {
             </div>
 
             <div className="end_time">
+              End Time:
             	 <input id="event_end" 
               type="datetime-local" 
               name="enddate" 
@@ -130,8 +132,8 @@ class Add_Event extends Component {
             </div>
 
 
-          <div className="picker">
-            <select value={this.state.selector} onChange={this.handleSports} style={{width: "50%", height:"100%"}}> 
+          <div className="event_picker">
+            <select value={this.state.selector} onChange={this.handleSports} style={{width: "100%", height:"100%"}}> 
               <option value="" disabled selected>Sport?</option>
               <option value="Basketball">Basketball</option>
               <option value="Soccer">Soccer</option>
@@ -140,16 +142,16 @@ class Add_Event extends Component {
               <option value="Baseball">Baseball</option>
             </select>
           </div>
-          <div className="description">
+          <div className="event_description">
             <textarea 
             rows="6"
-            cols="50"
+            cols="53"
             value={this.state.park_description}
             onChange={this.handleDescription.bind(this)}
             placeholder="Tell us something about the event!" 
             required />
           </div>
-          <div className="submit-button">
+          <div className="event-submit-button">
             <button onClick={this.handleSubmit} disabled={!enabled}>Submit</button>
           </div>
         </div>
