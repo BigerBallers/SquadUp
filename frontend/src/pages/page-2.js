@@ -13,5 +13,7 @@ const SecondPage = () => (
 )
 
 console.log(sessionStorage.getItem("token"));
+var user = sessionStorage.getItem("account");
+console.log(user);
 
 export default SecondPage
