@@ -87,7 +87,7 @@ class IndexPage extends Component {
     let content = !!this.state.isAuthenticated ?
       (
         <div>
-          <p>Authenticated</p>
+
           <div>
             {this.state.user.email}
         </div>
