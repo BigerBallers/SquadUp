@@ -75,11 +75,7 @@ class IndexPage extends Component {
           this.setState({isAuthenticated: true, user, token});
           sessionStorage.setItem('token', token);
           sessionStorage.setItem('account', JSON.stringify(user));
-<<<<<<< HEAD
           sessionStorage.setItem('loggedIn', true);
-=======
-          sessionStorage.setItem('loggedIn', 'true');
->>>>>>> addEventView
         }
       });
     })
