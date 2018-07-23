@@ -10,6 +10,10 @@ var EventSchema = new Schema({
 		type: String,
 		required:true
 	},
+	date: {
+		type: String,
+		required: true
+	},
 	start: {
 		type: String,
 		required: true
@@ -33,6 +37,10 @@ var EventSchema = new Schema({
 	attending: {
 		type: Array,
 		"default" : []
+	},
+	host: {
+		type: String,
+		required: true
 	}
 });
 
