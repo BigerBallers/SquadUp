@@ -5,14 +5,12 @@ const Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
 
-  followedParks: {
-    type : Array,
-    "default" : []
-  },
-  events: {
-    type : Array,
-    "default" : []
-  },
+  followedParks: [{
+    type: String
+  }],
+  events: [{
+    type: String
+  }],
   endorsment: {
     type : Array,
     "default" : []
@@ -98,36 +96,20 @@ module.exports.getUserById = function(id, callback) {
 
 
 module.exports.addEvent = function (userId, eventId, callback) {
-  var tempEvent = {
-    eventID: eventId
-  };
   User.update(
     { _id: userId },
-    { $push:  {events : tempEvent }},
+    { $push:  {events : eventId }},
     callback
   );
 }
 
 
 module.exports.followPark = function (userId, parkId, callback) {
-  var tempPark = {
-    parkID: parkId
-  };
   User.update(
     { _id: userId },
-    { $push:  {followedParks : tempPark }},
+    { $push:  {followedParks : parkId }},
     callback
   );
-}
-
-
-module.exports.getEvents = function (userId, callback) {
-  //User.find();
-}
-
-
-module.exports.getParks = function (userId, callback) {
-  // User.find()
 }
 
 /* does nothing */

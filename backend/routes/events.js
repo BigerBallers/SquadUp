@@ -43,6 +43,17 @@ console.log('body: ', req.body);
   });
 });
 
+router.get('/', function(req, res) {
+	Event.find({})
+	.exec(function(err, events){
+		if(err){
+			console.log("Error retrieving events");
+		} else {
+			res.json(events);
+		}
+	});
+});
+
 
 //get event by id page
 router.get('/getEventById', function(req, res) {
@@ -53,11 +64,27 @@ router.get('/getEventById', function(req, res) {
 	})
 });
 
+router.get('/getMultipleEventsById', function(req, res) {
+	Event.getMultipleEventsByIds(req.query.eventIds, function(err, events){
+		if(err)
+			throw err;
+		res.json(events);
+	})
+});
+
 
 /* given a user Id, he can join the event
    if he is already attending, he shlouldnt be able to join*/
 router.post('/joinEvent', function(req, res) {
-  res.json("not implemented yet");
+  Event.joinEvent(req.query.eventId, req.query.userId, function(err, response){
+    if(err)
+      throw err;
+    //console.log(response);
+    var result = {
+      ok: response.ok
+    };
+    res.json(result);
+  })
 });
 
 
