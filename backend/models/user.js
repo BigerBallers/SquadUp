@@ -94,6 +94,27 @@ module.exports.getUserById = function(id, callback) {
 	})
 }
 
+//input for now is a string of the following format:
+// "user_id","user_id","user_id"
+module.exports.getMultipleUsersByIds = function(userIds, callback) {
+	console.log('getting multiple users by ids');
+  userIds = userIds.replace(/\s+/g, ''); //clear whitespace
+	var ids = userIds.split(","); //clear commas
+	for(i =0; i< ids.length; i++ ){
+		ids[i] = ids[i].replace(/^"(.*)"$/, '$1'); //clear quotes
+		console.log("i is" , i,"id is", ids[i]);
+	}
+	User.find({ "_id": { "$in": ids } })
+	.exec(function(err, users){
+		if(err){
+			console.log("Error retrieving list of users");
+			callback(err, null);
+		} else {
+			console.log("users are ", users);
+			callback(null, users);
+		}
+	})
+}
 
 module.exports.addEvent = function (userId, eventId, callback) {
   User.update(

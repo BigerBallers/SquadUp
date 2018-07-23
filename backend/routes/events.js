@@ -41,6 +41,7 @@ console.log('body: ', req.body);
     };
     res.json(result);
   });
+
 });
 
 router.get('/', function(req, res) {
@@ -61,6 +62,14 @@ router.get('/getEventById', function(req, res) {
 		if(err)
 			throw err;
 		res.json(event);
+	})
+});
+
+router.get('/getUsersAttendingEvent', function(req, res) {
+  Event.getEventById(req.query.eventId, function(err, event){
+		if(err)
+			throw err;
+		res.json(event.attending);
 	})
 });
 
@@ -88,38 +97,12 @@ router.post('/joinEvent', function(req, res) {
 });
 
 
-
-/* gets the user followed parks in one search query
-    given an array of event Id's
-*/
-router.get('/getUserAttendingEvents', function(req, res) {
-
-  res.json("not implemented yet");
-});
-
-
 /* gets all the events at park
    given a park id
  */
 router.get('/getEventsAtPark', function(req, res) {
   res.json("not implemented yet");
 });
-
-
-/*
-//get event page dont actually need this function
-router.get('/', function(req, res) {
-  console.log('Get request for events');
-  Event.find({})
-  .exec(function(err, Event){
-    if(err){
-      console.log("Error retrieving events");
-    } else {
-      res.json(Event);
-    }
-  });
-});
-*/
 
 
 function checkAuthentication(req,res,next){

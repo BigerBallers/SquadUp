@@ -50,12 +50,6 @@ module.exports.addEvent = function(event, callback) {
 	event.save(callback);
 }
 
-/* get events user is attending
-	 eventIds is an array of ids
- */
-module.exports.getUserAttendingEvents = function(eventIds, callback) {
-
-}
 
 
 
@@ -88,9 +82,10 @@ module.exports.joinEvent = function (eventId, userId, callback) {
 }
 
 //input for now is a string of the following format:
-// "event_id","event_id", "event_id"
+// "event_id","event_id","event_id"(no spaces)
 module.exports.getMultipleEventsByIds = function(eventIds, callback) {
 	console.log('getting multiple events by ids');
+	eventIds = eventIds.replace(/\s+/g, ''); //clear whitespace
 	var ids = eventIds.split(",");
 	for(i =0; i< ids.length; i++ ){
 		ids[i] = ids[i].replace(/^"(.*)"$/, '$1');
