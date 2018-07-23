@@ -1,31 +1,24 @@
 @import 'https://fonts.googleapis.com/css?family=Abril+Fatface|Roboto';
 .App {
-    position: absolute;
+
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
     font-family: 'Roboto';
-    display: flex; }
+}
 @media screen and (max-width: 980px) {
     .App {
         flex-direction: column; } }
-.App .Image {
-    width: 50vw;
-    position: relative;
-    background-size: cover;
-    background-position: center; }
+
 @media screen and (max-width: 980px) {
     .App .Image {
         width: 100vw;
-        height: 70vh; } }
+        height: 70vh; }
+}
 .App .Profile {
     position: center;
-    padding-top: 20vw;
-    padding-right: 35vw;
+    margin-top: 20px;
+    margin-right: 20pm;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
     color: #FFFFFF; }
 @media screen and (max-width: 980px) {
     .App .Profile {
@@ -54,3 +47,9 @@
     font-size: 16px;
     font-style: italic;
     opacity: .25; }
+#account_picture{
+    width: 20%;
+    height: 20%;
+    padding-top: 20px;
+    border-radius: 50%;
+}
