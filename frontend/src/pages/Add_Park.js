@@ -67,6 +67,7 @@ class Add_Park extends Component {
   handleSubmit(event){
 
     const {park_name, park_location, selector, park_description}=this.state
+
     // alert("Park Name: "+this.state.park_name
     //   +"\nPark Location: "+this.state.park_location
     //   +"\nSports: "+this.state.selector+

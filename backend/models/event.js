@@ -10,6 +10,10 @@ var EventSchema = new Schema({
 		type: String,
 		required:true
 	},
+	date: {
+		type: String,
+		required: true
+	},
 	start: {
 		type: String,
 		required: true
@@ -30,14 +34,22 @@ var EventSchema = new Schema({
 		type: Number,
 		required: true
 	},
-	attending: [{
-		type: String
-	}]
+	attending: {
+		type: Array,
+		"default" : []
+	},
+	host: {
+		type: String,
+		required: true
+	}
 });
 
 
 var Event = module.exports = mongoose.model('events', EventSchema);
 
+/* also make it so that the user who created it is automatically insterted
+		added to the envent list
+	*/
 module.exports.addEvent = function(event, callback) {
 	event.save(callback);
 }
@@ -56,7 +68,7 @@ module.exports.getUserAttendingEvents = function(eventIds, callback) {
    Note: Probably wont need this function
  */
 module.exports.getEventsAtPark = function (parkId, callback) {
-
+	
 }
 
 

@@ -37,7 +37,7 @@ router.post('/addPark', function(req, res) {
 		msg : msg,
 		park: park
 	};
-		res.send(result);
+		res.json(result);
 	});
 });
 
@@ -47,13 +47,13 @@ router.get('/getParkById', function(req, res) {
 	ParkQueue.getParkById(req.query.id, function(err, park){
 		if(err)
 			throw err;
-		res.send(park);
+		res.json(park);
 	})
 });
 
 
 //get parks in a given radius 
-router.get('/getParksInRadius/', function(req, res) {
+router.get('/getParksInRadius', function(req, res) {
 
 	var lng = Number(req.query.lng);
 	var lat = Number(req.query.lat);
@@ -65,24 +65,28 @@ router.get('/getParksInRadius/', function(req, res) {
 	ParkQueue.getParkInRadius(coord, radius, function(err, parks){
 		if(err)
 			throw err;
-		res.send(parks);
+		res.json(parks);
 	})
 });
 
 
 router.get('/getUserFollowedParks', function(req, res) {
-	res.send("not yet implemented");
+	res.json("not yet implemented");
 });
 
 
 router.get('/getParkByCategory', function(req, res) {
-	res.send("not yet implemneted");
+	res.json("not yet implemneted");
+});
+
+router.get('/test', function( req, res) {
+	res.json("test get route and variables");
 });
 
 
 /*needs to be implemented and tested*/
 router.get('/ratePark', function(req, res) {
-	res.send('not yet implemented');
+	res.json('not yet implemented');
 	/* create a json:
 		rating : {  currRating: Number,  
 								UserRate: [{user, score}] 
@@ -91,10 +95,9 @@ router.get('/ratePark', function(req, res) {
 });
 
 
-/* dont need then function
+// dont need then function
 //get park page
 router.get('/', function(req, res) {
-	console.log('Get request for all parks');
 	ParkQueue.find({})
 	.exec(function(err, ParkQueue){
 		if(err){
@@ -104,14 +107,13 @@ router.get('/', function(req, res) {
 		}
 	});
 });
-*/
 
 
 function checkAuthentication(req,res,next){
  	var token = req.body.token || req.query.token || req.headers['x-access-token'];
  	// if no token return
 	if (!token) {
-		return res.status(400).send({
+		return res.status(400).json({
 	    	success: false,
 	    	message: 'No token provided.',
     	});
@@ -120,7 +122,7 @@ function checkAuthentication(req,res,next){
     var result = verifyToken(token);
     // if expired/failed
     if (!result.success)
-    	return res.status(401).send(result);
+    	return res.status(401).json(result);
     next();
 }
 

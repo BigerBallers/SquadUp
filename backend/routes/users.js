@@ -26,7 +26,7 @@ router.post('/auth/google', googleToken, function(req, res, next) {
 
 
 router.post('/test', function(req, res) {
-	res.send({ express: 'Hello From Express' });
+	res.json({ express: 'Hello From Express' });
 });
 
 //get user by id page
@@ -34,13 +34,13 @@ router.get('/getUserById', function(req, res) {
 	User.getUserById(req.query.userId, function(err, user){
 		if(err)
 			throw err;
-		res.send(user);
+		res.json(user);
 	})
 });
 
 /* should get all the events he is attending */
 router.get('/getEventsId', function(req, res) {
-  res.send("not implemented yet");
+  res.json("not implemented yet");
   /*
   User.getEvents(req.query.UserId, function (err, events) {
     if (err)
@@ -53,12 +53,12 @@ router.get('/getEventsId', function(req, res) {
 
 /* get ll parks the user is attending */
 router.get('/getParksById', function (req, res) {
-  res.send("not implemented yet");
+  res.json("not implemented yet");
   /*
   User.getParks(req.query.userId, function (err, parks) {
     if (err)
       throw err;
-    res.send(parks);
+    res.json(parks);
   });
   */
 });
@@ -72,9 +72,10 @@ router.post('/addEventById', function(req, res) {
     var result = {
       ok: response.ok
     };
-    res.send(result);
+    res.json(result);
   })
 });
+
 
 router.post('/followParkById', function(req, res) {
   User.followPark(req.body.userId, req.body.parkId, function(err, response){
@@ -84,7 +85,7 @@ router.post('/followParkById', function(req, res) {
     var result = {
       ok: response.ok
     };
-    res.send(result);
+    res.json(result);
   })
 });
 

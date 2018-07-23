@@ -12,6 +12,7 @@
     "rc-time-picker": "^3.3.1",
     "react-datetime-picker": "^1.4.1",
     "react-geocode": "0.0.9",
+    "react-geolocated": "^2.4.0",
     "react-google-login": "^3.2.1",
     "react-google-maps": "^9.4.5",
     "react-helmet": "^5.2.0",

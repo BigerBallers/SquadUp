@@ -47,7 +47,6 @@ UserSchema.set('toJSON', {getters: true, virtuals: true});
 
 UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profile, cb) {
   var that = this;
-  console.log("profile: ", profile);
   return this.findOne({
     'googleProvider.id': profile.id
     },
@@ -64,8 +63,6 @@ UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profil
             email: profile._json.email,
           }
         });
-
-        console.log("new user: ", newUser);
 
         newUser.save(function(error, savedUser) {
           if (error) {
