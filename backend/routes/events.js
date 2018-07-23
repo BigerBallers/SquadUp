@@ -9,15 +9,13 @@ var { verifyToken } = require('../utils/token.utils');
 router.post('/addEvent',function(req, res) {
 
   var name = req.body.name;
-  var park_id = req.body.parkId;
+  var park_id = req.body.park_id;
   var start = req.body.start;
   var end = req.body.end;
   var sport = req.body.sport;
   var description = req.body.description;
   var max_people = req.body.max_people;
   var attending = [req.body.userId];
-  var date = req.body.date;
-  var host = req.body.userId;
 
   var newEvent = new Event({
     name: name,
@@ -27,9 +25,7 @@ router.post('/addEvent',function(req, res) {
     sport: sport,
     description: description,
     max_people: max_people,
-    attending: attending,
-    date: date,
-    host: userId
+    attending: attending
   });
 
   Event.addEvent(newEvent, function(err, newEvent){
@@ -37,6 +33,17 @@ router.post('/addEvent',function(req, res) {
     console.log('event has been added', newEvent);
     res.json(newEvent);
   });
+});
+
+router.get('/', function(req, res) {
+	Event.find({})
+	.exec(function(err, events){
+		if(err){
+			console.log("Error retrieving events");
+		} else {
+			res.json(events);
+		}
+	});
 });
 
 
@@ -49,11 +56,27 @@ router.get('/getEventById', function(req, res) {
 	})
 });
 
+router.get('/getMultipleEventsById', function(req, res) {
+	Event.getMultipleEventsByIds(req.query.eventIds, function(err, events){
+		if(err)
+			throw err;
+		res.json(events);
+	})
+});
+
 
 /* given a user Id, he can join the event
    if he is already attending, he shlouldnt be able to join*/
 router.post('/joinEvent', function(req, res) {
-  res.json("not implemented yet");
+  Event.joinEvent(req.query.eventId, req.query.userId, function(err, response){
+    if(err)
+      throw err;
+    //console.log(response);
+    var result = {
+      ok: response.ok
+    };
+    res.json(result);
+  })
 });
 
 
