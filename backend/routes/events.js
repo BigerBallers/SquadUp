@@ -8,8 +8,6 @@ var { verifyToken } = require('../utils/token.utils');
 
 router.post('/addEvent',function(req, res) {
 
-console.log('body: ', req.body);
-
   var name = req.body.name;
   var park_id = req.body.park_id;
   var start = req.body.start;
@@ -34,7 +32,7 @@ console.log('body: ', req.body);
 
   Event.addEvent(newEvent, function(err, newEvent){
     if(err) throw err;
-    console.log('event has been added', newEvent);
+    console.log('event has been added to database', newEvent);
     result = {
       status: "success",
       newEvent: newEvent
