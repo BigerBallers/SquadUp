@@ -48,6 +48,14 @@ router.get('/getUserById', function(req, res) {
 	})
 });
 
+router.get('/getMultipleUsersById', function(req, res) {
+	User.getMultipleUsersByIds(req.query.userIds, function(err, users){
+		if(err)
+			throw err;
+		res.json(users);
+	})
+});
+
 /* should get all the events he is attending */
 router.get('/getEventsId', function(req, res) {
   User.getUserById(req.query.userId, function(err, user){

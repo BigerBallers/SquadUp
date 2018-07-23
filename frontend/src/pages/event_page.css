@@ -1,0 +1,70 @@
+.centered-container {
+
+
+  border: 3px solid white;
+  text-align: center;
+  font-family: arial;
+  box-align: center;
+  padding-left: 20%;
+  padding-right: 20%;
+  color: black;
+  background-color: white;
+  opacity: .8;
+
+}
+
+.title {
+  font-family: Helvetica;
+  font-weight: 900;
+    font-size: 3rem;
+    line-height: 3rem;
+    margin-bottom: 1.5rem; 
+    text-align: center;
+  }
+
+.category {
+  font-size: 1.22rem;
+  line-height: 1.2rem;
+  margin-bottom: 1.75rem;
+  font-weight: 300; 
+  text-align: center;
+}
+
+
+.host-card {
+	position: center;
+  box-align: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.host-card-pic img{
+
+	width: 10rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.host-card-title {
+  font-size: 2rem;
+
+
+}
+
+.host-card-name {
+  font-size: 1.5rem;
+}
+
+
+.description {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+ul { 
+	display:table; 
+	margin:0 auto;
+}
