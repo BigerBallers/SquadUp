@@ -9,15 +9,13 @@ var { verifyToken } = require('../utils/token.utils');
 router.post('/addEvent',function(req, res) {
 
   var name = req.body.name;
-  var park_id = req.body.parkId;
+  var park_id = req.body.park_id;
   var start = req.body.start;
   var end = req.body.end;
   var sport = req.body.sport;
   var description = req.body.description;
   var max_people = req.body.max_people;
   var attending = [req.body.userId];
-  var date = req.body.date;
-  var host = req.body.userId;
 
   var newEvent = new Event({
     name: name,
@@ -27,9 +25,7 @@ router.post('/addEvent',function(req, res) {
     sport: sport,
     description: description,
     max_people: max_people,
-    attending: attending,
-    date: date,
-    host: userId
+    attending: attending
   });
 
   Event.addEvent(newEvent, function(err, newEvent){
@@ -39,6 +35,17 @@ router.post('/addEvent',function(req, res) {
   });
 });
 
+router.get('/', function(req, res) {
+	Event.find({})
+	.exec(function(err, events){
+		if(err){
+			console.log("Error retrieving events");
+		} else {
+			res.json(events);
+		}
+	});
+});
+
 
 //get event by id page
 router.get('/getEventById', function(req, res) {
@@ -46,6 +53,14 @@ router.get('/getEventById', function(req, res) {
 		if(err)
 			throw err;
 		res.json(event);
+	})
+});
+
+router.get('/getMultipleEventsById', function(req, res) {
+	Event.getMultipleEventsByIds(req.query.eventIds, function(err, events){
+		if(err)
+			throw err;
+		res.json(events);
 	})
 });
 
