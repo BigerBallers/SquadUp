@@ -105,9 +105,6 @@ module.exports.addEvent = function (userId, eventId, callback) {
 
 
 module.exports.followPark = function (userId, parkId, callback) {
-  var tempPark = {
-    parkID: parkId
-  };
   User.update(
     { _id: userId },
     { $push:  {followedParks : parkId }},

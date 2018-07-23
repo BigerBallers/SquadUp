@@ -82,7 +82,7 @@ router.post('/addEventById', function(req, res) {
 
 
 router.post('/followParkById', function(req, res) {
-  User.followPark(req.body.userId, req.body.parkId, function(err, response){
+  User.followPark(req.query.userId, req.query.parkId, function(err, response){
     if(err)
       throw err;
     console.log(response);
