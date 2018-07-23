@@ -8,6 +8,7 @@ const SecondPage = () => (
     <p>Welcome to page 2</p>
     <Link to="/">Go back to the homepage</Link><br/>
     <Link to="/Add_Park/">Go to the add park page</Link><br/>
+    <Link to="/Add_Event/">Go to the add event page</Link><br/>
     <Link to="/map">Go to map</Link>
   </div>
 )
