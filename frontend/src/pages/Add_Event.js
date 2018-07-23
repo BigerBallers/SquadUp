@@ -12,8 +12,11 @@ class Add_Event extends Component {
       start: '2018-01-01T08:30',
       end: '2018-01-01T08:30',
       sport: '',
+      max_people: 0,
       description: '',
     }
+
+    //bind the functions
     this.handleSubmit= this.handleSubmit.bind(this); 
     this.handleSports=this.handleSports.bind(this);
     this.handleDescription=this.handleDescription.bind(this);
@@ -43,7 +46,7 @@ class Add_Event extends Component {
       sport: this.state.sport,
       description: this.state.description,
       host: String(user.id),
-      max_people: 10//this.state.max_people
+      max_people: this.state.max_people
     }
 
     fetch('http://localhost:8080/events/addEvent', {
@@ -124,6 +127,11 @@ updateUserEvents(eventId) {
     	sport: event.target.value
     })
   }
+  handleMaxPeople(event){
+    this.setState({
+      max_people: event.target.value
+    })
+  }
   handleDescription(event){
     this.setState({
     	description: event.target.value
@@ -133,26 +141,28 @@ updateUserEvents(eventId) {
   handleSubmit(event){
 
   this.sendEventData();
-
-
-    const {event_name, start, end, sport, description}=this.state
+    const {event_name, start, end, sport, max_people, description}=this.state
 
     alert("Event Name: "+this.state.event_name
       +"\nStart Time: "+this.state.start
       +"\nEnd Time: "+this.state.end
-      +"\nSports: "+this.state.sport+
-      "\nYou are all set!\n ");
+      +"\nSports: "+this.state.sport
+      +"\nMax People: "+this.state.max_people
+      +"\nYou are all set!\n ");
     //here an alert window is popped up
   }
 
   render(){
-    const {event_name, start, end, sport, description}=this.state
+    const {event_name, start, end, sport, max_people, description}=this.state
     const enabled= 
       event_name.length > 0 &&
       start.length>0 && 
       end.length>0 &&
       sport.length &&
-      description.length; //unable the sumbit button when no input
+      max_people>0 &&
+      max_people%1==0 &&
+      description.length>0; //unable the sumbit button when no input, or max people
+                            //is not valid
 
     return (
       <body>
@@ -196,7 +206,7 @@ updateUserEvents(eventId) {
 
 
           <div className="event_picker">
-            <select value={this.state.selector} onChange={this.handleSports} style={{width: "100%", height:"100%"}}> 
+            <select value={this.state.selector} onChange={this.handleSports} style={{width: "45%", height:"100%"}}> 
               <option value="" disabled selected>Sport?</option>
               <option value="Basketball">Basketball</option>
               <option value="Soccer">Soccer</option>
@@ -204,6 +214,14 @@ updateUserEvents(eventId) {
               <option value="Football">Football</option>
               <option value="Baseball">Baseball</option>
             </select>
+
+            <input 
+              type="number"
+              value={this.state.max_people} 
+              onChange={this.handleMaxPeople.bind(this)} 
+              placeholder="Max People?" 
+              style={{width: "45%", height:"100%"}}
+              required />
           </div>
           <div className="event_description">
             <textarea 
