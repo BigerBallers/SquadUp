@@ -44,15 +44,24 @@ router.post('/addPark', function(req, res) {
 
 //get park by id page
 router.get('/getParkById', function(req, res) {
-	ParkQueue.getParkById(req.query.id, function(err, park){
+	ParkQueue.getParkById(req.query.parkId, function(err, park){
 		if(err)
 			throw err;
 		res.json(park);
 	})
 });
 
+//get park by id page
+router.get('/getParkEvents', function(req, res) {
+	ParkQueue.getParkById(req.query.parkId, function(err, park){
+		if(err)
+			throw err;
+		res.json(park.event_id);
+	})
+});
 
-//get parks in a given radius 
+
+//get parks in a given radius
 router.get('/getParksInRadius', function(req, res) {
 
 	var lng = Number(req.query.lng);
@@ -61,7 +70,7 @@ router.get('/getParksInRadius', function(req, res) {
 
 	var coord = [lng, lat];
 	var radius = radius;
-	
+
 	ParkQueue.getParkInRadius(coord, radius, function(err, parks){
 		if(err)
 			throw err;
@@ -70,13 +79,20 @@ router.get('/getParksInRadius', function(req, res) {
 });
 
 
-router.get('/getUserFollowedParks', function(req, res) {
-	res.json("not yet implemented");
+router.get('/getMultipleParksbyId', function(req, res) {
+	ParkQueue.getMultipleParksbyId(req.query.parkIds, function(err, parks){
+		if(err)
+			throw err;
+		res.json(parks);
+	})
 });
 
-
 router.get('/getParkByCategory', function(req, res) {
-	res.json("not yet implemneted");
+	ParkQueue.getParkByCategory(req.query.category, function(err, parkData){
+		if(err)
+			throw err;
+		res.send(parkData);
+	})
 });
 
 router.get('/test', function( req, res) {
@@ -88,8 +104,8 @@ router.get('/test', function( req, res) {
 router.get('/ratePark', function(req, res) {
 	res.json('not yet implemented');
 	/* create a json:
-		rating : {  currRating: Number,  
-								UserRate: [{user, score}] 
+		rating : {  currRating: Number,
+								UserRate: [{user, score}]
 							}
 	*/
 });
@@ -106,6 +122,18 @@ router.get('/', function(req, res) {
 			res.json(ParkQueue);
 		}
 	});
+});
+
+router.post('/addEventPark', function(req, res) {
+  ParkQueue.addEventPark(req.query.parkId, req.query.eventId, function(err, response){
+    if(err)
+      throw err;
+    console.log(response);
+    var result = {
+      ok: response.ok
+    };
+    res.json(result);
+  })
 });
 
 
