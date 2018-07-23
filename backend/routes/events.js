@@ -68,7 +68,15 @@ router.get('/getMultipleEventsById', function(req, res) {
 /* given a user Id, he can join the event
    if he is already attending, he shlouldnt be able to join*/
 router.post('/joinEvent', function(req, res) {
-  res.json("not implemented yet");
+  Event.joinEvent(req.query.eventId, req.query.userId, function(err, response){
+    if(err)
+      throw err;
+    //console.log(response);
+    var result = {
+      ok: response.ok
+    };
+    res.json(result);
+  })
 });
 
 

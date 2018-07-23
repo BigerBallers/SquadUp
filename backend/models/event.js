@@ -75,6 +75,14 @@ module.exports.getEventById = function(id, callback) {
 	})
 }
 
+module.exports.joinEvent = function (eventId, userId, callback) {
+	Event.update(
+		{_id: eventId },
+		{ $push: {attending : userId }},
+		callback
+	);
+}
+
 //input for now is a string of the following format:
 // "event_id","event_id", "event_id"
 module.exports.getMultipleEventsByIds = function(eventIds, callback) {
