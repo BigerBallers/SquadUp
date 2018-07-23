@@ -19,26 +19,88 @@ class Add_Event extends Component {
     this.handleDescription=this.handleDescription.bind(this);
     this.handleStartTime=this.handleStartTime.bind(this);
     this.handleEndTime=this.handleEndTime.bind(this);
-
   }
 
-  // sendParkData(data){
-  //   fetch('http://localhost:8080/parks/addPark', {
-  //     method: 'POST',
-  //     dataType: 'json',
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json',
-  //       'Authorization': sessionStorage.getItem('token')
-  //     },
-  //     body: JSON.stringify(data)
-  //   })
-  //   .then(response => response.json())
-  //   .then(response => {
-  //     console.log(response);
-  //   })
-  //   .catch(error => console.log('parsing failed', error))
-  // }
+  componentDidMount() {
+    var user = sessionStorage.getItem('account');
+    user = JSON.parse(user);
+    console.log('user: ', user);
+    console.log('userid: ', user.id);
+  }
+
+  sendEventData(){
+
+    var user = sessionStorage.getItem('account');
+    user = JSON.parse(user);
+
+    console.log(user);
+
+    var data = {
+      name: this.state.event_name,
+      park_id: '5b561fcb33132e4076c2957c', //sessionStorage.getItem('park_id'),
+      start: this.state.start,
+      end: this.state.end,
+      sport: this.state.sport,
+      description: this.state.description,
+      host: String(user.id),
+      max_people: 10//this.state.max_people
+    }
+
+    fetch('http://localhost:8080/events/addEvent', {
+      method: 'POST',
+      dataType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': sessionStorage.getItem('token')
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+      // after the event has been added to db, the event should be added to user list
+      if (response.status == 'failed') {
+      //cannot add event to database
+      }
+      else {
+        console.log('new event: ', response.newEvent._id)
+        this.updateUserEvents(response.newEvent._id);
+      }
+    })
+    .catch(error => console.log('parsing failed', error))
+  }
+
+
+
+updateUserEvents(eventId) {
+  console.log('adding event to user list');
+  var user = sessionStorage.getItem('account');
+  user = JSON.parse(user);
+  
+  var data = {
+    userId: user.id,
+    eventId: eventId
+  };
+
+  console.log(data);
+
+  fetch('http://localhost:8080/users/addEventById', {
+    method: 'POST',
+    dataType: 'json',
+          headers: {
+            'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': sessionStorage.getItem('token')
+          },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(response => {
+    if (response.status == 'success')
+      console.log('event added to users event List')
+  })
+}
   
 
   //functions/methods that receive inputs
@@ -70,6 +132,9 @@ class Add_Event extends Component {
 
   handleSubmit(event){
 
+  this.sendEventData();
+
+
     const {event_name, start, end, sport, description}=this.state
 
     alert("Event Name: "+this.state.event_name
@@ -78,8 +143,6 @@ class Add_Event extends Component {
       +"\nSports: "+this.state.sport+
       "\nYou are all set!\n ");
     //here an alert window is popped up
-
- 
   }
 
   render(){

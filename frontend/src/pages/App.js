@@ -5,7 +5,7 @@ import { GoogleLogin } from 'react-google-login';
 import config from './config.json';
 import Link from "gatsby-link";
 
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {

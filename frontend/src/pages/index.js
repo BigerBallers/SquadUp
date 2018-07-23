@@ -7,7 +7,7 @@ import Link from "gatsby-link";
 import { Redirect } from 'react-router-dom';
 
 
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 
 
@@ -92,7 +92,7 @@ class IndexPage extends Component {
           // should globally save the users access token and account info
           this.setState({isAuthenticated: true, user, token});
           sessionStorage.setItem('token', token);
-          sessionStorage.setItem('account', user);
+          sessionStorage.setItem('account', JSON.stringify(user));
           sessionStorage.setItem('loggedIn', 'true');
         }
       });
