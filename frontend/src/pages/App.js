@@ -5,7 +5,7 @@ import { GoogleLogin } from 'react-google-login';
 import config from './config.json';
 import Link from "gatsby-link";
 
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -32,31 +32,8 @@ class App extends Component {
   
   //part of fetching
   componentDidMount(){
-    //this.fetchData();
   }
  
-
- //fetches park data
- // when fetching for data, want to use header: Authentication with token 
-  fetchData(){
-    fetch('http://localhost:8080/users/test', {
-      method: 'get',
-      dataType: 'json',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': this.state.token,
-        'x-access-token': this.state.token
-      }
-    })
-    .then(response => response.json())
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => console.log('parsing failed', error))
-
-    this.fetchData();
-  }
 
   // calls backend and sends google response ie email and account number
   googleResponse = (response) => {
@@ -72,6 +49,8 @@ class App extends Component {
       r.json().then(user => {
         if (token) {
           this.setState({isAuthenticated: true, user, token})
+          sessionStorage.setItem('user', user);
+          sessionStorage.setItem('token', token);
         }
       });
     })

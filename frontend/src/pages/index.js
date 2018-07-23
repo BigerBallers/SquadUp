@@ -7,7 +7,7 @@ import Link from "gatsby-link";
 import { Redirect } from 'react-router-dom';
 
 
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 
 
@@ -53,26 +53,6 @@ class IndexPage extends Component {
 
   //part of fetching
   componentDidMount(){
-    this.fetchData();
-  }
-
-
- //fetches park data from db. should not work at first because no access token
-  fetchData(){
-    fetch('http://localhost:8080/parks', {
-      method: 'get',
-      dataType: 'json',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': sessionStorage.getItem('token')
-      }
-    })
-    .then(response => response.json())
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => console.log('parsing failed', error))
   }
 
 
@@ -88,13 +68,15 @@ class IndexPage extends Component {
     fetch('http://localhost:8080/users/auth/google', options).then(r => {
       const token = r.headers.get('x-auth-token');
       r.json().then(user => {
-        if (token) {
-          // should globally save the users access token and account info
-          this.setState({isAuthenticated: true, user, token});
-          sessionStorage.setItem('token', token);
-          sessionStorage.setItem('account', JSON.stringify(user));
-          sessionStorage.setItem('loggedIn', 'true');
-        }
+        console.log(user.googleProvider)
+
+          if (token) {
+              // should globally save the users access token and account info
+              this.setState({isAuthenticated: true, user, token});
+              sessionStorage.setItem('token', token);
+              sessionStorage.setItem('account', JSON.stringify(user));
+              sessionStorage.setItem('loggedIn', true);
+          }
       });
     })
   };

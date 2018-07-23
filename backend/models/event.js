@@ -33,6 +33,10 @@ var EventSchema = new Schema({
 	attending: {
 		type: Array,
 		"default" : []
+	},
+	host_id: {
+		type: String,
+		required: true
 	}
 });
 
@@ -73,6 +77,14 @@ module.exports.getEventById = function(id, callback) {
 			callback(null, event);
 		}
 	})
+}
+
+module.exports.joinEvent = function (eventId, userId, callback) {
+	Event.update(
+		{_id: eventId },
+		{ $push: {attending : userId }},
+		callback
+	);
 }
 
 //input for now is a string of the following format:
