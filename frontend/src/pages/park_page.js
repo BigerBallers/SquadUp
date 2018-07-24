@@ -34,6 +34,7 @@ class ParkPage extends Component {
     center: {},
     zoom: 16
   };
+
   constructor(props) { //constructor of props and states
     super(props)
     this.state = {
@@ -61,8 +62,10 @@ class ParkPage extends Component {
   }
 
   getEventsByID(arrayOfIDs){
-    var url = new URL('http://localhost:8080/events/getEventByID');
-    var params = {eventid: arrayOfIDs};
+    console.log('ids: ', arrayOfIDs)
+
+    var url = new URL('http://localhost:8080/events/getMultipleEventsById');
+    var params = {eventIds: arrayOfIDs};
     url.search = new URLSearchParams(params)
     fetch(url, {
       method: 'get',
@@ -75,15 +78,23 @@ class ParkPage extends Component {
     })
     .then(response => response.json())
     .then(response => {
-      if(response != null){
-        this.setState({isNull: false})
-        this.setState({eventsAtPark: response})
+      console.log('response: ', response);
+      if (response == []) {
+        this.setState({
+          isNull: true
+        }) 
       }
-
-      console.log(this.state.isNull)
-      console.log(this.state.eventsAtPark)
+      else {
+        console.log('array isnt empty')
+        this.setState({
+          isNull: true
+        }) 
+        this.setState({
+          eventsAtPark: response
+        })
+        }    
     })
-    .catch(error => console.log('parsing failed', error))
+    .catch(error => console.log('parsing failed. Error: ', error))
   }
 
 
