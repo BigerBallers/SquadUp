@@ -52,6 +52,7 @@ class ParkPage extends Component {
     this.getParkInfo()
     this.setCenter()
     this.getEventsByID(this.state.parkInfo.event_id)
+    //this.getFollwedParks();
   }
 
   setCenter(){
@@ -96,6 +97,32 @@ class ParkPage extends Component {
     })
     .catch(error => console.log('parsing failed. Error: ', error))
   }
+
+
+  getFollwedParks() {
+    var user = sessionStorage.getItem('account');
+    user = JSON.parse(user);
+    console.log('user: ', user);
+    var arrayOfIDs = user.followedParks;
+    console.log('arry of ids: ', arrayOfIDs);
+    var url = new URL('http://localhost:8080/parks/getMultipleParksbyId');
+    var params = {parkIds: arrayOfIDs};
+    url.search = new URLSearchParams(params)
+    fetch(url, {
+      method: 'get',
+      dataType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': sessionStorage.getItem('token'),
+      },
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log('list of followed parks: ', response);   
+    })
+    .catch(error => console.log('parsing failed. Error: ', error))
+  }  
 
 
   render() {
