@@ -92,12 +92,33 @@ class SimpleMap extends Component {
       //console.log(response[0]);
       this.setState({currentPins: response})
       //this.state.currentPins.map()
-      console.log(this.state.currentPins)
+      console.log('current pins: ', this.state.currentPins)
+      var category = "Soccer"; // needs to be the category the user selects
+      var filteredParks = this.filterCategory(response, category);
+      this.setState({currentPins: filteredParks})
+      console.log('current pins: ', this.state.currentPins)
     })
     /*  this.setState({currentPins: response})
       console.log(this.state.currentPins)
     })*/
     .catch(error => console.log('parsing failed', error))
+  }
+
+
+  // filters the parks by category
+  filterCategory(parks, category) {
+    if (category == "")
+      return parks;
+
+    var filteredParks = [];
+    for (var i = 0; i < parks.length; i++) {
+      if (parks[i].sports.find(function(sport) {
+        return sport == category;
+      }))
+        filteredParks.push(parks[i]);
+      }
+      console.log("filtered parks: ", filteredParks);
+      return filteredParks;
   }
 
 
