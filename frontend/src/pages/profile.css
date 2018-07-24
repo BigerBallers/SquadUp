@@ -28,7 +28,12 @@
     font-size: 2vw;
     font-family: 'Abril Fatface';
     margin-bottom: 2vw; }
-.App .Profile .Bio {
+.App .Profile .Events {
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 3vw;
+    opacity: .4; }
+.App .Profile .Favorites {
     font-size: 15px;
     line-height: 1.8;
     margin-bottom: 3vw;

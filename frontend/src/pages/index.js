@@ -88,11 +88,7 @@ class IndexPage extends Component {
       (
         <div>
           <div>
-<<<<<<< HEAD
           <Redirect to="/profile_page/"></Redirect>
-=======
-            <Redirect to="/page-2/"></Redirect>
->>>>>>> e468678e2066797116cea93699b361b44b9a16f5
           </div>
         </div>
       ) :

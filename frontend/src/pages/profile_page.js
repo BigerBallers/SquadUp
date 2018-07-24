@@ -25,7 +25,7 @@ class profilePage extends Component{
         this.state = {
             person: {
                 name: full_name,
-                biography: event_list,
+                event_column: event_list,
             },
             image: profile_image,
 
@@ -54,7 +54,8 @@ function Profile(props){
     return (
         <div className="Profile">
             <h1 className="Name">{props.person.name}</h1>
-            <p className="Bio">{props.person.biography}</p>
+            <p className="Events">{props.person.event_column}</p>
+            <p className="Favorites">{props.person.favorite_parks}</p>
         </div>
     );
 }
