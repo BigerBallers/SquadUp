@@ -41,10 +41,19 @@ router.post('/test', function(req, res) {
 
 //get user by id page
 router.get('/getUserById', function(req, res) {
+  console.log("searching for user id: ", req.query.userId)
 	User.getUserById(req.query.userId, function(err, user){
 		if(err)
 			throw err;
 		res.json(user);
+	})
+});
+
+router.get('/getMultipleUsersById', function(req, res) {
+	User.getMultipleUsersByIds(req.query.userIds, function(err, users){
+		if(err)
+			throw err;
+		res.json(users);
 	})
 });
 
@@ -69,10 +78,10 @@ router.get('/getFollowedParksId', function (req, res) {
 
 
 router.post('/addEventById', function(req, res) {
-  User.addEvent(req.query.userId, req.query.eventId, function(err, response){
+  User.addEvent(req.body.userId, req.body.eventId, function(err, response){
     if(err)
       throw err;
-    //console.log(response);
+    console.log(response);
     var result = {
       ok: response.ok
     };

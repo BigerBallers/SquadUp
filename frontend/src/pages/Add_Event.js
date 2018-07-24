@@ -28,7 +28,6 @@ class Add_Event extends Component {
     var user = sessionStorage.getItem('account');
     user = JSON.parse(user);
     console.log('user: ', user);
-    console.log('userid: ', user.id);
   }
 
   sendEventData(){
@@ -67,13 +66,39 @@ class Add_Event extends Component {
       //cannot add event to database
       }
       else {
-        console.log('new event: ', response.newEvent._id)
+        //update the user attending event list
         this.updateUserEvents(response.newEvent._id);
+        // update the park event list
+        this.updateParkEvents(response.newEvent._id);
       }
     })
     .catch(error => console.log('parsing failed', error))
   }
 
+
+  updateParkEvents(eventId) {
+    var parkId = '5b4e7650ce6a3177c05e4143'; // meder park
+
+    var data = {
+      parkId: parkId,
+      eventId: eventId
+    }
+    fetch('http://localhost:8080/parks/addEventPark', {
+      method: 'post',
+      dataType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': sessionStorage.getItem('token'),
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => console.log('Cannot update park event list. parsing failed', error))
+  }
 
 
 updateUserEvents(eventId) {
@@ -102,6 +127,7 @@ updateUserEvents(eventId) {
   .then(response => {
     if (response.status == 'success')
       console.log('event added to users event List')
+      console.log('response: ', response)
   })
 }
   
