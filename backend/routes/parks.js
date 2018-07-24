@@ -80,11 +80,6 @@ router.get('/getParksInRadius', function(req, res) {
 
 
 router.get('/getMultipleParksbyId', function(req, res) {
-	console.log('park ids: ', req.query.parkIds);
-	if (req.query.parkIds == [] || req.query.parkIds == 'undefined' || req.query.parkIds == null) {
-		console.log('list of ids is empty!');
-		res.json([]);
-	}
 	ParkQueue.getMultipleParksbyId(req.query.parkIds, function(err, parks){
 		if(err)
 			throw err;
