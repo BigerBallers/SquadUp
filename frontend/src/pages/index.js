@@ -5,10 +5,10 @@ import { GoogleLogin } from 'react-google-login';
 import config from './config.json';
 import Link from "gatsby-link";
 import { Redirect } from 'react-router-dom';
-
+import './index.css';
 
 //import logo from './logo.svg';
-import './App.css';
+//import './App.css';
 
 
 //Current page = current url
@@ -87,24 +87,27 @@ class IndexPage extends Component {
     let content = !!this.state.isAuthenticated ?
       (
         <div>
-
           <div>
-            {this.state.user.email}
-        </div>
-          <div>
-          <Redirect to="/page-2/"></Redirect>
+            <Redirect to="/page-2/"></Redirect>
           </div>
         </div>
       ) :
       (
-        <div style={{margin:'207px'}}>
+      <div className="landingPageElement">
+        <div className="bigTitle">
+          A revolutionary way to play sports
+        </div>
+        <div className="loginButton">
           <GoogleLogin
             clientId={config.GOOGLE_CLIENT_ID}
-            buttonText="Login"
+            buttonText="Google Login"
             onSuccess={this.googleResponse}
             onFailure={this.onFailure}
+
           />
         </div>
+
+      </div>
       );
 
     return (

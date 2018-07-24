@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './Add_Park_Style.css';
 import Link from "gatsby-link";
 import Geocode from "react-geocode";
-import Select from "react-select"
+import Select from "react-select";
+import { Redirect } from 'react-router-dom';
 
 Geocode.setApiKey("AIzaSyDAqgkDUgbqZuBZbDXkiaXubQWvdV3gYZg");  
 Geocode.enableDebug();
@@ -65,7 +66,7 @@ class Add_Park extends Component {
 
   handleSubmit(event){
 
-    const {park_name, park_location, selector, park_description}=this.state
+    const {park_name, park_location, selector, park_description}=this.state;
     var sportResult= []; //the empty sports list waited to receive values of selected sports
     for (var i=0; i<this.state.selector.length;i++){
       sportResult.push(this.state.selector[i].value); //push only the values of sports to list
@@ -123,6 +124,7 @@ class Add_Park extends Component {
 
 
   render(){
+
     const {park_name, park_location, selector, park_description}=this.state
     const enabled= 
       park_name.length > 0 &&
@@ -145,12 +147,10 @@ class Add_Park extends Component {
           <h2>Add Park</h2>
             
         </div>
-
-        <div className="forms">
+        <form action='/page-2'>
           <div className="ParkName">
             Park Name
           </div>
-          <div className="decoration"></div>
             <div className="name_field">
               <input value={this.state.park_name} 
               onChange={this.handleParknameChange.bind(this)} 
@@ -176,7 +176,7 @@ class Add_Park extends Component {
             style={{width: "100%", height:"100%"}} isMulti /> 
 
           </div>
-          <div className="description">
+          <div className="ParkDescription">
             <textarea 
             rows="6"
             cols="53"
@@ -188,7 +188,7 @@ class Add_Park extends Component {
           <div className="submit-button">
             <button onClick={this.handleSubmit} disabled={!enabled}>Submit</button>
           </div>
-        </div>
+        </form>
       </div>
       </body>
       );
