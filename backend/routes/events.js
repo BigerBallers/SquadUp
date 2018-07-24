@@ -72,6 +72,7 @@ router.get('/getUsersAttendingEvent', function(req, res) {
 });
 
 router.get('/getMultipleEventsById', function(req, res) {
+  console.log('event ids: ', req.query.eventIds);
 	Event.getMultipleEventsByIds(req.query.eventIds, function(err, events){
 		if(err)
 			throw err;
