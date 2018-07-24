@@ -5,17 +5,26 @@ import image from '../images/pin.png';
 import {geolocated} from 'react-geolocated';
 
 
-const AnyReactComponent = ({ text, id }) => <div style={{width:'80px', height:'auto'}}>
+const AnyReactComponent = ({ text, park }) => <div style={{width:'80px', height:'auto'}}>
 <img src={image} style={{float:'left', width:'25px'}}></img>
-  <button onClick={(e) => sendParkID(id, e)}>
+  <Link to='/park_page' onClick={(e) => sendParkInfo(park, e)}>
     {text}
-    </button>
+    </Link>
 </div>;
 
+const ListPark = ({name, address, park}) => (
+  <div style={{padding:'10px',margin:'auto',border:'1px solid black',color:'black',background:'white', width:'90%', height:'auto'}}
+  >
+  <Link to='/park_page' onClick={(e) => sendParkInfo(park, e)}>
+  {name} <br/>
+  {address}
+  </Link>
+  </div>
+)
 
-function sendParkID(id, e) {
-  console.log(id);
-  //sessionStorage.setItem('park', park);
+
+function sendParkInfo(park, e) {
+  sessionStorage.setItem('park', JSON.stringify(park));
 }
 
 class SimpleMap extends Component {
@@ -83,7 +92,6 @@ class SimpleMap extends Component {
       //console.log(response[0]);
       this.setState({currentPins: response})
       //this.state.currentPins.map()
-
       console.log(this.state.currentPins)
     })
     /*  this.setState({currentPins: response})
@@ -121,7 +129,7 @@ class SimpleMap extends Component {
       // enableHighAccuracy = should the device take extra time or power to return a really accurate result, or should it give you the quick (but less accurate) answer?
       enableHighAccuracy: false,
       // timeout = how long does the device have, in milliseconds to return a result?
-      timeout: 10000,
+      timeout: 100000,
       // maximumAge = maximum age for a possible previously-cached position. 0 = must return the current position, not a prior cached position
       maximumAge: 0
     };
@@ -135,8 +143,8 @@ class SimpleMap extends Component {
 // upon success, do this
     success(pos){
       // get longitude and latitude from the position object passed in
-      var lng =-122.054377 //pos.coords.longitude;
-      var lat = 36.974660//pos.coords.latitude;
+      var lng = pos.coords.longitude;
+      var lat = pos.coords.latitude;
       var center = {
         lat: lat,
         lng: lng
@@ -165,29 +173,37 @@ class SimpleMap extends Component {
 
   render() {
     const addComponent = this.state.currentPins.map((item) =>
-    <AnyReactComponent lat={item.geo[1]} lng={item.geo[0]} id={item._id} text={item.name}/>)
+    <AnyReactComponent lat={item.geo[1]} lng={item.geo[0]} park={item} text={item.name}/>)
 
-
-/*
-    const MarkerComponenet = function(props){
-      //console.log(props.resp)
-      if(props.resp[0] != null){
-        //console.lo  g(this.state.currentPins.length)
-        for(var i=0; i < props.resp.length; i++){
-        //  console.log(props.resp[i])
-        //  console.log(props.resp[i].geo[1])
-        //  console.log(props.resp[i].geo[0])
-      //    console.log(props.resp[i].name
-
-        }
-      }
-      return null
-    }*/
-
+    const listParks = this.state.currentPins.map((item) => (
+      <ListPark name={item.name} address={item.address} park={item}/>
+    ))
 
     return (
       // Important! Always set the container height explicitly
-      <div style={{ height: '100vh', width: '49%' }}>
+      <div>
+      <div style={{
+        color: 'black',
+        background:'white',
+        fontWeight:'bold',
+        fontSize:'38px',
+        padding:'10px',
+        borderRadius:'25px',
+        width: '400px',
+        textAlign: 'center',
+        margin:'auto',
+        marginTop: '10px',
+        marginBottom:'15px'
+      }}>
+        Search
+      </div>
+      <div style={{color: 'white', height:'71vh', width:'49%', float:'right', overflowY:'auto' }}>
+        <div style={{marginBottom:'10px',fontWeight:'bold',textAlign:'center', fontSize:'25px'}}>
+        Parks Near You
+        </div>
+        {listParks}
+      </div>
+      <div style={{ height: '71vh', width: '49%' }}>
         <GoogleMapReact
           onChange={this._onChange}
           bootstrapURLKeys={{ key: 'AIzaSyBgne_-KxLx1Sbd2CHtT7EklGSPAyjXH5I' }}
@@ -196,11 +212,8 @@ class SimpleMap extends Component {
           pins={this.state.currentPins}
           >
           {addComponent}
-
         </GoogleMapReact>
-        <div style={{border:'1px solid white', color:'white'}}>
-        hello
-        </div>
+      </div>
       </div>
     );
   }
