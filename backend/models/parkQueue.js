@@ -112,7 +112,7 @@ module.exports.getMultipleParksbyId = function(parkIds, callback) {
 	for(i =0; i< ids.length; i++ ){
 		ids[i] = ids[i].replace(/^"(.*)"$/, '$1');
 		console.log("i is" , i,"id is", ids[i]);
-		if (ids[i]=="") {
+		if( ids[i] == ""){ //removes empty elements
 			delete ids[i];
 			ids.length--;
 		}

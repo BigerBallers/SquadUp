@@ -81,7 +81,7 @@ h2{
   text-align-last: center;
   text-transform: uppercase;
 }
-.description{
+.ParkDescription{
   margin-top: 30px;
   font-size: 30px;
   padding: 20px;
@@ -101,10 +101,11 @@ h2{
   width: 100%;
   height: 100%;
 }
-.forms{
+form{
   padding-top: 20px;
   background-color: white;
   opacity: 0.8;
+  margin-bottom: 0;
 }
 
 ::-webkit-input-placeholder {

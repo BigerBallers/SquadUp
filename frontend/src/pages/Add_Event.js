@@ -199,36 +199,36 @@ updateUserEvents(eventId) {
           <h2>Add Event</h2>
             
         </div>
-
+        <form action='/page-2'>
         <div className="event_forms">
         	<div className="EventName">
             	Event Name
-          	</div>
-          	<div className="event_name_field">
-             	<input value={this.state.park_name} 
-             	onChange={this.handleEventNameChange.bind(this)} 
-             	placeholder="e.g. 5v5 Basketball" 
-             	style={{width: "100%", height:"100%"}}
-             	required />
-            </div>
+          </div>
+          <div className="event_name_field">
+           	<input value={this.state.park_name} 
+           	onChange={this.handleEventNameChange.bind(this)} 
+           	placeholder="e.g. 5v5 Basketball" 
+           	style={{width: "100%", height:"100%"}}
+           	required />
+          </div>
 
-            <div className="start_time">
-              Start Time:
-              <input id="event_start" 
-              type="datetime-local" 
-              name="startdate" 
-              value={this.state.start}
-              onChange={this.handleStartTime} />
-            </div>
+          <div className="start_time">
+            Start Time:
+            <input id="event_start" 
+            type="datetime-local" 
+            name="startdate" 
+            value={this.state.start}
+            onChange={this.handleStartTime} />
+          </div>
 
-            <div className="end_time">
-              End Time:
-            	 <input id="event_end" 
-              type="datetime-local" 
-              name="enddate" 
-              value={this.state.end}
-              onChange={this.handleEndTime} />
-            </div>
+          <div className="end_time">
+            End Time:
+          	<input id="event_end" 
+            type="datetime-local" 
+            name="enddate" 
+            value={this.state.end}
+            onChange={this.handleEndTime} />
+          </div>
 
 
           <div className="event_picker">
@@ -262,6 +262,7 @@ updateUserEvents(eventId) {
             <button onClick={this.handleSubmit} disabled={!enabled}>Submit</button>
           </div>
         </div>
+        </form>
       </div>
       </body>
       );

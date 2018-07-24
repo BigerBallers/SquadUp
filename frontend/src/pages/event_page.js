@@ -6,7 +6,14 @@ import Geocode from "react-geocode";
 class View_Event extends Component {
   constructor(props) { //constructor of props and states
     super(props);
-    
+
+    this.printLog=this.printLog.bind(this);
+    this.printLog()
+  }
+
+  printLog(){
+    console.log('PRINTING LOg')
+    console.log(sessionStorage.getItem('event'))
   }
 
   //part of fetching
@@ -73,7 +80,7 @@ class View_Event extends Component {
 
            <div className="description">
             <h3>Description: </h3>
-            <p>Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla 
+            <p>Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla
             </p>
         </div>
 

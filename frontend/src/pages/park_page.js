@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import image from '../images/park.jpg';
 import GoogleMapReact from 'google-map-react';
 import pin from '../images/pin.png';
+import Link from 'gatsby-link';
+
 
 
 
 
 const EventComponent = ({evnt}) => (
-  <div>
+  <div style={{padding:'10px',margin:'auto',border:'1px solid black',color:'black',background:'white', width:'90%', height:'auto'}}
+  >
   <Link to='/event_page' onClick={(e) => sendEventInfo(evnt, e)}>
-    {JSON.stringify(evnt)}
+  {evnt.name} <br/>
   </Link>
+  <div style={{fontSize: '14px',fontStyle:'italic'}}>Starts at {evnt.start}</div>
   </div>
 )
 
@@ -80,21 +84,16 @@ class ParkPage extends Component {
     .then(response => response.json())
     .then(response => {
       console.log('response: ', response);
-      if (response == []) {
-        this.setState({
-          isNull: true
-        }) 
-      }
-      else {
-        console.log('array isnt empty')
-        this.setState({
-          isNull: true
-        }) 
-        this.setState({
-          eventsAtPark: response
-        })
-        }    
-    })
+      if(response != []){
+          console.log('array isnt empty')
+          this.setState({
+            isNull: false
+          })
+          this.setState({
+            eventsAtPark: response
+          })
+          }
+      })
     .catch(error => console.log('parsing failed. Error: ', error))
   }
 
