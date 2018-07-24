@@ -14,6 +14,7 @@ class profilePage extends Component{
         if(user != null) {
             var full_name = user.googleProvider.name;
             var profile_image = user.googleProvider.profilePic;
+            
             console.log(user);
             console.log(profile_image);
         }
