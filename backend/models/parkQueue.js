@@ -107,6 +107,7 @@ module.exports.getParkInRadius = function(coord, radiusMiles, callback) {
 // "park_id","park_id", "park_id"
 module.exports.getMultipleParksbyId = function(parkIds, callback) {
 	console.log('getting multiple parks by ids');
+	parkIds = parkIds.replace(/\s+/g, ''); //clear whitespace
 	var ids = parkIds.split(",");
 	for(i =0; i< ids.length; i++ ){
 		ids[i] = ids[i].replace(/^"(.*)"$/, '$1');

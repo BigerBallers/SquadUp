@@ -125,9 +125,10 @@ router.get('/', function(req, res) {
 });
 
 router.post('/addEventPark', function(req, res) {
-  ParkQueue.addEventPark(req.query.parkId, req.query.eventId, function(err, response){
+  ParkQueue.addEventPark(req.body.parkId, req.body.eventId, function(err, response){
     if(err)
       throw err;
+    console.log('event added to park');
     console.log(response);
     var result = {
       ok: response.ok

@@ -56,17 +56,23 @@ h2{
   margin-top: 30px;
   font-size:30px;
   height: 50px;
-  padding-left: 300px;
-  padding-right: 300px;
+  padding-left: 20px;
+  padding-right: 20px;
   width: 100%;
 }
 .event_picker select{
+  float: left;
   border: 2px solid black;
   height: 58px;
   padding: 10px;
   text-align: center;
   text-align-last: center;
   text-transform: uppercase;
+}
+.event_picker input{
+  float: right;
+  border: 2px solid black;
+    border-radius: 5px;
 }
 .event_description{
   margin-top: 20px;

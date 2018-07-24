@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Add_Park_Style.css';
 import Link from "gatsby-link";
 import Geocode from "react-geocode";
+import Select from "react-select"
 
 Geocode.setApiKey("AIzaSyDAqgkDUgbqZuBZbDXkiaXubQWvdV3gYZg");  
 Geocode.enableDebug();
@@ -41,8 +42,7 @@ class Add_Park extends Component {
   }
   
 
-  //functions/methods that receive inputs
-
+  //functions/methods that receive inputs and set the inputs to values
   handleParknameChange(event){
     this.setState({
       park_name: event.target.value
@@ -54,34 +54,48 @@ class Add_Park extends Component {
     })
   }
   handleSports(selector){
-    this.setState({
-      selector: selector.target.value
-    })
+    this.setState({selector})
+
   }
   handleDescription(event){
-    console.log("description: ", event);
     this.setState({
       park_description: event.target.value
     })
   }
+
   handleSubmit(event){
 
     const {park_name, park_location, selector, park_description}=this.state
-
-    // alert("Park Name: "+this.state.park_name
-    //   +"\nPark Location: "+this.state.park_location
-    //   +"\nSports: "+this.state.selector+
-    //   "\nYou are all set!\n ");
+    var sportResult= []; //the empty sports list waited to receive values of selected sports
+    for (var i=0; i<this.state.selector.length;i++){
+      sportResult.push(this.state.selector[i].value); //push only the values of sports to list
+    }
+    alert("Park Name: "+this.state.park_name
+      +"\nPark Location: "+this.state.park_location
+      +"\nSports: "+sportResult+
+      "\nYou are all set!\n ");
     //here an alert window is popped up
+
+
 
     this.convertGeo(this.state.park_location);   
  
   }
 
-  convertGeo(input){
+  convertGeo(input){ //Coverts address information to geographic informations
     var geo;
     Geocode.fromAddress(input).then(
       response => {
+
+        //due to the time for sending data to google's Geo API is delayed that
+        //codes after this will be executed first before getting the geographic
+        //informations, we have to put in the informations to these attributes
+        //in this function while execution so when the information comes back,
+        //it would get the informations on time without distrubing other attributes
+        var sports = [];
+        for (var i=0;i< this.state.selector.length;i++){
+          sports.push(this.state.selector[i].value);
+        }
 
         const { lat, lng } = response.results[0].geometry.location;
         geo = [lng, lat];
@@ -90,18 +104,18 @@ class Add_Park extends Component {
         name: this.state.park_name,
         address: this.state.park_location,
         description: this.state.park_description,
-        sports:[this.state.selector],
+        sports: sports,
         geo: geo
       };
       
-      console.log('data: ', data);
+      console.log('data: ', data); //print out data informations in console
       this.sendParkData(data);
       return geo;
 
       },
       error => {
-        console.error(error);
-        alert("Not Valid Address!");
+        console.error(error); //print out error pessage
+        alert("Not Valid Address!"); //alert pop up when address is not valid
         return [];
       }
     );
@@ -115,6 +129,13 @@ class Add_Park extends Component {
       park_location.length>0 && 
       selector.length>0; //unable the sumbit button when no input
 
+    //options of sports
+    const options = [
+      {value: "Basketball", label: 'Basketball'},
+      {value: "Soccer", label: 'Soccer'},
+      {value: "Football", label: "Football"},
+      {value: "Frisbee", label: "Frisbee"}
+    ]
     return (
       <body>
 
@@ -142,21 +163,18 @@ class Add_Park extends Component {
             Park Location
           </div>
 
-            <div className="location_field">
+          <div className="location_field">
               <input value={this.state.park_location}
               onChange={this.handleLocationChange.bind(this)}
               placeholder="e.g. 5th Avenue"
               style={{width: "100%", height:"100%"}} required />
-            </div>
+          </div>
           <div className="picker">
-            <select value={this.state.selector} onChange={this.handleSports} style={{width: "100%", height:"100%"}}> 
-              <option value="" disabled selected>Sport?</option>
-              <option value="Basketball">Basketball</option>
-              <option value="Soccer">Soccer</option>
-              <option value="Frisbee">Frisbee</option>
-              <option value="Football">Football</option>
-              <option value="Baseball">Baseball</option>
-            </select>
+            <Select options={options} 
+            value={selector} 
+            onChange={this.handleSports}
+            style={{width: "100%", height:"100%"}} isMulti /> 
+
           </div>
           <div className="description">
             <textarea 
