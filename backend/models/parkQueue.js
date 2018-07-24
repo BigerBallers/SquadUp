@@ -112,6 +112,10 @@ module.exports.getMultipleParksbyId = function(parkIds, callback) {
 	for(i =0; i< ids.length; i++ ){
 		ids[i] = ids[i].replace(/^"(.*)"$/, '$1');
 		console.log("i is" , i,"id is", ids[i]);
+		if (ids[i]=="") {
+			delete ids[i];
+			ids.length--;
+		}
 	}
 	ParkQueue.find({ "_id": { "$in": ids } })
 	.exec(function(err, parks){
@@ -119,7 +123,7 @@ module.exports.getMultipleParksbyId = function(parkIds, callback) {
 			console.log("Error retrieving list of parks");
 			callback(err, null);
 		} else {
-			console.log("events are ", parks);
+			console.log("parks are ", parks);
 			callback(null, parks);
 		}
 	})
