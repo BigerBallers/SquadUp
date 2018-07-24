@@ -13,12 +13,12 @@ const AnyReactComponent = ({ text, park }) => <div style={{width:'80px', height:
 </div>;
 
 const ListPark = ({name, address, park}) => (
-  <div style={{padding:'10px',margin:'auto',border:'1px solid black',color:'black',background:'white', width:'90%', height:'auto'}}
+  <div style={{borderRadius:'5px',padding:'10px',margin:'auto',marginBottom:'3px',border:'1px solid black',color:'black',background:'white', width:'90%', height:'auto'}}
   >
   <Link to='/park_page' onClick={(e) => sendParkInfo(park, e)}>
   {name} <br/>
-  {address}
   </Link>
+  {address}
   </div>
 )
 
