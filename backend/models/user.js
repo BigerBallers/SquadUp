@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-
   followedParks: [{
     type: String
   }],
@@ -42,7 +41,6 @@ var UserSchema = new Schema({
 
 UserSchema.set('toJSON', {getters: true, virtuals: true});
 
-
 UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profile, cb) {
   var that = this;
   return this.findOne({
@@ -75,14 +73,12 @@ UserSchema.statics.upsertGoogleUser = function(accessToken, refreshToken, profil
   );
 };
 
-
 var User = module.exports = mongoose.model('user', UserSchema);
 
-
-
-module.exports.getUserById = function(id, callback) {
+/* returns a user object based off userId*/
+module.exports.getUserById = function(userId, callback) {
   console.log('searching db for user');
-	User.findById(id)
+	User.findById(userId)
 	.exec(function(err, user){
 		if(err){
 			console.log("Error retrieving user");
@@ -94,20 +90,21 @@ module.exports.getUserById = function(id, callback) {
 	})
 }
 
-//input for now is a string of the following format:
-// "user_id","user_id","user_id"
+/* returns list of user objects based on array of ids */
 module.exports.getMultipleUsersByIds = function(userIds, callback) {
 	console.log('getting multiple users by ids');
   userIds = userIds.replace(/\s+/g, ''); //clear whitespace
 	var ids = userIds.split(","); //clear commas
-	for(i =0; i< ids.length; i++ ){
-		ids[i] = ids[i].replace(/^"(.*)"$/, '$1'); //clear quotes
-		console.log("i is" , i,"id is", ids[i]);
-    if( ids[i] == ""){ //removes empty elements
+
+  for(i =0; i< ids.length; i++ ){					// for each element in array
+		ids[i] = ids[i].replace(/^"(.*)"$/, '$1'); //remove quotes from id
+		console.log("i is" , i,"id is", ids[i]);   //see index
+		if( ids[i] == ""){ // if empty element removes it
 			delete ids[i];
-			ids.length--;
-		}
-	}
+			ids.length--;    //shrinks array
+		} //end if
+	} //end for
+
 	User.find({ "_id": { "$in": ids } })
 	.exec(function(err, users){
 		if(err){
@@ -120,6 +117,7 @@ module.exports.getMultipleUsersByIds = function(userIds, callback) {
 	})
 }
 
+/* updates user object's event field with eventId */
 module.exports.addEvent = function (userId, eventId, callback) {
   User.update(
     { _id: userId },
@@ -128,7 +126,7 @@ module.exports.addEvent = function (userId, eventId, callback) {
   );
 }
 
-
+/* updates user object's followedParks field with parkId */
 module.exports.followPark = function (userId, parkId, callback) {
   User.update(
     { _id: userId },

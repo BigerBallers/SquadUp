@@ -30,7 +30,6 @@ var ParkSchema = new Schema({
 		type: [Number],
 		index: '2dsphere',
 		required: true
-
 	}
   /* add fields if neccessary */
 });
@@ -39,9 +38,7 @@ var ParkSchema = new Schema({
 var ParkQueue = module.exports = mongoose.model('parkqueues', ParkSchema);
 
 
-/* might want to check if the park alread exists in our Park collection.
-	 If not, add it to the queue
- */
+/* adds new park to parkQueue db */
 module.exports.addParkToQueue = function(newPark, callback) {
 	ParkQueue.findOne({
 		address : newPark.address
@@ -65,10 +62,10 @@ module.exports.addParkToQueue = function(newPark, callback) {
 	});
 }
 
-
-module.exports.getParkById = function(id, callback) {
+/* returns park from park id */
+module.exports.getParkById = function(parkId, callback) {
 	console.log('searching by ID');
-	ParkQueue.findById(id)
+	ParkQueue.findById(parkId)
 	.exec(function(err, parkQueue){
 		if(err){
 			console.log("Error retrieving park");
@@ -80,7 +77,34 @@ module.exports.getParkById = function(id, callback) {
 	})
 }
 
+/* returns list of park objects based off array of ids */
+module.exports.getMultipleParksbyId = function(parkIds, callback) {
+	console.log('getting multiple parks by ids');
+	parkIds = parkIds.replace(/\s+/g, ''); //clear whitespace
+	var ids = parkIds.split(","); 				//clear commas
 
+	for(i =0; i< ids.length; i++ ){					// for each element in array
+		ids[i] = ids[i].replace(/^"(.*)"$/, '$1'); //remove quotes from id
+		console.log("i is" , i,"id is", ids[i]);   //see index
+		if( ids[i] == ""){ // if empty element removes it
+			delete ids[i];
+			ids.length--;    //shrinks array
+		} //end if
+	} //end for
+
+	ParkQueue.find({ "_id": { "$in": ids } })
+	.exec(function(err, parks){
+		if(err){
+			console.log("Error retrieving list of parks");
+			callback(err, null);
+		} else {
+			console.log("parks are ", parks);
+			callback(null, parks);
+		}
+	})
+}
+
+/* returns list of parks within radius*/
 module.exports.getParkInRadius = function(coord, radiusMiles, callback) {
 	// converting miles to meters
 	var mileToKilometer = 1.60934;
@@ -103,33 +127,7 @@ module.exports.getParkInRadius = function(coord, radiusMiles, callback) {
 	query.exec(callback);
 }
 
-//input for now is a string of the following format:
-// "park_id","park_id", "park_id"
-module.exports.getMultipleParksbyId = function(parkIds, callback) {
-	console.log('getting multiple parks by ids');
-	parkIds = parkIds.replace(/\s+/g, ''); //clear whitespace
-	var ids = parkIds.split(",");
-	for(i =0; i< ids.length; i++ ){
-		ids[i] = ids[i].replace(/^"(.*)"$/, '$1');
-		console.log("i is" , i,"id is", ids[i]);
-		if( ids[i] == ""){ //removes empty elements
-			delete ids[i];
-			ids.length--;
-		}
-	}
-	ParkQueue.find({ "_id": { "$in": ids } })
-	.exec(function(err, parks){
-		if(err){
-			console.log("Error retrieving list of parks");
-			callback(err, null);
-		} else {
-			console.log("parks are ", parks);
-			callback(null, parks);
-		}
-	})
-}
-
-
+/* returns park objects with this specific sport category */
 module.exports.getParkByCategory = function(category, callback) {
 	console.log('getting parks by category', category);
 	ParkQueue.find({ sports: category })
@@ -144,6 +142,7 @@ module.exports.getParkByCategory = function(category, callback) {
 	})
 }
 
+/* updates event to a park's event_id field*/
 module.exports.addEventPark = function(parkId, eventId, callback){
   ParkQueue.update(
     { _id: parkId },
@@ -151,5 +150,3 @@ module.exports.addEventPark = function(parkId, eventId, callback){
     callback
   );
 }
-
-// write a module to check if the park exists
