@@ -93,7 +93,7 @@ class SimpleMap extends Component {
       this.setState({currentPins: response})
       //this.state.currentPins.map()
       console.log('current pins: ', this.state.currentPins)
-      var category = "Soccer"; // needs to be the category the user selects
+      var category = ""; // needs to be the category the user selects
       var filteredParks = this.filterCategory(response, category);
       this.setState({currentPins: filteredParks})
       console.log('current pins: ', this.state.currentPins)
