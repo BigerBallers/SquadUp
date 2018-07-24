@@ -1,0 +1,54 @@
+@import 'https://fonts.googleapis.com/css?family=Abril+Fatface|Roboto';
+.App {
+
+    top: 0;
+    left: 0;
+    font-family: 'Roboto';
+}
+@media screen and (max-width: 980px) {
+    .App {
+        flex-direction: column; } }
+
+@media screen and (max-width: 980px) {
+    .App .Image {
+        width: 100vw;
+        height: 70vh; }
+}
+.App .Profile {
+    position: center;
+    margin-top: 20px;
+    margin-right: 20pm;
+    box-sizing: border-box;
+    color: #FFFFFF; }
+@media screen and (max-width: 980px) {
+    .App .Profile {
+        width: 100vw;
+        height: 30vh; } }
+.App .Profile .Name {
+    font-size: 2vw;
+    font-family: 'Abril Fatface';
+    margin-bottom: 2vw; }
+.App .Profile .Bio {
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 3vw;
+    opacity: .4; }
+.App .Profile .Quote {
+    margin-top: auto; }
+.App .Profile .Quote blockquote {
+    font-size: 22px;
+    font-family: 'Abril Fatface';
+    font-style: italic;
+    line-height: 1.4;
+    margin-bottom: .6em; }
+.App .Profile .Quote .byline {
+    font-family: 'Times', serif;
+    text-align: right;
+    font-size: 16px;
+    font-style: italic;
+    opacity: .25; }
+#account_picture{
+    width: 15%;
+    height: 15%;
+    padding-top: 20px;
+}
