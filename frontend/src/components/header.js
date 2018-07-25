@@ -46,23 +46,6 @@ const Header = ({ siteTitle }) =>
           ):(null)}
       </div>
 
-      <div style={{float: 'right', padding:10}}>
-        {sessionStorage.getItem("loggedIn") === 'true' ? 
-        (
-          <div id="parent">
-              <div id="div4"><Link to="/Add_Event">Add Event</Link></div>
-          </div>
-        ):(null)}
-      </div>
-
-      <div style={{float: 'right', padding:10}}>
-        {sessionStorage.getItem("loggedIn") === 'true' ? 
-        (
-          <div id="parent">
-              <div id="div4"><Link to="/Add_Park">Add Park</Link></div>
-          </div>
-        ):(null)}
-      </div>
 
       <div style={{float: 'right', padding:10}}>
           {sessionStorage.getItem("loggedIn") === 'true' ? 
