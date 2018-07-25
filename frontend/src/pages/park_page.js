@@ -83,19 +83,18 @@ class ParkPage extends Component {
     .then(response => response.json())
     .then(response => {
       console.log('response: ', response);
-      if(response.length > 0){
-        console.log('events array isnt empty')
-        this.setState({
-          isNull: false
-        })
-        this.setState({
-          eventsAtPark: response
-        })
-      }
-    })
+      if(response != []){
+          console.log('array isnt empty')
+          this.setState({
+            isNull: false
+          })
+          this.setState({
+            eventsAtPark: response
+          })
+          }
+      })
     .catch(error => console.log('parsing failed. Error: ', error))
   }
-
 
 
   render() {
