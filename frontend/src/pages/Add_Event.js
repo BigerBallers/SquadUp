@@ -31,6 +31,7 @@ class Add_Event extends Component {
     this.handleEndTime=this.handleEndTime.bind(this);
   }
 
+  /* check if data is being loaded correctly */
   componentDidMount() {
     var user = sessionStorage.getItem('account');
     console.log(user);
@@ -39,8 +40,8 @@ class Add_Event extends Component {
     console.log('park: ', this.state.parkInfo)
   }
 
+/* adds the event to the user and park list */
   sendEventData(){
-
     var user = sessionStorage.getItem('account');
     user = JSON.parse(user);
 
@@ -84,7 +85,7 @@ class Add_Event extends Component {
     .catch(error => console.log('parsing failed', error))
   }
 
-
+  /* adds the event to the park event list */
   updateParkEvents(eventId) {
     var parkId = this.state.parkInfo._id;
 
@@ -111,7 +112,7 @@ class Add_Event extends Component {
     this.setState({eventSubmitted: true});
   }
 
-
+/* adds event to the users attending list */
 updateUserEvents(eventId) {
   console.log('adding event to user list');
   var user = sessionStorage.getItem('account');
@@ -142,7 +143,7 @@ updateUserEvents(eventId) {
   })
 }
   
-
+  /* want to update the users account session. But i think it doesnt work. */
   updatedUserdata() {
     // Grabs a Stringify version of user account information from Google.
     var user = sessionStorage.getItem('account');
