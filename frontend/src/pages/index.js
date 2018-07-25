@@ -75,7 +75,7 @@ class IndexPage extends Component {
           this.setState({isAuthenticated: true, user, token});
           sessionStorage.setItem('token', token);
           sessionStorage.setItem('account', JSON.stringify(user));
-          sessionStorage.setItem('loggedIn', true);
+          sessionStorage.setItem('loggedIn', 'true');
         }
       });
     })
@@ -88,7 +88,7 @@ class IndexPage extends Component {
       (
         <div>
           <div>
-            <Redirect to="/page-2/"></Redirect>
+          <Redirect to="/profile_page/"></Redirect>
           </div>
         </div>
       ) :
