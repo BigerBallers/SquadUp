@@ -35,7 +35,8 @@ class profilePage extends Component{
                 park_column: favorite_parks
             },
             image: profile_image,
-            event_col: []
+            event_col: [],
+            parks_col: []
         };
     }
 
@@ -88,27 +89,36 @@ class profilePage extends Component{
         })
             .then(response => response.json())
             .then(response => {
-                //console.log('parks list: ', response);
-                parks_col: response.name;
+                console.log('parks list: ', response);
+                this.setState({
+                    parks_col: response,
+                });
             })
             .catch(error => console.log('parsing failed. Error: ', error))
     }
 
     render() {
 
+        // catches if the person coming here isn't logged in.
         if(sessionStorage.getItem('loggedIn' === 'false')){
             <Redirect to="/"></Redirect>
         }
 
+        // container for all the event items.
         const eventElement = this.state.event_col.map((x) => (
             <PrintEventName name={x}/>
+        ))
+
+        // container for all the park items.
+        const parkElement = this.state.parks_col.map((x) => (
+            <PrintParkName name = {x}/>
         ))
 
         return(
             <div className="App">
                 <Image src={this.state.image} />
                 <Profile person={this.state.person}/>
-                <div style={{width:'50%', height:'550px'}}>
+                <div style={{width:'50%', height:'550px',alignContent: 'flex-end'}}>
                     <div style={{textAlign: 'center', color: 'white', fontSize: '34px',paddingBottom: '10px'}}>
                         My Events
                     </div>
@@ -117,7 +127,14 @@ class profilePage extends Component{
                     </div>
                 </div>
 
-
+                <div style={{width:'50%', height:'550px', alignContent: 'flex-start'}}>
+                    <div style={{textAlign: 'center', color: 'white', fontSize: '34px',paddingBottom: '10px'}}>
+                        Favorite Parks
+                    </div>
+                    <div className="Profile">
+                        {parkElement}
+                    </div>
+                </div>
             </div>
         );
     }
@@ -126,6 +143,13 @@ class profilePage extends Component{
 const PrintEventName = ({name}) => (
     <div style={{background:'white', color:'black', borderRadius:'5px', margin:'2px', paddingTop: '18px'}}>
         Event Name: {name.name}<br />Sport: {name.sport}<br /> Time: {name.start}<br /> Description: {name.description}<br /><br />
+    </div>
+)
+
+
+const PrintParkName = ({name}) => (
+    <div style={{background:'white', color:'black', borderRadius:'5px', margin:'2px', paddingTop: '18px'}}>
+        Park Name: {name.name}<br />Sports: {name.sports}<br />Address: {name.address}<br /><br />
     </div>
 )
 
