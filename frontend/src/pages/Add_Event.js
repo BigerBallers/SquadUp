@@ -19,6 +19,10 @@ class Add_Event extends Component {
       parkInfo: JSON.parse(sessionStorage.getItem('park'))
     }
 
+    if (this.state.parkInfo == null) {
+      window.location.assign("http://localhost:8000/404")
+    }
+
     //bind the functions
     this.handleSubmit= this.handleSubmit.bind(this); 
     this.handleSports=this.handleSports.bind(this);
