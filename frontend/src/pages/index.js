@@ -7,8 +7,6 @@ import Link from "gatsby-link";
 import { Redirect } from 'react-router-dom';
 import './index.css';
 
-//import logo from './logo.svg';
-//import './App.css';
 
 
 //Current page = current url
