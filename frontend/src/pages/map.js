@@ -49,6 +49,11 @@ class SimpleMap extends Component {
       currentPins: []
     }
 
+    //check if user is logged in: if not, go back to homepage
+    if (sessionStorage.getItem("loggedIn")=="false"){
+      window.location.assign("http://localhost:8000");
+    }
+    
     this.getLocation=this.getLocation.bind(this);
     this.success=this.success.bind(this);
     this.requestLocation=this.requestLocation.bind(this);
