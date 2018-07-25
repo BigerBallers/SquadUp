@@ -130,7 +130,8 @@ class ParkPage extends Component {
             width: '400px',
             textAlign: 'center',
             margin:'auto',
-            marginTop: '10px'
+            marginTop: '10px',
+            lineHeight: '1',
           }}>
             {this.state.parkInfo.name}
           </div>
@@ -149,7 +150,7 @@ class ParkPage extends Component {
           <hr style={{background:'white'}}/>
           <div style={{fontStyle:'bold',fontSize:'20px',textAlign:'center'}}> Sports
           </div>
-          <div style={{fontStyle:'normal', textAlign:'center', width: '100%',height:'50px', display:'inline-block', marginTop:'8px', padding:'10px 10px'}}>
+          <div style={{fontStyle:'normal', textAlign:'center', width: '100%',height:'80px', display:'inline-block', marginTop:'8px', padding:'10px 10px'}}>
           {getSports}
           </div>
           <hr style={{background:'white'}}/>
@@ -168,7 +169,16 @@ class ParkPage extends Component {
             />
         </GoogleMapReact>
         </div>
+       
       </div>
+       <div className="goToAddEvent" 
+       style={{marginLeft:'10px', textAlign: 'center'}}>
+        <Link to="/Add_Event/">
+        <button style={{marginTop: "20px", height: "40px",border: "2px solid black", borderRadius:'8px'}}>
+        Add An Event
+        </button>
+        </Link>
+        </div>
       </div>
     )
   }

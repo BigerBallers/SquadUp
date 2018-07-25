@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Add_Event_Style.css';
 import DateTimePicker from 'react-datetime-picker'
 import Link from "gatsby-link";
+import { Redirect } from 'react-router-dom';
 
 class Add_Event extends Component {
   constructor(props) { //constructor of props and states
@@ -14,6 +15,8 @@ class Add_Event extends Component {
       sport: '',
       max_people: 0,
       description: '',
+      eventSubmitted: false,
+      parkInfo: JSON.parse(sessionStorage.getItem('park'))
     }
 
     //bind the functions
@@ -28,6 +31,7 @@ class Add_Event extends Component {
     var user = sessionStorage.getItem('account');
     user = JSON.parse(user);
     console.log('user: ', user);
+    console.log('park: ', this.state.parkInfo)
   }
 
   sendEventData(){
@@ -39,7 +43,7 @@ class Add_Event extends Component {
 
     var data = {
       name: this.state.event_name,
-      park_id: '5b561fcb33132e4076c2957c', //sessionStorage.getItem('park_id'),
+      park_id: this.state.parkInfo._id,
       start: this.state.start,
       end: this.state.end,
       sport: this.state.sport,
@@ -77,7 +81,7 @@ class Add_Event extends Component {
 
 
   updateParkEvents(eventId) {
-    var parkId = '5b4e7650ce6a3177c05e4143'; // meder park
+    var parkId = this.state.parkInfo._id;
 
     var data = {
       parkId: parkId,
@@ -167,8 +171,8 @@ updateUserEvents(eventId) {
   handleSubmit(event){
 
   this.sendEventData();
-    const {event_name, start, end, sport, max_people, description}=this.state
-
+    const {event_name, start, end, sport, max_people, description, eventSubmitted}=this.state
+    this.setState({eventSubmitted: true});
     alert("Event Name: "+this.state.event_name
       +"\nStart Time: "+this.state.start
       +"\nEnd Time: "+this.state.end
@@ -179,7 +183,7 @@ updateUserEvents(eventId) {
   }
 
   render(){
-    const {event_name, start, end, sport, max_people, description}=this.state
+    const {event_name, start, end, sport, max_people, description, eventSubmitted}=this.state
     const enabled= 
       event_name.length > 0 &&
       start.length>0 && 
@@ -190,81 +194,87 @@ updateUserEvents(eventId) {
       description.length>0; //unable the sumbit button when no input, or max people
                             //is not valid
 
-    return (
-      <body>
-
+    let EventResult = !!this.state.eventSubmitted || sessionStorage.getItem("loggedIn") === 'false'?
+    (
+      <div>
+      <Redirect to="/page-2/"></Redirect>
+      </div>
+      ):
+    (
       <div className="eventTotal">
         
-        <div className="MyHeader">
-          <h2>Add Event</h2>
+              <div className="MyHeader">
+                <h2>Add Event</h2>
             
-        </div>
-        <form action='/page-2'>
-        <div className="event_forms">
-        	<div className="EventName">
-            	Event Name
-          </div>
-          <div className="event_name_field">
-           	<input value={this.state.park_name} 
-           	onChange={this.handleEventNameChange.bind(this)} 
-           	placeholder="e.g. 5v5 Basketball" 
-           	style={{width: "100%", height:"100%"}}
-           	required />
-          </div>
+              </div>
 
-          <div className="start_time">
-            Start Time:
-            <input id="event_start" 
-            type="datetime-local" 
-            name="startdate" 
-            value={this.state.start}
-            onChange={this.handleStartTime} />
-          </div>
+              <div className="event_forms">
+                <div className="EventName">
+                  Event Name
+                </div>
+              <div className="event_name_field">
+                  <input value={this.state.park_name} 
+                  onChange={this.handleEventNameChange.bind(this)} 
+                  placeholder="e.g. 5v5 Basketball" 
+                  style={{width: "100%", height:"100%"}}
+                  required />
+              </div>
 
-          <div className="end_time">
-            End Time:
-          	<input id="event_end" 
-            type="datetime-local" 
-            name="enddate" 
-            value={this.state.end}
-            onChange={this.handleEndTime} />
-          </div>
+              <div className="start_time">
+                  Start Time:
+                  <input id="event_start" 
+                  type="datetime-local" 
+                  name="startdate" 
+                  value={this.state.start}
+                  onChange={this.handleStartTime} />
+              </div>
+
+              <div className="end_time">
+                End Time:
+                <input id="event_end" 
+                type="datetime-local" 
+                name="enddate" 
+                value={this.state.end}
+                onChange={this.handleEndTime} />
+              </div>
 
 
-          <div className="event_picker">
-            <select value={this.state.selector} onChange={this.handleSports} style={{width: "45%", height:"100%"}}> 
-              <option value="" disabled selected>Sport?</option>
-              <option value="Basketball">Basketball</option>
-              <option value="Soccer">Soccer</option>
-              <option value="Frisbee">Frisbee</option>
-              <option value="Football">Football</option>
-              <option value="Baseball">Baseball</option>
-            </select>
+              <div className="event_picker">
+                <select value={this.state.selector} onChange={this.handleSports} style={{width: "45%", height:"100%"}}> 
+                  <option value="" disabled selected>Sport?</option>
+                  <option value="Basketball">Basketball</option>
+                  <option value="Soccer">Soccer</option>
+                  <option value="Frisbee">Frisbee</option>
+                  <option value="Football">Football</option>
+                  <option value="Baseball">Baseball</option>
+                </select>
 
-            <input 
-              type="number"
-              value={this.state.max_people} 
-              onChange={this.handleMaxPeople.bind(this)} 
-              placeholder="Max People?" 
-              style={{width: "45%", height:"100%"}}
-              required />
-          </div>
-          <div className="event_description">
-            <textarea 
-            rows="6"
-            cols="53"
-            value={this.state.park_description}
-            onChange={this.handleDescription.bind(this)}
-            placeholder="Tell us something about the event!" 
-            required />
-          </div>
-          <div className="event-submit-button">
-            <button onClick={this.handleSubmit} disabled={!enabled}>Submit</button>
-          </div>
-        </div>
-        </form>
-      </div>
-      </body>
+                <input 
+                  type="number"
+                  value={this.state.max_people} 
+                  onChange={this.handleMaxPeople.bind(this)} 
+                  placeholder="Max People?" 
+                  style={{width: "45%", height:"100%"}}
+                  required />
+              </div>
+                <div className="event_description">
+                  <textarea 
+                  rows="6"
+                  cols="53"
+                  value={this.state.park_description}
+                  onChange={this.handleDescription.bind(this)}
+                  placeholder="Tell us something about the event!" 
+                  required />
+                </div>
+                <div className="event-submit-button">
+                  <button onClick={this.handleSubmit} disabled={!enabled}>Submit</button>
+                </div>
+              </div>
+
+            </div>
+      );
+    return (
+        <div> {EventResult} </div>
       );
   }
 }

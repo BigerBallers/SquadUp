@@ -17,6 +17,7 @@ class Add_Park extends Component {
       park_location: '',
       selector: [],
       park_description: '',
+      isSubmitted: false,
     }
     this.handleSubmit= this.handleSubmit.bind(this); 
     this.handleSports=this.handleSports.bind(this);
@@ -66,8 +67,9 @@ class Add_Park extends Component {
 
   handleSubmit(event){
 
-    const {park_name, park_location, selector, park_description}=this.state;
+    const {park_name, park_location, selector, park_description, isSubmitted}=this.state;
     var sportResult= []; //the empty sports list waited to receive values of selected sports
+    this.setState({isSubmitted: true});
     for (var i=0; i<this.state.selector.length;i++){
       sportResult.push(this.state.selector[i].value); //push only the values of sports to list
     }
@@ -76,7 +78,6 @@ class Add_Park extends Component {
       +"\nSports: "+sportResult+
       "\nYou are all set!\n ");
     //here an alert window is popped up
-
 
 
     this.convertGeo(this.state.park_location);   
@@ -125,7 +126,7 @@ class Add_Park extends Component {
 
   render(){
 
-    const {park_name, park_location, selector, park_description}=this.state
+    const {park_name, park_location, selector, park_description,isSubmitted}=this.state
     const enabled= 
       park_name.length > 0 &&
       park_location.length>0 && 
@@ -138,16 +139,20 @@ class Add_Park extends Component {
       {value: "Football", label: "Football"},
       {value: "Frisbee", label: "Frisbee"}
     ]
-    return (
-      <body>
-
+    let ParkResult = !!this.state.isSubmitted || sessionStorage.getItem("loggedIn") === 'false'?
+    (
+      <div>
+      <Redirect to="/page-2/"></Redirect>
+      </div>
+      ):
+    (
       <div className="total">
         
         <div className="MyHeader">
           <h2>Add Park</h2>
             
         </div>
-        <form action='/page-2'>
+        <div className="Parkform">
           <div className="ParkName">
             Park Name
           </div>
@@ -188,9 +193,14 @@ class Add_Park extends Component {
           <div className="submit-button">
             <button onClick={this.handleSubmit} disabled={!enabled}>Submit</button>
           </div>
-        </form>
+        </div>
       </div>
-      </body>
+      );
+
+    return (
+      <div>
+        {ParkResult}
+      </div>
       );
   }
 }

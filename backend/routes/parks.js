@@ -1,15 +1,24 @@
 var express = require('express');
 var router = express.Router();
-
 var ParkQueue = require('../models/parkQueue');
 var Park = require('../models/park');
-
 var { verifyToken } = require('../utils/token.utils');
 
+/* backend page gets all parks */
+router.get('/', function(req, res) {
+	ParkQueue.find({})
+	.exec(function(err, ParkQueue){
+		if(err){
+			console.log("Error retrieving parks");
+		} else {
+			res.json(ParkQueue);
+		}
+	});
+});
 
-
+/* backend page for adding a park to the db */
 router.post('/addPark', function(req, res) {
-		console.log(req.body);
+	console.log(req.body);
 
 	var name = req.body.name;
 	var address = req.body.address;
@@ -20,7 +29,6 @@ router.post('/addPark', function(req, res) {
 
 	// validate the params. should be checked on the front end
 	// backend validation stuff
-
 	var newPark = new ParkQueue({
 		name: name,
 		address: address,
@@ -29,7 +37,6 @@ router.post('/addPark', function(req, res) {
 		rating: rating,
 		geo: geo
 	});
-
 
   ParkQueue.addParkToQueue(newPark, function(err, msg, park){
 		if (err) throw err;
@@ -41,8 +48,7 @@ router.post('/addPark', function(req, res) {
 	});
 });
 
-
-//get park by id page
+/* backend page for getting a park object based off id */
 router.get('/getParkById', function(req, res) {
 	ParkQueue.getParkById(req.query.parkId, function(err, park){
 		if(err)
@@ -51,7 +57,16 @@ router.get('/getParkById', function(req, res) {
 	})
 });
 
-//get park by id page
+/* backend page for getting list of park objects by array of ids */
+router.get('/getMultipleParksbyId', function(req, res) {
+	ParkQueue.getMultipleParksbyId(req.query.parkIds, function(err, parks){
+		if(err)
+			throw err;
+		res.json(parks);
+	})
+});
+
+/* backend page for getting event ids for events at a certain park */
 router.get('/getParkEvents', function(req, res) {
 	ParkQueue.getParkById(req.query.parkId, function(err, park){
 		if(err)
@@ -60,8 +75,7 @@ router.get('/getParkEvents', function(req, res) {
 	})
 });
 
-
-//get parks in a given radius
+/* backend page for getting all parks objects within radius */
 router.get('/getParksInRadius', function(req, res) {
 
 	var lng = Number(req.query.lng);
@@ -78,15 +92,7 @@ router.get('/getParksInRadius', function(req, res) {
 	})
 });
 
-
-router.get('/getMultipleParksbyId', function(req, res) {
-	ParkQueue.getMultipleParksbyId(req.query.parkIds, function(err, parks){
-		if(err)
-			throw err;
-		res.json(parks);
-	})
-});
-
+/* backend page for getting all parks with specific sport category */
 router.get('/getParkByCategory', function(req, res) {
 	ParkQueue.getParkByCategory(req.query.category, function(err, parkData){
 		if(err)
@@ -95,35 +101,7 @@ router.get('/getParkByCategory', function(req, res) {
 	})
 });
 
-router.get('/test', function( req, res) {
-	res.json("test get route and variables");
-});
-
-
-/*needs to be implemented and tested*/
-router.get('/ratePark', function(req, res) {
-	res.json('not yet implemented');
-	/* create a json:
-		rating : {  currRating: Number,
-								UserRate: [{user, score}]
-							}
-	*/
-});
-
-
-// dont need then function
-//get park page
-router.get('/', function(req, res) {
-	ParkQueue.find({})
-	.exec(function(err, ParkQueue){
-		if(err){
-			console.log("Error retrieving parks");
-		} else {
-			res.json(ParkQueue);
-		}
-	});
-});
-
+/* backend page to add an evenId to a park's event field */
 router.post('/addEventPark', function(req, res) {
   ParkQueue.addEventPark(req.body.parkId, req.body.eventId, function(err, response){
     if(err)
@@ -136,7 +114,6 @@ router.post('/addEventPark', function(req, res) {
     res.json(result);
   })
 });
-
 
 function checkAuthentication(req,res,next){
  	var token = req.body.token || req.query.token || req.headers['x-access-token'];

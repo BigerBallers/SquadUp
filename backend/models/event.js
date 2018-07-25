@@ -43,22 +43,12 @@ var EventSchema = new Schema({
 
 var Event = module.exports = mongoose.model('events', EventSchema);
 
-/* also make it so that the user who created it is automatically insterted
-		added to the envent list
-	*/
+/* adds event to database */
 module.exports.addEvent = function(event, callback) {
 	event.save(callback);
 }
 
-
-
-
-/* get all events at a park under a category
-   should return all events at a park with a category being a ristriction
-   if category is empty, return all events
-   Note: Probably wont need this function
- */
-
+/* returns either event object or error */
 module.exports.getEventById = function(id, callback) {
   console.log('searching db for event');
 	Event.findById(id)
@@ -73,28 +63,21 @@ module.exports.getEventById = function(id, callback) {
 	})
 }
 
-module.exports.joinEvent = function (eventId, userId, callback) {
-	Event.update(
-		{_id: eventId },
-		{ $push: {attending : userId }},
-		callback
-	);
-}
-
-//input for now is a string of the following format:
-// "event_id","event_id","event_id"(no spaces)
+/* returns list of event objects given array of event id's */
 module.exports.getMultipleEventsByIds = function(eventIds, callback) {
 	console.log('getting multiple events by ids');
-	eventIds = eventIds.replace(/\s+/g, ''); //clear whitespace
-	var ids = eventIds.split(",");
-	for(i =0; i< ids.length; i++ ){
-		ids[i] = ids[i].replace(/^"(.*)"$/, '$1');
-		console.log("i is" , i,"id is", ids[i]);
-		if( ids[i] == ""){ //removes empty elements
+	eventIds = eventIds.replace(/\s+/g, ''); //clears whitespace
+	var ids = eventIds.split(",");					//clears commas
+
+	for(i =0; i< ids.length; i++ ){					// for each element in array
+		ids[i] = ids[i].replace(/^"(.*)"$/, '$1'); //remove quotes from id
+		console.log("i is" , i,"id is", ids[i]);   //see index
+		if( ids[i] == ""){ // if empty element removes it
 			delete ids[i];
-			ids.length--;
-		}
-	}
+			ids.length--;    //shrinks array
+		} //end if
+	} //end for
+
 	Event.find({ "_id": { "$in": ids } })
 	.exec(function(err, events){
 		if(err){
@@ -105,4 +88,13 @@ module.exports.getMultipleEventsByIds = function(eventIds, callback) {
 			callback(null, events);
 		}
 	})
+}
+
+/* adds user id to attending field */
+module.exports.joinEvent = function (eventId, userId, callback) {
+	Event.update(
+		{_id: eventId },
+		{ $push: {attending : userId }},
+		callback
+	);
 }

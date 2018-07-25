@@ -32,7 +32,14 @@ const Header = ({ siteTitle }) =>
           {sessionStorage.getItem("loggedIn") === 'true' ? 
           (
             <div id="parent">
-                <div id="div3"><Link to="/">Logout</Link></div>
+                <div id="div3">
+                  <Link to="/">
+                    <button style={{borderRadius: "8px", border: "2px solid black", backgroundColor: "white"}}>
+                    Logout
+                    </button>
+                  </Link>
+
+                </div>
             </div>
           ):(null)}
       </div>
@@ -41,19 +48,35 @@ const Header = ({ siteTitle }) =>
           {sessionStorage.getItem("loggedIn") === 'true' ? 
           (
             <div id="parent">
-                <div id="div2"><Link to="/map/">Search</Link></div>
+                <div id="div2">
+                  <Link to="/map/">
+                    <button style={{borderRadius: "8px", border: "2px solid black", backgroundColor: "white"}}>
+                    Search
+                    </button>
+                  </Link>
+                </div>
             </div>
           ):(null)}
       </div>
+
 
       <div style={{float: 'right', padding:10}}>
           {sessionStorage.getItem("loggedIn") === 'true' ? 
           (
             <div id="parent">
-                <div id="div1"><Link to="/page-2">Home</Link></div>
+                <div id="div1">
+                  <Link to="/page-2">
+                    <button style={{borderRadius: "8px", border: "2px solid black", backgroundColor: "white"}}>
+                    Home
+                    </button>
+                  </Link>
+                </div>
             </div>
           ):(null)}
       </div>
+
+
+
     </div>
     </div>
 )

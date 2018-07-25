@@ -5,9 +5,6 @@
     left: 0;
     font-family: 'Roboto';
 }
-@media screen and (max-width: 980px) {
-    .App {
-        flex-direction: column; } }
 
 @media screen and (max-width: 980px) {
     .App .Image {
