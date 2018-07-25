@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react';
 import Link from 'gatsby-link';
 import image from '../images/pin.png';
 import {geolocated} from 'react-geolocated';
-
+import Select from "react-select";
 
 const AnyReactComponent = ({ text, park }) => <div style={{width:'80px', height:'auto'}}>
 <img src={image} style={{float:'left', width:'25px'}}></img>
@@ -34,8 +34,10 @@ class SimpleMap extends Component {
        lng: -97.038053
      },
      zoom: 13,
-     currentPins: []
-};
+     currentPins: [],
+     sportSelector: "",
+     radiusSelector: ""
+   };
 
   constructor(props) { //constructor of props and states
     super(props);
@@ -46,12 +48,16 @@ class SimpleMap extends Component {
       lng: -97.038053
       },
       zoom: 4,
-      currentPins: []
+      currentPins: [],
+      sportSelector: "",
+      radiusSelector: ""
     }
 
     this.getLocation=this.getLocation.bind(this);
     this.success=this.success.bind(this);
     this.requestLocation=this.requestLocation.bind(this);
+    this.handleSports=this.handleSports.bind(this);
+    this.handleRadius=this.handleRadius.bind(this);
 
   }
 
@@ -72,6 +78,7 @@ class SimpleMap extends Component {
   // and let google get the current location of user
   // also want to seach by gategory
   searchParkInRadius(center, radius){
+    console.log(typeof radius)
     console.log('searching parks in radius: ', radius);
     var lng = center.lng;
     var lat = center.lat;
@@ -94,9 +101,7 @@ class SimpleMap extends Component {
       //this.state.currentPins.map()
       console.log('current pins: ', this.state.currentPins)
       var category = ""; // needs to be the category the user selects
-      var filteredParks = this.filterCategory(response, category);
-      this.setState({currentPins: filteredParks})
-      console.log('current pins: ', this.state.currentPins)
+//      console.log('current pins: ', this.state.currentPins)
     })
     /*  this.setState({currentPins: response})
       console.log(this.state.currentPins)
@@ -107,17 +112,20 @@ class SimpleMap extends Component {
 
   // filters the parks by category
   filterCategory(parks, category) {
-    if (category == "")
-      return parks;
-
     var filteredParks = [];
-    for (var i = 0; i < parks.length; i++) {
-      if (parks[i].sports.find(function(sport) {
-        return sport == category;
-      }))
-        filteredParks.push(parks[i]);
+    if (category == ""){
+      console.log('empty')
+      filteredParks = parks
+    }
+    else{
+      for (var i = 0; i < parks.length; i++) {
+        if (parks[i].sports.find(function(sport) {
+          return sport == category;
+        }))
+          filteredParks.push(parks[i]);
+        }
+        console.log("filtered parks: ", filteredParks);
       }
-      console.log("filtered parks: ", filteredParks);
       return filteredParks;
   }
 
@@ -188,11 +196,27 @@ class SimpleMap extends Component {
     this.setState({
       center: center,
       zoom: zoom
-
     });
   }
 
+  handleSports(sportSelector){
+    //console.log('sports selector',sportSelector.target.value)
+  //  this.setState({sportSelector: sportSelector.target.value})
+    var filteredParks = this.filterCategory(this.state.currentPins, sportSelector.target.value)
+    //console.log(filteredParks)
+    this.setState({currentPins: filteredParks})
+  }
+
+  handleRadius(radiusSelector){
+    //console.log('input radiusSelector', radiusSelector.target.value)
+    this.setState({radiusSelector: radiusSelector.target.value})
+    //console.log('this state radius ',this.state.radiusSelector)
+    var rad = this.state.radiusSelector
+    this.searchParkInRadius(this.state.center, parseInt(radiusSelector.target.value));
+  }
+
   render() {
+
     const addComponent = this.state.currentPins.map((item) =>
     <AnyReactComponent lat={item.geo[1]} lng={item.geo[0]} park={item} text={item.name}/>)
 
@@ -203,21 +227,45 @@ class SimpleMap extends Component {
     return (
       // Important! Always set the container height explicitly
       <div>
-      <div style={{
-        color: 'black',
-        background:'white',
-        fontWeight:'bold',
-        fontSize:'38px',
-        padding:'10px',
-        borderRadius:'25px',
-        width: '400px',
-        textAlign: 'center',
-        margin:'auto',
-        marginTop: '10px',
-        marginBottom:'15px'
-      }}>
-        Search
-      </div>
+        <div style={{
+          color: 'black',
+          background:'white',
+          fontWeight:'bold',
+          fontSize:'38px',
+          padding:'10px',
+          borderRadius:'25px',
+          width: '400px',
+          textAlign: 'center',
+          margin:'auto',
+          marginTop: '10px',
+          marginBottom:'15px'
+        }}>
+          Search
+        </div>
+        <div style={{margin:'0px auto',marginBottom:'100px'}}>
+          <div style={{float:'left',fontSize:'20px',fontSize:'smaller',width:'50%'}}>
+          <div style={{textAlign:'center',color:'white'}}>Filter By Sport</div>
+            <select onChange={this.handleSports} style={{width:'150px', height:'30px', marginLeft:'34%',marginBottom:'20px'}}>
+              <option value="" selected></option>
+              <option value="Basketball">Basketball</option>
+              <option value="Soccer">Soccer</option>
+              <option value="Frisbee">Frisbee</option>
+              <option value="Football">Football</option>
+              <option value="Baseball">Baseball</option>
+            </select>
+          </div>
+          <div style={{float:'left',fontSize:'20px', fontSize:'smaller',width:'50%'}}>
+          <div style={{textAlign:'center',color:'white'}}>Search Radius (miles)</div>
+            <select onChange={this.handleRadius} style={{width:'150px', height:'30px', marginLeft:'34%',marginBottom:'20px'}}>
+              <option value="" disabled selected></option>
+              <option value="1">1</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+          </div>
+        </div>
       <div style={{color: 'white', height:'71vh', width:'49%', float:'right', overflowY:'auto' }}>
         <div style={{marginBottom:'10px',fontWeight:'bold',textAlign:'center', fontSize:'25px'}}>
         Parks Near You
