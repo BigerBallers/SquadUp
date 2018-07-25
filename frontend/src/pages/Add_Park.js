@@ -22,7 +22,6 @@ class Add_Park extends Component {
       park_location: '',
       selector: [],
       park_description: '',
-      isSubmitted: false,
     }
 
     //binding the methods
@@ -74,29 +73,26 @@ class Add_Park extends Component {
 
   handleSubmit(event){
 
-    const {park_name, park_location, selector, park_description, isSubmitted}=this.state;
+    const {park_name, park_location, selector, park_description}=this.state;
 
     //the empty sports list waited to receive values of selected sports
     var sportResult= []; 
-
-    //set isSubmitted state to true
-    this.setState({isSubmitted: true});
 
     //push only the values of sports to list
     for (var i=0; i<this.state.selector.length;i++){
       sportResult.push(this.state.selector[i].value); 
     }
 
-    //here an alert window is popped up
+    this.convertGeo(this.state.park_location);   
+     //here an alert window is popped up
     alert("Park Name: "+this.state.park_name
       +"\nPark Location: "+this.state.park_location
       +"\nSports: "+sportResult+
       "\nYou are all set!\n ");
     
+    //redirects the page when it's submitted
+    window.location.assign("http://localhost:8000/page-2/");
 
-
-    this.convertGeo(this.state.park_location);   
- 
   }
 
   convertGeo(input){ //Coverts address information to geographic informations
@@ -109,14 +105,15 @@ class Add_Park extends Component {
         //informations, we have to put in the informations to these attributes
         //in this function while execution so when the information comes back,
         //it would get the informations on time without distrubing other attributes
-        var sports = [];
-        for (var i=0;i< this.state.selector.length;i++){
-          sports.push(this.state.selector[i].value);
-        }
+        
 
         const { lat, lng } = response.results[0].geometry.location;
         geo = [lng, lat];
         console.log(geo);
+        var sports = [];
+        for (var i=0;i< this.state.selector.length;i++){
+          sports.push(this.state.selector[i].value);
+        }
         var data = {
         name: this.state.park_name,
         address: this.state.park_location,
@@ -136,13 +133,15 @@ class Add_Park extends Component {
         return [];
       }
     );
+
+    
   }
 
 
   render(){
 
     //set the variables to its states for changes that are going to be made later
-    const {park_name, park_location, selector, park_description,isSubmitted}=this.state
+    const {park_name, park_location, selector, park_description}=this.state
     
     //unable the sumbit button when no input
     const enabled= 
@@ -158,15 +157,7 @@ class Add_Park extends Component {
       {value: "Frisbee", label: "Frisbee"}
     ]
 
-    //If form is submitted or not logged in, redirect to page-2, and page-2 would
-    //redirect to login page if not logged in
-    let ParkResult = !!this.state.isSubmitted || sessionStorage.getItem("loggedIn") === 'false'?
-    (
-      <div>
-        <Redirect to="/page-2/"></Redirect>
-      </div>
-      ):
-    (
+    return(
       <div className="total">
         
         <div className="MyHeader">
@@ -229,11 +220,6 @@ class Add_Park extends Component {
       </div>
       );
 
-    return (
-      <div>
-        {ParkResult}
-      </div>
-    );
   }
 }
 

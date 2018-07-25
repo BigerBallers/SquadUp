@@ -197,7 +197,7 @@ updateUserEvents(eventId) {
     let EventResult = !!this.state.eventSubmitted || sessionStorage.getItem("loggedIn") === 'false'?
     (
       <div>
-      <Redirect to="/page-2/"></Redirect>
+      <Redirect to="/map/"></Redirect>
       </div>
       ):
     (
