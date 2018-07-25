@@ -11,6 +11,7 @@ class profilePage extends Component{
         // Grabs a Stringify version of user account information from Google.
         var user = sessionStorage.getItem('account');
 
+        console.log("user: ", user);
         // Creates a JSON object called user.
         user = JSON.parse(user);
         // This checks to see if you are retrieving data from the DB.
@@ -24,7 +25,7 @@ class profilePage extends Component{
 
             // Calls the back end to retrieve the event list and park list by ID.
             this.getEventsByID(event_list);
-            this.getFollwedParks();
+            //this.getFollwedParks();
         }
 
         this.state = {

@@ -107,6 +107,8 @@ class Add_Event extends Component {
       console.log(response);
     })
     .catch(error => console.log('Cannot update park event list. parsing failed', error))
+
+    this.setState({eventSubmitted: true});
   }
 
 
@@ -162,7 +164,7 @@ updateUserEvents(eventId) {
     .then(response => response.json())
     .then(response => {
         console.log('updated user: ', response);
-        sessionStorage.setItem('account', response)
+        sessionStorage.setItem('account', JSON.stringify(response))
         return response
     })
     .catch(error => console.log('parsing failed. Error: ', error))        
@@ -206,7 +208,7 @@ updateUserEvents(eventId) {
   this.sendEventData();
   this.updatedUserdata();
     const {event_name, start, end, sport, max_people, description, eventSubmitted}=this.state
-    this.setState({eventSubmitted: true});
+    //this.setState({eventSubmitted: true});
     alert("Event Name: "+this.state.event_name
       +"\nStart Time: "+this.state.start
       +"\nEnd Time: "+this.state.end
