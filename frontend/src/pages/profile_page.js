@@ -97,7 +97,7 @@ class profilePage extends Component{
     render() {
 
         if(sessionStorage.getItem('loggedIn' === 'false')){
-            <Redirect to="/page-2/"></Redirect>
+            <Redirect to="/"></Redirect>
         }
 
         const eventElement = this.state.event_col.map((x) => (
@@ -109,7 +109,7 @@ class profilePage extends Component{
                 <Image src={this.state.image} />
                 <Profile person={this.state.person}/>
                 <div style={{width:'50%', height:'550px'}}>
-                    <div style={{textAlign: 'center', color: 'white', fontSize: '34px'}}>
+                    <div style={{textAlign: 'center', color: 'white', fontSize: '34px',paddingBottom: '10px'}}>
                         My Events
                     </div>
                     <div className="Profile">

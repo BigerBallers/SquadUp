@@ -12,9 +12,6 @@
         height: 70vh; }
 }
 .App .Profile {
-    position: center;
-    margin-top: 20px;
-    margin-right: 20pm;
     box-sizing: border-box;
     color: #FFFFFF; }
 @media screen and (max-width: 980px) {
@@ -24,7 +21,8 @@
 .App .Profile .Name {
     font-size: 2vw;
     font-family: 'Abril Fatface';
-    margin-bottom: 2vw; }
+    margin-bottom: 2vw;
+    text-align: center;}
 .App .Profile .Events {
     font-size: 30px;
     line-height: 1.8;
@@ -35,22 +33,13 @@
     line-height: 1.8;
     margin-bottom: 3vw;
     opacity: .4; }
-.App .Profile .Quote {
-    margin-top: auto; }
-.App .Profile .Quote blockquote {
-    font-size: 22px;
-    font-family: 'Abril Fatface';
-    font-style: italic;
-    line-height: 1.4;
-    margin-bottom: .6em; }
-.App .Profile .Quote .byline {
-    font-family: 'Times', serif;
-    text-align: right;
-    font-size: 16px;
-    font-style: italic;
-    opacity: .25; }
 #account_picture{
     width: 15%;
     height: 15%;
-    padding-top: 20px;
+    align-content: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    border-radius: 50%;
 }
