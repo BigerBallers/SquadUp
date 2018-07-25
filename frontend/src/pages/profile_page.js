@@ -18,7 +18,6 @@ class profilePage extends Component{
 
         // Creates a JSON object called user.
         user = JSON.parse(user);
-
         // This checks to see if you are retrieving data from the DB.
         // if so, it will wait for the data to be pulled  to render.
         if(user != null) {
@@ -45,7 +44,6 @@ class profilePage extends Component{
         };
     }
 
-
     // Function to fetch events by ID. Pass in an object of ID's.
     getEventsByID(arrayOfIDs){
         //console.log('ids: ', arrayOfIDs)
@@ -62,14 +60,14 @@ class profilePage extends Component{
                 'Authorization': sessionStorage.getItem('token'),
             },
         })
-            .then(response => response.json())
-            .then(response => {
-                console.log('events: ', response);
-                this.setState( {
-                    event_col: response,
-                });
-            })
-            .catch(error => console.log('parsing failed. Error: ', error))
+        .then(response => response.json())
+        .then(response => {
+            console.log('events: ', response);
+            this.setState( {
+                event_col: response,
+            });
+        })
+        .catch(error => console.log('parsing failed. Error: ', error))
     }
 
 

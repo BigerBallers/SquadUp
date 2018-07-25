@@ -173,7 +173,32 @@ class View_Event extends Component
     .catch(error => console.log('parsing failed', error))
   }
   
-  
+  updatedUserdata() {
+    // Grabs a Stringify version of user account information from Google.
+    var user = sessionStorage.getItem('account');
+    // Creates a JSON object called user.
+    user = JSON.parse(user);
+
+    var url = new URL('http://localhost:8080/users/getUserById');
+    var params = {userId: user.id};
+    url.search = new URLSearchParams(params)
+    fetch(url, {
+        method: 'get',
+        dataType: 'json',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': sessionStorage.getItem('token'),
+        },
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log('updated user: ', response);
+        //sessionStorage.setItem('account', response)
+        return response
+    })
+    .catch(error => console.log('parsing failed. Error: ', error))        
+  }
 
 
   joinEvent() 
@@ -267,6 +292,33 @@ class View_Event extends Component
     .catch(error => console.log('parsing failed', error))
 
     /******************** end ***********************/
+
+    /******************** update user Profile ******/
+    // Grabs a Stringify version of user account information from Google.
+    var user = sessionStorage.getItem('account');
+    // Creates a JSON object called user.
+    user = JSON.parse(user);
+
+    var url = new URL('http://localhost:8080/users/getUserById');
+    var params = {userId: user.id};
+    url.search = new URLSearchParams(params)
+    fetch(url, {
+        method: 'get',
+        dataType: 'json',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': sessionStorage.getItem('token'),
+        },
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log('updated user: ', response);
+        //sessionStorage.setItem('account', response)
+        return response
+    })
+    .catch(error => console.log('parsing failed. Error: ', error))
+    /****************end end *********************/
 
 
     alert("you have joined the event!")

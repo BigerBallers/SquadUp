@@ -23,6 +23,11 @@ class Add_Event extends Component {
     if (sessionStorage.getItem("loggedIn")=="false"){
       window.location.assign("http://localhost:8000");
     }
+
+    if (this.state.parkInfo == null) {
+      window.location.assign("http://localhost:8000/404")
+    }
+
     //bind the functions
     this.handleSubmit= this.handleSubmit.bind(this); 
     this.handleSports=this.handleSports.bind(this);
@@ -140,6 +145,34 @@ class Add_Event extends Component {
   }
   
 
+  updatedUserdata() {
+    // Grabs a Stringify version of user account information from Google.
+    var user = sessionStorage.getItem('account');
+    // Creates a JSON object called user.
+    user = JSON.parse(user);
+
+    var url = new URL('http://localhost:8080/users/getUserById');
+    var params = {userId: user.id};
+    url.search = new URLSearchParams(params)
+    fetch(url, {
+        method: 'get',
+        dataType: 'json',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': sessionStorage.getItem('token'),
+        },
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log('updated user: ', response);
+        //sessionStorage.setItem('account', response)
+        return response
+    })
+    .catch(error => console.log('parsing failed. Error: ', error))        
+  }
+
+
   //functions/methods that receive inputs
   handleEventNameChange(event){
     this.setState({
@@ -175,18 +208,19 @@ class Add_Event extends Component {
   handleSubmit(event){
 
     this.sendEventData();
-      const {event_name, start, end, sport, max_people, description, eventSubmitted}=this.state
-      this.setState({eventSubmitted: true});
-      alert("Event Name: "+this.state.event_name
-        +"\nStart Time: "+this.state.start
-        +"\nEnd Time: "+this.state.end
-        +"\nSports: "+this.state.sport
-        +"\nMax People: "+this.state.max_people
-        +"\nYou are all set!\n ");
-      //here an alert window is popped up
+    this.updatedUserdata();
+    const {event_name, start, end, sport, max_people, description, eventSubmitted}=this.state
+    this.setState({eventSubmitted: true});
+    alert("Event Name: "+this.state.event_name
+      +"\nStart Time: "+this.state.start
+      +"\nEnd Time: "+this.state.end
+      +"\nSports: "+this.state.sport
+      +"\nMax People: "+this.state.max_people
+      +"\nYou are all set!\n ");
+    //here an alert window is popped up
 
-      //redirects the page when it's submitted
-      window.location.assign("http://localhost:8000/map/");
+    //redirects the page when it's submitted
+    window.location.assign("http://localhost:8000/map/");
   }
 
   render(){

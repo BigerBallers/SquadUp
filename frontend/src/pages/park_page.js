@@ -46,6 +46,10 @@ class ParkPage extends Component {
       zoom:16
     }
 
+    if (this.state.parkInfo == null) {
+      window.location.assign("http://localhost:8000/404")
+    }
+
     this.getParkInfo=this.getParkInfo.bind(this);
     this.getEventsByID=this.getEventsByID.bind(this);
     this.setCenter=this.setCenter.bind(this);
