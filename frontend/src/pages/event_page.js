@@ -3,23 +3,19 @@ import './event_page.css';
 import Link from "gatsby-link";
 import Geocode from "react-geocode";
 
-class View_Event extends Component 
-{
-    static defaultProps = 
-    {
+class View_Event extends Component {
+    static defaultProps = {
       eventInfo: {},
       guests: []
     };
 
 
   //constructor of props and states
-  constructor(props) 
-  { 
+  constructor(props) { 
     
     super(props);
 
-    this.state = 
-    {
+    this.state = {
       eventInfo: JSON.parse(sessionStorage.getItem('event')),
       parkInfo: JSON.parse(sessionStorage.getItem('park')),
       guests: []
@@ -45,19 +41,18 @@ class View_Event extends Component
 
   }
 
-  getEventInfo()
-  {
+
+  getEventInfo(){
     console.log(this.state.eventInfo);
   }
 
-  getParkInfo()
-  {
+
+  getParkInfo(){
     console.log(this.state.parkInfo);
   }
 
 
-
-  getAttendingUsers(userIDs){
+  getAttendingUsers(userIDs) {
     console.log("user ids: ", userIDs)
     var url = new URL('http://localhost:8080/users/getMultipleUsersById');
     var params = {userIds: userIDs};
@@ -121,8 +116,7 @@ class View_Event extends Component
 
 
   /* doesnt work for some reason.*/
-  addEventToUserList()
-  {
+  addEventToUserList() {
     var user = sessionStorage.getItem('account');
     user = JSON.parse(user);
 
@@ -150,8 +144,7 @@ class View_Event extends Component
 
 
   /* doesnt work for some reason.*/
-  addUserToEventList()
-  {
+  addUserToEventList() {
     var user = sessionStorage.getItem('account');
     user = JSON.parse(user);
 
@@ -205,8 +198,7 @@ class View_Event extends Component
   }
 
 
-  joinEvent() 
-  {
+  joinEvent() {
     var user = sessionStorage.getItem('account');
     user = JSON.parse(user);
 
@@ -221,10 +213,8 @@ class View_Event extends Component
 
     var eventInfo = JSON.parse(sessionStorage.getItem('event'))
 
-    for (var i = 0; i < event.attending.length; i++)
-    {
-      if(event.attending[i] == user.id)
-      {
+    for (var i = 0; i < event.attending.length; i++) {
+      if(event.attending[i] == user.id) {
         alert("You are already attending this event!")
         return
       }
@@ -327,17 +317,14 @@ class View_Event extends Component
 
     alert("you have joined the event!")
 
-    // after the db has been added, we want to update users session
-
     //change to profile page
-    window.location.assign("http://localhost:8000/page-2/")
+    window.location.assign("http://localhost:8000/profile_page/")
   }
 
 
 
 
-  render()
-  {
+  render() {
     const listGuests = this.state.guests.map((person) => <ListEachGuest person={person}/>)
 
 

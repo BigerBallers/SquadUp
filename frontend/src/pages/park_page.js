@@ -4,6 +4,11 @@ import GoogleMapReact from 'google-map-react';
 import pin from '../images/pin.png';
 import Link from 'gatsby-link';
 
+
+//  - Will display each event associated for the current park -
+//  This const will take in the entire event object
+//  It will create a link for each event, and the link will open up a new page
+//  When a new page is open, it'll call sendEventInfo() passing in the event object
 const EventComponent = ({evnt}) => (
   <div style={{borderRadius:'5px',padding:'10px',margin:'auto',marginBottom:'3px',border:'1px solid black',color:'black',background:'white', width:'90%', height:'auto'}}
   >
@@ -14,6 +19,8 @@ const EventComponent = ({evnt}) => (
   </div>
 )
 
+//  This const will take in the name of the park, and it will display a pin
+//  on the Google Map
 const AnyReactComponent = ({ text }) => <div style={{width:'80px', height:'auto'}}>
 <img src={pin} style={{float:'left', width:'25px'}}></img>
   <div>
@@ -21,6 +28,9 @@ const AnyReactComponent = ({ text }) => <div style={{width:'80px', height:'auto'
     </div>
 </div>;
 
+
+//  send the event object to the sessionStorage() in order to save the currently
+//  clicked event info
 function sendEventInfo(evnt, e){
   sessionStorage.setItem('event', JSON.stringify(evnt))
 }
@@ -65,6 +75,9 @@ class ParkPage extends Component {
     console.log(this.state.parkInfo);
   }
 
+//  Send in a list of event ID's, to return a list of corresponding
+//  Event objects
+//  This will pull from the MongoDB database
   getEventsByID(arrayOfIDs){
     console.log('ids: ', arrayOfIDs)
 
@@ -98,6 +111,10 @@ class ParkPage extends Component {
 
 
   render() {
+
+    //  If there are no events to display, the code will render a message
+    //  that says No events available
+    //  Else, create an EventComponent for each event available
     const addComponent = this.state.isNull ? (
          <div style={{paddingTop:'50px', textAlign: 'center'}}>NO EVENTS AVAILABILE</div>
       ) : (
@@ -105,6 +122,7 @@ class ParkPage extends Component {
         (<EventComponent evnt={item}/>))
       )
 
+    // Return a list of sports that correspond to the current selected park
     const getSports = this.state.parkInfo.sports.map((item) => (
         <div style={{ width:'25%', background:'white', color:'black', borderRadius:'8px', float:'left', margin:'2px'}}>
         {item}
@@ -172,9 +190,9 @@ class ParkPage extends Component {
             />
         </GoogleMapReact>
         </div>
-       
+
       </div>
-       <div className="goToAddEvent" 
+       <div className="goToAddEvent"
        style={{marginLeft:'10px', textAlign: 'center'}}>
         <Link to="/Add_Event/">
         <button style={{marginTop: "20px", height: "40px",border: "2px solid black", borderRadius:'8px'}}>

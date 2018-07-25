@@ -5,6 +5,10 @@ import image from '../images/pin.png';
 import {geolocated} from 'react-geolocated';
 import Select from "react-select";
 
+//  - Will display pins on Google Maps -
+//  This const will take in 2 args, the name of the park and the entire park object
+//  It will create a link for each park, and the link will open up a new page
+//  When a new page is open, it'll call sendParkInfo() passing in the park object
 const AnyReactComponent = ({ text, park }) => <div style={{width:'80px', height:'auto'}}>
 <img src={image} style={{float:'left', width:'25px'}}></img>
   <Link to='/park_page' onClick={(e) => sendParkInfo(park, e)}>
@@ -12,6 +16,10 @@ const AnyReactComponent = ({ text, park }) => <div style={{width:'80px', height:
     </Link>
 </div>;
 
+//  - Will display each park on the list of parks -
+//  This const will take in 3 args, the name of the park and the entire park object
+//  It will create a link for each park, and the link will open up a new page
+//  When a new page is open, it'll call sendParkInfo() passing in the park object
 const ListPark = ({name, address, park}) => (
   <div style={{borderRadius:'5px',padding:'10px',margin:'auto',marginBottom:'3px',border:'1px solid black',color:'black',background:'white', width:'90%', height:'auto'}}
   >
@@ -22,12 +30,15 @@ const ListPark = ({name, address, park}) => (
   </div>
 )
 
-
+//  Put the park object into the global sessionStorage ***
+//  Allows the system to store the currently clicked park
 function sendParkInfo(park, e) {
   sessionStorage.setItem('park', JSON.stringify(park));
 }
 
 class SimpleMap extends Component {
+
+// Set a list of default properties
    static defaultProps = {
      center: {
        lat: 37.061093,
@@ -42,7 +53,7 @@ class SimpleMap extends Component {
   constructor(props) { //constructor of props and states
     super(props);
 
-    this.state = { //three fields for add parK: name, locaiton and sport
+    this.state = { //initialize all states
       center: {
       lat: 37.061093,
       lng: -97.038053
@@ -57,7 +68,7 @@ class SimpleMap extends Component {
     if (sessionStorage.getItem("loggedIn")=="false"){
       window.location.assign("http://localhost:8000");
     }
-    
+
     this.getLocation=this.getLocation.bind(this);
     this.success=this.success.bind(this);
     this.requestLocation=this.requestLocation.bind(this);
@@ -70,7 +81,6 @@ class SimpleMap extends Component {
   componentDidMount(){
     this.getLocation();
   }
-
 
   handleSeach() {
     // only can be clicked if radius is given
@@ -134,7 +144,7 @@ class SimpleMap extends Component {
       return filteredParks;
   }
 
-
+// Get the current location of user
   getLocation(){
     var msg;
     /**
@@ -204,6 +214,8 @@ class SimpleMap extends Component {
     });
   }
 
+// when sport is selected, run this function, which will get a list
+// of filtered parks based on the category
   handleSports(sportSelector){
     //console.log('sports selector',sportSelector.target.value)
   //  this.setState({sportSelector: sportSelector.target.value})
@@ -212,6 +224,8 @@ class SimpleMap extends Component {
     this.setState({currentPins: filteredParks})
   }
 
+// when radius is selected, run this function, which will set the state
+// of the search radius, and will call the searchParkInRadius() function
   handleRadius(radiusSelector){
     //console.log('input radiusSelector', radiusSelector.target.value)
     this.setState({radiusSelector: radiusSelector.target.value})
@@ -222,9 +236,12 @@ class SimpleMap extends Component {
 
   render() {
 
+//  iterate through the list of each park
+//  create a new AnyReactComponent for each park to create a pin
     const addComponent = this.state.currentPins.map((item) =>
     <AnyReactComponent lat={item.geo[1]} lng={item.geo[0]} park={item} text={item.name}/>)
 
+//  iterate through the list of park to display the list of parks on the side
     const listParks = this.state.currentPins.map((item) => (
       <ListPark name={item.name} address={item.address} park={item}/>
     ))
