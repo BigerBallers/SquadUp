@@ -84,7 +84,7 @@ class IndexPage extends Component {
 
   render() {
 
-    let content = !!this.state.isAuthenticated ?
+    let content = this.state.isAuthenticated ?
       (
         <div>
           <div>

@@ -19,6 +19,11 @@ class Add_Event extends Component {
       parkInfo: JSON.parse(sessionStorage.getItem('park'))
     }
 
+    //check if user is logged in: if not, go back to homepage
+    if (sessionStorage.getItem("loggedIn")=="false"){
+      window.location.assign("http://localhost:8000");
+    }
+
     if (this.state.parkInfo == null) {
       window.location.assign("http://localhost:8000/404")
     }
@@ -109,35 +114,35 @@ class Add_Event extends Component {
   }
 
 
-updateUserEvents(eventId) {
-  console.log('adding event to user list');
-  var user = sessionStorage.getItem('account');
-  user = JSON.parse(user);
-  
-  var data = {
-    userId: user.id,
-    eventId: eventId
-  };
+  updateUserEvents(eventId) {
+    console.log('adding event to user list');
+    var user = sessionStorage.getItem('account');
+    user = JSON.parse(user);
+    
+    var data = {
+      userId: user.id,
+      eventId: eventId
+    };
 
-  console.log(data);
+    console.log(data);
 
-  fetch('http://localhost:8080/users/addEventById', {
-    method: 'POST',
-    dataType: 'json',
-          headers: {
-            'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'Authorization': sessionStorage.getItem('token')
-          },
-    body: JSON.stringify(data)
-  })
-  .then(response => response.json())
-  .then(response => {
-    if (response.status == 'success')
-      console.log('event added to users event List')
-      console.log('response: ', response)
-  })
-}
+    fetch('http://localhost:8080/users/addEventById', {
+      method: 'POST',
+      dataType: 'json',
+            headers: {
+              'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': sessionStorage.getItem('token')
+            },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(response => {
+      if (response.status == 'success')
+        console.log('event added to users event List')
+        console.log('response: ', response)
+    })
+  }
   
 
   updatedUserdata() {
@@ -202,8 +207,8 @@ updateUserEvents(eventId) {
 
   handleSubmit(event){
 
-  this.sendEventData();
-  this.updatedUserdata();
+    this.sendEventData();
+    this.updatedUserdata();
     const {event_name, start, end, sport, max_people, description, eventSubmitted}=this.state
     this.setState({eventSubmitted: true});
     alert("Event Name: "+this.state.event_name
@@ -213,6 +218,9 @@ updateUserEvents(eventId) {
       +"\nMax People: "+this.state.max_people
       +"\nYou are all set!\n ");
     //here an alert window is popped up
+
+    //redirects the page when it's submitted
+    window.location.assign("http://localhost:8000/map/");
   }
 
   render(){
@@ -224,90 +232,82 @@ updateUserEvents(eventId) {
       sport.length &&
       max_people>0 &&
       max_people%1==0 &&
-      description.length>0; //unable the sumbit button when no input, or max people
-                            //is not valid
+      description.length>0; 
+      //unable the sumbit button when no input, or max people
+      //is not valid
 
-    let EventResult = !!this.state.eventSubmitted || sessionStorage.getItem("loggedIn") === 'false'?
-    (
-      <div>
-      <Redirect to="/map/"></Redirect>
-      </div>
-      ):
-    (
+    return(
       <div className="eventTotal">
         
-              <div className="MyHeader">
-                <h2>Add Event</h2>
-            
-              </div>
+        <div className="MyHeader">
+          <h2>Add Event</h2>
+      
+        </div>
 
-              <div className="event_forms">
-                <div className="EventName">
-                  Event Name
-                </div>
-              <div className="event_name_field">
-                  <input value={this.state.park_name} 
-                  onChange={this.handleEventNameChange.bind(this)} 
-                  placeholder="e.g. 5v5 Basketball" 
-                  style={{width: "100%", height:"100%"}}
-                  required />
-              </div>
+        <div className="event_forms">
+          <div className="EventName">
+            Event Name
+          </div>
+        <div className="event_name_field">
+            <input value={this.state.park_name} 
+            onChange={this.handleEventNameChange.bind(this)} 
+            placeholder="e.g. 5v5 Basketball" 
+            style={{width: "100%", height:"100%"}}
+            required />
+        </div>
 
-              <div className="start_time">
-                  Start Time:
-                  <input id="event_start" 
-                  type="datetime-local" 
-                  name="startdate" 
-                  value={this.state.start}
-                  onChange={this.handleStartTime} />
-              </div>
+        <div className="start_time">
+            Start Time:
+            <input id="event_start" 
+            type="datetime-local" 
+            name="startdate" 
+            value={this.state.start}
+            onChange={this.handleStartTime} />
+        </div>
 
-              <div className="end_time">
-                End Time:
-                <input id="event_end" 
-                type="datetime-local" 
-                name="enddate" 
-                value={this.state.end}
-                onChange={this.handleEndTime} />
-              </div>
+        <div className="end_time">
+          End Time:
+          <input id="event_end" 
+          type="datetime-local" 
+          name="enddate" 
+          value={this.state.end}
+          onChange={this.handleEndTime} />
+        </div>
 
 
-              <div className="event_picker">
-                <select value={this.state.selector} onChange={this.handleSports} style={{width: "45%", height:"100%"}}> 
-                  <option value="" disabled selected>Sport?</option>
-                  <option value="Basketball">Basketball</option>
-                  <option value="Soccer">Soccer</option>
-                  <option value="Frisbee">Frisbee</option>
-                  <option value="Football">Football</option>
-                  <option value="Baseball">Baseball</option>
-                </select>
+        <div className="event_picker">
+          <select value={this.state.selector} onChange={this.handleSports} style={{width: "45%", height:"100%"}}> 
+            <option value="" disabled selected>Sport?</option>
+            <option value="Basketball">Basketball</option>
+            <option value="Soccer">Soccer</option>
+            <option value="Frisbee">Frisbee</option>
+            <option value="Football">Football</option>
+            <option value="Baseball">Baseball</option>
+          </select>
 
-                <input 
-                  type="number"
-                  value={this.state.max_people} 
-                  onChange={this.handleMaxPeople.bind(this)} 
-                  placeholder="Max People?" 
-                  style={{width: "45%", height:"100%"}}
-                  required />
-              </div>
-                <div className="event_description">
-                  <textarea 
-                  rows="6"
-                  cols="53"
-                  value={this.state.park_description}
-                  onChange={this.handleDescription.bind(this)}
-                  placeholder="Tell us something about the event!" 
-                  required />
-                </div>
-                <div className="event-submit-button">
-                  <button onClick={this.handleSubmit} disabled={!enabled}>Submit</button>
-                </div>
-              </div>
+          <input 
+            type="number"
+            value={this.state.max_people} 
+            onChange={this.handleMaxPeople.bind(this)} 
+            placeholder="Max People?" 
+            style={{width: "45%", height:"100%"}}
+            required />
+        </div>
+          <div className="event_description">
+            <textarea 
+            rows="6"
+            cols="53"
+            value={this.state.park_description}
+            onChange={this.handleDescription.bind(this)}
+            placeholder="Tell us something about the event!" 
+            required />
+          </div>
+          <div className="event-submit-button">
+            <button onClick={this.handleSubmit} disabled={!enabled}>Submit</button>
+          </div>
+        </div>
 
-            </div>
-      );
-    return (
-        <div> {EventResult} </div>
+      </div>
       );
   }
 }

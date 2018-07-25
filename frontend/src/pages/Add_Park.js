@@ -28,8 +28,13 @@ class Add_Park extends Component {
     this.handleSubmit= this.handleSubmit.bind(this); 
     this.handleSports=this.handleSports.bind(this);
     this.handleDescription=this.handleDescription.bind(this);
+    
+    if (sessionStorage.getItem("loggedIn")=="false"){
+      window.location.assign("http://localhost:8000");
+    }
 
   }
+
 
   sendParkData(data){
     fetch('http://localhost:8080/parks/addPark', {
@@ -219,7 +224,6 @@ class Add_Park extends Component {
         </div>
       </div>
       );
-
   }
 }
 
