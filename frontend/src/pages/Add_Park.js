@@ -91,7 +91,7 @@ class Add_Park extends Component {
       "\nYou are all set!\n ");
     
     //redirects the page when it's submitted
-    window.location.assign("http://localhost:8000/page-2/");
+    window.location.assign("http://localhost:8000/profile_page/");
 
   }
 
