@@ -24,7 +24,7 @@ const Header = ({ siteTitle }) =>
       }}>
 
       <div>
-        <Link to="/page-2">
+        <Link to="/profile_page">
 
           <img src={image} 
           style={{float:'left', 
@@ -86,9 +86,31 @@ const Header = ({ siteTitle }) =>
           {sessionStorage.getItem("loggedIn") === 'true' ? 
           (
             <div id="parent">
+                <div id="div4">
+
+                  <Link to="/Add_Park/">
+
+                    <button 
+                    style={{borderRadius: "8px", 
+                    border: "2px solid black", 
+                    backgroundColor: "white"}}>
+                      Add Park
+                    </button>
+
+                  </Link>
+
+                </div>
+            </div>
+          ):(null)}
+      </div>
+
+      <div style={{float: 'right', padding:10}}>
+          {sessionStorage.getItem("loggedIn") === 'true' ? 
+          (
+            <div id="parent">
                 <div id="div1">
 
-                  <Link to="/page-2">
+                  <Link to="/profile_page/">
 
                     <button 
                     style={{borderRadius: "8px", 
