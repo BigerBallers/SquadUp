@@ -39,8 +39,11 @@ class profilePage extends Component{
             parks_col: []
         };
 
-        this.updatedUserdata();
+        if (sessionStorage.getItem('loggedIn') === 'false') {
+            window.location.assign("http://localhost:8000/")     
+        }
         
+        this.updatedUserdata();
     }
 
     /* updates the users account session. Seems to only work when page is refreshed.
