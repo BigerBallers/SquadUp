@@ -130,7 +130,8 @@ class ParkPage extends Component {
             width: '400px',
             textAlign: 'center',
             margin:'auto',
-            marginTop: '10px'
+            marginTop: '10px',
+            lineHeight: '1',
           }}>
             {this.state.parkInfo.name}
           </div>
@@ -149,7 +150,7 @@ class ParkPage extends Component {
           <hr style={{background:'white'}}/>
           <div style={{fontStyle:'bold',fontSize:'20px',textAlign:'center'}}> Sports
           </div>
-          <div style={{fontStyle:'normal', textAlign:'center', width: '100%',height:'50px', display:'inline-block', marginTop:'8px', padding:'10px 10px'}}>
+          <div style={{fontStyle:'normal', textAlign:'center', width: '100%',height:'80px', display:'inline-block', marginTop:'8px', padding:'10px 10px'}}>
           {getSports}
           </div>
           <hr style={{background:'white'}}/>
