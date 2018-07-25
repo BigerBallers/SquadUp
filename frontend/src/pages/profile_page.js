@@ -6,11 +6,12 @@ import { Redirect } from 'react-router-dom'
 class profilePage extends Component{
 
     constructor(props) {
-        super(props);       
+        super(props);
 
         // Grabs a Stringify version of user account information from Google.
         var user = sessionStorage.getItem('account');
 
+        console.log("user: ", user);
         // Creates a JSON object called user.
         user = JSON.parse(user);
         // This checks to see if you are retrieving data from the DB.
@@ -24,7 +25,7 @@ class profilePage extends Component{
 
             // Calls the back end to retrieve the event list and park list by ID.
             this.getEventsByID(event_list);
-            this.getFollwedParks();
+            //this.getFollwedParks();
         }
 
         this.state = {
@@ -37,8 +38,44 @@ class profilePage extends Component{
             event_col: [],
             parks_col: []
         };
+
+        if (sessionStorage.getItem('loggedIn') === 'false') {
+            window.location.assign("http://localhost:8000/")     
+        }
         
+        this.updatedUserdata();
     }
+
+    /* updates the users account session. Seems to only work when page is refreshed.
+       I think what happens is that the page run this but everyting is already renderd.
+       By refreshing, We load the new data.
+    */
+    updatedUserdata() {
+        // Grabs a Stringify version of user account information from Google.
+        var user = sessionStorage.getItem('account');
+        // Creates a JSON object called user.
+        user = JSON.parse(user);
+
+        var url = new URL('http://localhost:8080/users/getUserById');
+        var params = {userId: user.id};
+        url.search = new URLSearchParams(params)
+        fetch(url, {
+            method: 'get',
+            dataType: 'json',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': sessionStorage.getItem('token'),
+            },
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log('updated user: ', response);
+            sessionStorage.setItem('account', JSON.stringify(response))
+            return response
+        })
+        .catch(error => console.log('parsing failed. Error: ', error))        
+      }
 
     // Function to fetch events by ID. Pass in an object of ID's.
     getEventsByID(arrayOfIDs){
