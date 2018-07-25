@@ -168,7 +168,16 @@ class ParkPage extends Component {
             />
         </GoogleMapReact>
         </div>
+       
       </div>
+       <div className="goToAddEvent" 
+       style={{marginLeft:'10px', textAlign: 'center'}}>
+        <Link to="/Add_Event/">
+        <button style={{marginTop: "20px", height: "40px",border: "2px solid black", borderRadius:'8px'}}>
+        Add An Event
+        </button>
+        </Link>
+        </div>
       </div>
     )
   }

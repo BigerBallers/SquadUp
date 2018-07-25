@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 .landingPageElement{
+	text-align: center;
 	margin-top: 130px;
 	font-family: "Nunito";
 }
