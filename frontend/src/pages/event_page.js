@@ -54,7 +54,7 @@ class View_Event extends Component
 
 
   getAttendingUsers(userIDs){
-    console.log(userIDs)
+    console.log("user ids: ", userIDs)
     var url = new URL('http://localhost:8080/users/getMultipleUsersById');
     var params = {userIds: userIDs};
     url.search = new URLSearchParams(params)
@@ -87,7 +87,6 @@ class View_Event extends Component
   }
 
   gethostData(host_id) {
-    console.log(host_id)
     var url = new URL('http://localhost:8080/users/getUserById');
     var params = {userId: host_id};
     url.search = new URLSearchParams(params)
@@ -117,6 +116,7 @@ class View_Event extends Component
   }
 
 
+  /* doesnt work for some reason.*/
   addEventToUserList()
   {
     var user = sessionStorage.getItem('account');
@@ -145,6 +145,7 @@ class View_Event extends Component
   }
 
 
+  /* doesnt work for some reason.*/
   addUserToEventList()
   {
     var user = sessionStorage.getItem('account');
@@ -175,8 +176,37 @@ class View_Event extends Component
   
 
 
-  joinEvent()
+  joinEvent() 
   {
+    var user = sessionStorage.getItem('account');
+    user = JSON.parse(user);
+
+    console.log("user: ", user)
+
+    var event = sessionStorage.getItem('event');
+    event = JSON.parse(event);
+
+    var data = {eventId: event._id, userId: user.id}
+
+    console.log("attending ids: ", event.attending)
+
+    var eventInfo = JSON.parse(sessionStorage.getItem('event'))
+
+    for (var i = 0; i < event.attending.length; i++)
+    {
+      if(event.attending[i] == user.id)
+      {
+        alert("You are already attending this event!")
+        return
+      }
+    }
+
+    if (user.id == eventInfo.host_id) {
+      alert("Host cannot join his own event!")
+      return;
+    }
+
+    /*********** add event to users list *************/
     var user = sessionStorage.getItem('account');
     user = JSON.parse(user);
 
@@ -185,17 +215,25 @@ class View_Event extends Component
 
     var data = {eventId: event._id, userId: user.id}
 
-    console.log(event.attending)
-
-    for (var i = 0; i < event.attending.length; i++)
-    {
-      if(event.attending[i] == user.id || user.events[i] == event._id)
-      {
-        alert("You are already attending this event!")
-        return
+    fetch('http://localhost:8080/events/joinEvent', {
+      method: 'post',
+      dataType: 'json',
+      body: JSON.stringify(data),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': sessionStorage.getItem('token')
       }
-    }
+    })
+    .then(response => response.json())
+    .then(response => {
+    console.log('response: ', response);
+    })
+    .catch(error => console.log('parsing failed', error))
+    /******************** end ***********************/
 
+
+    /*********** add event to users list *************/
     fetch('http://localhost:8080/users/addEventById', {
       method: 'post',
       dataType: 'json',
@@ -227,6 +265,13 @@ class View_Event extends Component
     console.log('response: ', response);
     })
     .catch(error => console.log('parsing failed', error))
+
+    /******************** end ***********************/
+
+
+    alert("you have joined the event!")
+
+    // after the db has been added, we want to update users session
 
     //change to profile page
     window.location.assign("http://localhost:8000/page-2/")

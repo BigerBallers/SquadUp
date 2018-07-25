@@ -80,7 +80,7 @@ router.get('/getUsersAttendingEvent', function(req, res) {
 
 /* given a user Id, updates attending field*/
 router.post('/joinEvent', function(req, res) {
-  Event.joinEvent(req.query.eventId, req.query.userId, function(err, response){
+  Event.joinEvent(req.body.eventId, req.body.userId, function(err, response){
     if(err)
       throw err;
     //console.log(response);
