@@ -5,20 +5,27 @@ import Geocode from "react-geocode";
 import Select from "react-select";
 import { Redirect } from 'react-router-dom';
 
+//Geocode instructions
 Geocode.setApiKey("AIzaSyDAqgkDUgbqZuBZbDXkiaXubQWvdV3gYZg");  
 Geocode.enableDebug();
 
 class Add_Park extends Component {
-  constructor(props) { //constructor of props and states
+
+  //constructor of props and states
+  constructor(props) { 
     super(props);
     
-    this.state = { //three fields for add parK: name, locaiton and sport
+    //fields for add parK: name, locaiton, sport and description
+    //also initialize the flag that determine whether form is submitted
+    this.state = { 
       park_name: '',
       park_location: '',
       selector: [],
       park_description: '',
       isSubmitted: false,
     }
+
+    //binding the methods
     this.handleSubmit= this.handleSubmit.bind(this); 
     this.handleSports=this.handleSports.bind(this);
     this.handleDescription=this.handleDescription.bind(this);
@@ -68,16 +75,24 @@ class Add_Park extends Component {
   handleSubmit(event){
 
     const {park_name, park_location, selector, park_description, isSubmitted}=this.state;
-    var sportResult= []; //the empty sports list waited to receive values of selected sports
+
+    //the empty sports list waited to receive values of selected sports
+    var sportResult= []; 
+
+    //set isSubmitted state to true
     this.setState({isSubmitted: true});
+
+    //push only the values of sports to list
     for (var i=0; i<this.state.selector.length;i++){
-      sportResult.push(this.state.selector[i].value); //push only the values of sports to list
+      sportResult.push(this.state.selector[i].value); 
     }
+
+    //here an alert window is popped up
     alert("Park Name: "+this.state.park_name
       +"\nPark Location: "+this.state.park_location
       +"\nSports: "+sportResult+
       "\nYou are all set!\n ");
-    //here an alert window is popped up
+    
 
 
     this.convertGeo(this.state.park_location);   
@@ -126,23 +141,29 @@ class Add_Park extends Component {
 
   render(){
 
+    //set the variables to its states for changes that are going to be made later
     const {park_name, park_location, selector, park_description,isSubmitted}=this.state
+    
+    //unable the sumbit button when no input
     const enabled= 
       park_name.length > 0 &&
       park_location.length>0 && 
-      selector.length>0; //unable the sumbit button when no input
+      selector.length>0; 
 
-    //options of sports
+    //options for sports
     const options = [
       {value: "Basketball", label: 'Basketball'},
       {value: "Soccer", label: 'Soccer'},
       {value: "Football", label: "Football"},
       {value: "Frisbee", label: "Frisbee"}
     ]
+
+    //If form is submitted or not logged in, redirect to page-2, and page-2 would
+    //redirect to login page if not logged in
     let ParkResult = !!this.state.isSubmitted || sessionStorage.getItem("loggedIn") === 'false'?
     (
       <div>
-      <Redirect to="/page-2/"></Redirect>
+        <Redirect to="/page-2/"></Redirect>
       </div>
       ):
     (
@@ -152,10 +173,13 @@ class Add_Park extends Component {
           <h2>Add Park</h2>
             
         </div>
+
         <div className="Parkform">
+
           <div className="ParkName">
             Park Name
           </div>
+
             <div className="name_field">
               <input value={this.state.park_name} 
               onChange={this.handleParknameChange.bind(this)} 
@@ -172,15 +196,18 @@ class Add_Park extends Component {
               <input value={this.state.park_location}
               onChange={this.handleLocationChange.bind(this)}
               placeholder="e.g. 5th Avenue"
-              style={{width: "100%", height:"100%"}} required />
+              style={{width: "100%", height:"100%"}} 
+              required />
           </div>
+
           <div className="picker">
             <Select options={options} 
             value={selector} 
             onChange={this.handleSports}
-            style={{width: "100%", height:"100%"}} isMulti /> 
-
+            style={{width: "100%", height:"100%"}} 
+            isMulti /> 
           </div>
+
           <div className="ParkDescription">
             <textarea 
             rows="6"
@@ -190,9 +217,14 @@ class Add_Park extends Component {
             placeholder="Tell us something about the park!" 
             required />
           </div>
+
           <div className="submit-button">
-            <button onClick={this.handleSubmit} disabled={!enabled}>Submit</button>
+            <button onClick={this.handleSubmit} 
+            disabled={!enabled}>
+              Submit
+            </button>
           </div>
+
         </div>
       </div>
       );
@@ -201,7 +233,7 @@ class Add_Park extends Component {
       <div>
         {ParkResult}
       </div>
-      );
+    );
   }
 }
 
