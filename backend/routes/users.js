@@ -83,7 +83,7 @@ router.post('/addEventById', function(req, res) {
 
 /* backend page adds park id to user field: followed parks  */
 router.post('/followParkById', function(req, res) {
-  User.followPark(req.query.userId, req.query.parkId, function(err, response){
+  User.followPark(req.body.userId, req.body.parkId, function(err, response){
     if(err)
       throw err;
     console.log(response);
