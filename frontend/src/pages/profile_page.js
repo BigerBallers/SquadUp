@@ -1,29 +1,31 @@
 import React, { Component } from 'react';
 import './profile.css';
+import { Redirect } from 'react-router-dom'
 
 
 class profilePage extends Component{
 
     constructor(props) {
         super(props);
+
+        // Grabs a Stringify version of user account information from Google.
         var user = sessionStorage.getItem('account');
 
-        //console.log(user);
+        // Creates a JSON object called user.
         user = JSON.parse(user);
 
+        // This checks to see if you are retrieving data from the DB.
+        // if so, it will wait for the data to be pulled  to render.
         if(user != null) {
+            //console.log(user);
             var full_name = user.googleProvider.name;
             var profile_image = user.googleProvider.profilePic;
             var event_list = user.events;
-            var favorite_parks = user.followedParks[0];
+            var favorite_parks = user.followedParks;
 
+            // Calls the back end to retrieve the event list and park list by ID.
             this.getEventsByID(event_list);
-            //console.log(this.state.event_state);
-            //event_list = this.state.event_state;
-            //console.log('in user for loop:');
-
-            console.log(user);
-            //console.log(profile_image);
+            this.getFollwedParks();
         }
 
         this.state = {
@@ -33,13 +35,14 @@ class profilePage extends Component{
                 park_column: favorite_parks
             },
             image: profile_image,
-            event_col: null
-
+            event_col: []
         };
     }
 
+
+    // Function to fetch events by ID. Pass in an object of ID's.
     getEventsByID(arrayOfIDs){
-        console.log('ids: ', arrayOfIDs)
+        //console.log('ids: ', arrayOfIDs)
 
         var url = new URL('http://localhost:8080/events/getMultipleEventsById');
         var params = {eventIds: arrayOfIDs};
@@ -57,57 +60,91 @@ class profilePage extends Component{
             .then(response => {
                 console.log('events: ', response);
                 this.setState( {
-                    event_col: response[0].name,
+                    event_col: response,
                 });
             })
             .catch(error => console.log('parsing failed. Error: ', error))
     }
 
 
+    // Function to fetch the followed parks by the user. Uses the current person logged in.
+    getFollwedParks() {
+        var user = sessionStorage.getItem('account');
+        user = JSON.parse(user);
+        //console.log('user: ', user);
+        var arrayOfIDs = user.followedParks;
+        //console.log('arry of ids: ', arrayOfIDs);
+        var url = new URL('http://localhost:8080/parks/getMultipleParksbyId');
+        var params = {parkIds: arrayOfIDs};
+        url.search = new URLSearchParams(params)
+        fetch(url, {
+            method: 'get',
+            dataType: 'json',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': sessionStorage.getItem('token'),
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                //console.log('parks list: ', response);
+                parks_col: response.name;
+            })
+            .catch(error => console.log('parsing failed. Error: ', error))
+    }
+
     render() {
+
+        if(sessionStorage.getItem('loggedIn' === 'false')){
+            <Redirect to="/page-2/"></Redirect>
+        }
+
+        const eventElement = this.state.event_col.map((x) => (
+            <PrintEventName name={x}/>
+        ))
+
         return(
             <div className="App">
                 <Image src={this.state.image} />
                 <Profile person={this.state.person}/>
-                <Event event_col={this.state.event_col}/>
+                <div style={{width:'50%', height:'550px'}}>
+                    <div style={{textAlign: 'center', color: 'white', fontSize: '34px'}}>
+                        My Events
+                    </div>
+                    <div className="Profile">
+                        {eventElement}
+                    </div>
+                </div>
+
+
             </div>
         );
     }
 }
 
+const PrintEventName = ({name}) => (
+    <div style={{background:'white', color:'black', borderRadius:'5px', margin:'2px', paddingTop: '18px'}}>
+        Event Name: {name.name}<br />Sport: {name.sport}<br /> Time: {name.start}<br /> Description: {name.description}<br /><br />
+    </div>
+)
+
 
 function Image(props){
     return (
         <img src={props.src} id="account_picture" />
-
     );
 }
 
-function Event(props){
-    return(
-        <div className="Profile">
-            <p className="Event_Col">{props.event_col}</p>
-        </div>
-    );
-}
 
 function Profile(props){
     return (
         <div className="Profile">
             <h1 className="Name">{props.person.name}</h1>
-            <p className="Events">{props.person.event_column}</p>
-            <p className="Favorites">{props.person.park_column}</p>
         </div>
     );
 }
 
-function PrintJSON(object){
-    var tempObject = [];
-    for (var i = 0; i < object.length(); i++){
-        tempObject[i] = object[i]
-    }
-    return tempObject;
-}
 
 
 export default profilePage;
