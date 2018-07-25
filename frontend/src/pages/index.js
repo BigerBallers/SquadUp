@@ -72,10 +72,10 @@ class IndexPage extends Component {
 
         if (token) {
           // should globally save the users access token and account info
-          this.setState({isAuthenticated: true, user, token});
           sessionStorage.setItem('token', token);
           sessionStorage.setItem('account', JSON.stringify(user));
           sessionStorage.setItem('loggedIn', 'true');
+          this.setState({isAuthenticated: true, user, token});
         }
       });
     })

@@ -25,6 +25,10 @@ class View_Event extends Component
       guests: []
     }
 
+    if (this.state.parkInfo == null) {
+      window.location.assign("http://localhost:8000/404")
+    }
+
     this.getEventInfo=this.getEventInfo.bind(this);
     this.getEventInfo();
 

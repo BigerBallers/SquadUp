@@ -6,9 +6,7 @@ import { Redirect } from 'react-router-dom'
 class profilePage extends Component{
 
     constructor(props) {
-        super(props);
-
-        
+        super(props);       
 
         // Grabs a Stringify version of user account information from Google.
         var user = sessionStorage.getItem('account');
@@ -101,9 +99,12 @@ class profilePage extends Component{
     render() {
 
         // catches if the person coming here isn't logged in.
-        if(sessionStorage.getItem('loggedIn' === 'false')){
+        if(sessionStorage.getItem('loggedIn') === 'false'){
+          console.log('hello');  
+          return(  
             <Redirect to="/"></Redirect>
-        }
+          )
+        }   
 
         // container for all the event items.
         const eventElement = this.state.event_col.map((x) => (
