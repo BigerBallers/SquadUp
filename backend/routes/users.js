@@ -1,17 +1,14 @@
 var express = require('express');
 var router = express.Router();
-
 var { generateToken, sendToken, verifyToken } = require('../utils/token.utils');
-
 var auth = require('../config/auth');
 var request = require('request');
 var passport = require('passport');
 require('../config/passport')();
-
 var User = require('../models/user');
-
 var googleToken = passport.authenticate('google-token', {session: false});
 
+/* backend page to get all users */
 router.get('/', function(req, res) {
 	User.find({})
 	.exec(function(err, user){
@@ -34,12 +31,7 @@ router.post('/auth/google', googleToken, function(req, res, next) {
   next();
 }, generateToken, sendToken);
 
-
-router.post('/test', function(req, res) {
-	res.json({ express: 'Hello From Express' });
-});
-
-//get user by id page
+/* backend page for getting a user object by id */
 router.get('/getUserById', function(req, res) {
   console.log("searching for user id: ", req.query.userId)
 	User.getUserById(req.query.userId, function(err, user){
@@ -49,6 +41,7 @@ router.get('/getUserById', function(req, res) {
 	})
 });
 
+/* backend page for getting list of user Objects by array of ids*/
 router.get('/getMultipleUsersById', function(req, res) {
 	User.getMultipleUsersByIds(req.query.userIds, function(err, users){
 		if(err)
@@ -57,7 +50,7 @@ router.get('/getMultipleUsersById', function(req, res) {
 	})
 });
 
-/* should get all the events he is attending */
+/* backend page gets all the events user is attending */
 router.get('/getEventsId', function(req, res) {
   User.getUserById(req.query.userId, function(err, user){
 		if(err)
@@ -66,8 +59,7 @@ router.get('/getEventsId', function(req, res) {
 	})
 });
 
-
-/* get ll parks the user is attending */
+/* gets all park ids the user is following */
 router.get('/getFollowedParksId', function (req, res) {
   User.getUserById(req.query.userId, function(err, user){
 		if(err)
@@ -76,7 +68,7 @@ router.get('/getFollowedParksId', function (req, res) {
 	})
 });
 
-
+/* backend page udates user's event field by eventId*/
 router.post('/addEventById', function(req, res) {
   User.addEvent(req.body.userId, req.body.eventId, function(err, response){
     if(err)
@@ -89,9 +81,9 @@ router.post('/addEventById', function(req, res) {
   })
 });
 
-
+/* backend page adds park id to user field: followed parks  */
 router.post('/followParkById', function(req, res) {
-  User.followPark(req.query.userId, req.query.parkId, function(err, response){
+  User.followPark(req.body.userId, req.body.parkId, function(err, response){
     if(err)
       throw err;
     console.log(response);
@@ -101,29 +93,6 @@ router.post('/followParkById', function(req, res) {
     res.json(result);
   })
 });
-
-
-
-
-/************************ Did not have time to implement these ****************************/
-/* should get all the events at the parks that he follows */
-router.get('suggestedEvents', function(req, res) {
-
-});
-
-
-/*needs to be implemented and tested*/
-router.get('/endorseUser', function(req, res) {
-
-  /* create a json:
-    endorsment : {  currRating: Number,
-                UserRate: [{user, score}]
-              }
-  */
-});
-
-/************************************** End ********************************************/
-
 
 function checkAuthentication(req,res,next){
  	var token = req.body.token || req.query.token || req.headers['x-access-token'];

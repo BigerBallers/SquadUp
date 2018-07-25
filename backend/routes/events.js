@@ -1,13 +1,22 @@
 var express = require('express');
 var router = express.Router();
-
 var Event = require('../models/event');
-
 var { verifyToken } = require('../utils/token.utils');
 
+/* gets all event objects on backend page */
+router.get('/', function(req, res) {
+	Event.find({})
+	.exec(function(err, events){
+		if(err){
+			console.log("Error retrieving events");
+		} else {
+			res.json(events);
+		}
+	});
+});
 
+/* add event page for backend */
 router.post('/addEvent',function(req, res) {
-
   var name = req.body.name;
   var park_id = req.body.park_id;
   var start = req.body.start;
@@ -39,22 +48,9 @@ router.post('/addEvent',function(req, res) {
     };
     res.json(result);
   });
-
 });
 
-router.get('/', function(req, res) {
-	Event.find({})
-	.exec(function(err, events){
-		if(err){
-			console.log("Error retrieving events");
-		} else {
-			res.json(events);
-		}
-	});
-});
-
-
-//get event by id page
+/* backend page for getting an event by it's id, params are query's eventId */
 router.get('/getEventById', function(req, res) {
 	Event.getEventById(req.query.eventId, function(err, event){
 		if(err)
@@ -63,14 +59,7 @@ router.get('/getEventById', function(req, res) {
 	})
 });
 
-router.get('/getUsersAttendingEvent', function(req, res) {
-  Event.getEventById(req.query.eventId, function(err, event){
-		if(err)
-			throw err;
-		res.json(event.attending);
-	})
-});
-
+/* backend page for getting multiple events by ids, query's eventIds */
 router.get('/getMultipleEventsById', function(req, res) {
   console.log('event ids: ', req.query.eventIds);
 	Event.getMultipleEventsByIds(req.query.eventIds, function(err, events){
@@ -80,11 +69,18 @@ router.get('/getMultipleEventsById', function(req, res) {
 	})
 });
 
+/* backend page shows userIds for attending the event */
+router.get('/getUsersAttendingEvent', function(req, res) {
+  Event.getEventById(req.query.eventId, function(err, event){
+		if(err)
+			throw err;
+		res.json(event.attending);
+	})
+});
 
-/* given a user Id, he can join the event
-   if he is already attending, he shlouldnt be able to join*/
+/* given a user Id, updates attending field*/
 router.post('/joinEvent', function(req, res) {
-  Event.joinEvent(req.query.eventId, req.query.userId, function(err, response){
+  Event.joinEvent(req.body.eventId, req.body.userId, function(err, response){
     if(err)
       throw err;
     //console.log(response);
@@ -94,15 +90,6 @@ router.post('/joinEvent', function(req, res) {
     res.json(result);
   })
 });
-
-
-/* gets all the events at park
-   given a park id
- */
-router.get('/getEventsAtPark', function(req, res) {
-  res.json("not implemented yet");
-});
-
 
 function checkAuthentication(req,res,next){
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
