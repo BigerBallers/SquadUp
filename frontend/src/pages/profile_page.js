@@ -8,10 +8,7 @@ class profilePage extends Component{
     constructor(props) {
         super(props);
 
-        //check if user is logged in: if not, go back to homepage
-        if (sessionStorage.getItem("loggedIn")=="false"){
-          window.location.assign("http://localhost:8000");
-        }
+        
 
         // Grabs a Stringify version of user account information from Google.
         var user = sessionStorage.getItem('account');
@@ -42,6 +39,7 @@ class profilePage extends Component{
             event_col: [],
             parks_col: []
         };
+        
     }
 
     // Function to fetch events by ID. Pass in an object of ID's.
