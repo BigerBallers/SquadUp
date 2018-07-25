@@ -140,6 +140,34 @@ updateUserEvents(eventId) {
 }
   
 
+  updatedUserdata() {
+    // Grabs a Stringify version of user account information from Google.
+    var user = sessionStorage.getItem('account');
+    // Creates a JSON object called user.
+    user = JSON.parse(user);
+
+    var url = new URL('http://localhost:8080/users/getUserById');
+    var params = {userId: user.id};
+    url.search = new URLSearchParams(params)
+    fetch(url, {
+        method: 'get',
+        dataType: 'json',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': sessionStorage.getItem('token'),
+        },
+    })
+    .then(response => response.json())
+    .then(response => {
+        console.log('updated user: ', response);
+        //sessionStorage.setItem('account', response)
+        return response
+    })
+    .catch(error => console.log('parsing failed. Error: ', error))        
+  }
+
+
   //functions/methods that receive inputs
   handleEventNameChange(event){
     this.setState({
@@ -175,6 +203,7 @@ updateUserEvents(eventId) {
   handleSubmit(event){
 
   this.sendEventData();
+  this.updatedUserdata();
     const {event_name, start, end, sport, max_people, description, eventSubmitted}=this.state
     this.setState({eventSubmitted: true});
     alert("Event Name: "+this.state.event_name
