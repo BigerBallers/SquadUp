@@ -16,6 +16,7 @@ class Add_Event extends Component {
       max_people: 0,
       description: '',
       eventSubmitted: false,
+      parkInfo: JSON.parse(sessionStorage.getItem('park'))
     }
 
     //bind the functions
@@ -30,6 +31,7 @@ class Add_Event extends Component {
     var user = sessionStorage.getItem('account');
     user = JSON.parse(user);
     console.log('user: ', user);
+    console.log('park: ', this.state.parkInfo)
   }
 
   sendEventData(){
@@ -41,7 +43,7 @@ class Add_Event extends Component {
 
     var data = {
       name: this.state.event_name,
-      park_id: '5b561fcb33132e4076c2957c', //sessionStorage.getItem('park_id'),
+      park_id: this.state.parkInfo._id,
       start: this.state.start,
       end: this.state.end,
       sport: this.state.sport,
@@ -79,7 +81,7 @@ class Add_Event extends Component {
 
 
   updateParkEvents(eventId) {
-    var parkId = '5b4e7650ce6a3177c05e4143'; // meder park
+    var parkId = this.state.parkInfo._id;
 
     var data = {
       parkId: parkId,
