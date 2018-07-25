@@ -127,10 +127,8 @@ class profilePage extends Component{
                         {eventElement}
                     </div>
                 </div>
-
-                <div style={{width:'50%', height:'550px', alignContent: 'flex-start'}}>
+                <div style={{width:'50%', height:'0px', alignContent: 'flex-start'}}>
                     <div style={{textAlign: 'center', color: 'white', fontSize: '34px',paddingBottom: '10px'}}>
-                        Favorite Parks
                     </div>
                     <div className="Profile">
                         {parkElement}
@@ -147,13 +145,13 @@ const PrintEventName = ({name}) => (
     </div>
 )
 
-
+/*
 const PrintParkName = ({name}) => (
     <div style={{background:'white', color:'black', borderRadius:'5px', margin:'2px', paddingTop: '18px'}}>
         Park Name: {name.name}<br />Sports: {name.sports}<br />Address: {name.address}<br /><br />
     </div>
 )
-
+*/
 
 function Image(props){
     return (
